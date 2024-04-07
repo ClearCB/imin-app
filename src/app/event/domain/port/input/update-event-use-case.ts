@@ -1,3 +1,5 @@
+import { EventModel } from "../../model/event-model";
+
 export interface UpdateEventUseCase {
-    create(eventId: number, event: Event): Event;
+    create(eventId: number, event: EventModel): EventModel;
 }

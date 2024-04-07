@@ -1,4 +1,4 @@
-import { Event } from './event';
+import { EventModel } from './event-model';
 
 describe('Event', () => {
   it('should create an instance', () => {
@@ -10,6 +10,6 @@ describe('Event', () => {
       largeDescription: "Large description",
     }
 
-    expect(new Event(eventDto)).toBeTruthy();
+    expect(new EventModel(eventDto)).toBeTruthy();
   });
 });

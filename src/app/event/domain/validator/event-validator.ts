@@ -1,5 +1,5 @@
-import { Event } from "../model/event";
+import { EventModel } from "../model/event-model";
 
 export interface EventValidator {
-    validate(Event: Event): void;
+    validate(Event: EventModel): void;
 }

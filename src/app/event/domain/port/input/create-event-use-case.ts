@@ -1,3 +1,5 @@
+import { EventModel } from "../../model/event-model";
+
 export interface CreateEventUseCase {
-    create(event: Event): Event;
+    create(event: EventModel): EventModel;
 }

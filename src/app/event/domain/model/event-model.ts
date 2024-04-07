@@ -1,6 +1,6 @@
 import { EventDTO } from "../dto/event-dto";
 
-export class Event {
+export class EventModel {
 
     public id: number;
     public title: string;
