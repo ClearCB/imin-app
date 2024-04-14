@@ -1,11 +1,6 @@
+import { AUTH_CONSTANTS } from "../../auth-constants";
 import { LoginRequest } from "../model/login-request";
-
-class LoginRequestValidationError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = this.constructor.name;
-    }
-}
+import { AuthValidationError } from "../error/auth-validation-error";
 
 export function ensureLoginRequestIsValid(loginRequest: LoginRequest): void {
 
@@ -16,6 +11,7 @@ export function ensureLoginRequestIsValid(loginRequest: LoginRequest): void {
 function validateLoginRequest(loginRequest: LoginRequest) {
 
     if (!loginRequest.username) {
-        throw new LoginRequestValidationError("Invalid");
+        throw new AuthValidationError(AUTH_CONSTANTS.MESSAGES.INVALID_LOGIN_REQUEST);
     }
+
 }

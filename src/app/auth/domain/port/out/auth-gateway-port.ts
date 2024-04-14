@@ -5,8 +5,8 @@ import { RegisterRequest } from "../../model/register-request";
 
 export abstract class AuthGatewayPort {
 
-    abstract login(loginRequest: LoginRequest): LoginResponse;
-    abstract register(registerRequest: RegisterRequest): LoginResponse;
-    abstract refreshToken(refreshTokenRequest: RefreshTokenRequest): LoginResponse;
+    abstract login(loginRequest: LoginRequest): Promise<LoginResponse>;
+    abstract register(registerRequest: RegisterRequest): Promise<LoginResponse>;
+    abstract refreshToken(refreshTokenRequest: RefreshTokenRequest): Promise<LoginResponse>;
 
 }
