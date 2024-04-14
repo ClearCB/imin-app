@@ -30,7 +30,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              {
+                "input": "src/assets/styles/theme-saga-blue.scss",
+                "bundleName": "saga-blue",
+                "inject": false
+              },
+              {
+                "input": "src/assets/styles/theme-saga-blue-dark.scss",
+                "bundleName": "saga-blue-dark",
+                "inject": false
+              }
             ],
             "scripts": []
           },
