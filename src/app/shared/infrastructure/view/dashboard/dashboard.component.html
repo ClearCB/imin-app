@@ -1,0 +1,17 @@
+<app-nav></app-nav>
+
+@if (!userLoggedIn) {
+<p>Not logged in</p>
+
+}
+@if (userLoggedIn) {
+}
+
+@if(tokenData)
+{
+{{tokenData}}
+}
+
+<button (click)="petition()"> petition </button>
+<button (click)="changeTheme('saga-blue')">Light</button>
+<button (click)="changeTheme('saga-blue-dark')">Dark</button>

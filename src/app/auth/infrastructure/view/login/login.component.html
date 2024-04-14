@@ -1,0 +1,37 @@
+<form [formGroup]="loginForm">
+    <p>{{loginError}}</p>
+    <div class="mb-3">
+        <label for="exampleInputusername1" class="form-label">username</label>
+        <input formControlName="username" type="text" class="form-control" id="exampleInputusername1"
+            aria-describedby="usernameHelp">
+        @if (username.invalid && (username.dirty || username.touched)) {
+
+        @if(username.errors?.['required']){
+        <div>
+            Username required
+        </div>
+        }
+
+        @if(username.errors?.['username']){
+        <div>
+            username format invalid
+        </div>
+        }
+        }
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1">
+
+        @if (password.invalid && (password.dirty || password.touched)) {
+
+        @if(password.errors?.['required']){
+        <div>
+            Password required
+        </div>
+        }
+
+        }
+    </div>
+    <button type="submit" (click)="login()" class="btn btn-primary">Submit</button>
+</form>

@@ -1,0 +1,123 @@
+import { Component } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LoginService } from '../../service/login.service';
+import { LoginRequest } from '../../../domain/model/login-request';
+import { LoginUseCase } from '../../../domain/port/in/login-use-case';
+import { AUTH_CONSTANTS } from '../../../auth-constants';
+import { NotificationService } from '../../../../shared/infrastructure/view/service/notification.service';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [ReactiveFormsModule],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
+})
+export class LoginComponent {
+
+  loginError: string = "";
+
+  // Forms
+  loginForm = this.formBuilder.group({
+    username: ["admin", [Validators.required]],
+    password: ["admin", Validators.required]
+  })
+
+  // Getters 
+  get username() { return this.loginForm.controls.username }
+  get password() { return this.loginForm.controls.password }
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private routeService: Router,
+    private loginService: LoginService,
+    private loginUseCase: LoginUseCase,
+    private notificationService: NotificationService) {
+  }
+
+
+
+  async login() {
+
+    if (this.loginForm.valid) {
+
+      const loginRequest = this.loginForm.value as LoginRequest;
+
+      try {
+
+        const loginResponse = await this.loginUseCase.login(loginRequest);
+        localStorage.setItem(AUTH_CONSTANTS.LOCAL_STORAGE_KEYS.ACTIVE_USER_DATA, JSON.stringify(loginResponse));
+
+        this.show();
+        this.loginForm.reset();
+        this.routeService.navigateByUrl("/home");
+
+      } catch (e: any) {
+        console.error(e.message);
+
+      }
+
+    } else {
+
+      this.loginForm.markAllAsTouched();
+
+    }
+
+    // // const mockedToken: LoginResponse = {
+    // //   message: "Login succeed",
+    // //   result: true,
+    // //   data: {
+    // //     userId: "a7b54281-5bfb-41bb-9f67-460a4ab6ed78",
+    // //     username: "admin",
+    // //     token: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcxMzAwNTA1NSwiZXhwIjo3NDY0OTYwfQ.OOx_e9o1naT7ofushOEhE4ICgF9J6pd4GWua03l0IAA",
+    // //     refreshToken: "kjdtbhñerohjeork`bn,mlp",
+    // //     expirationTimeInSeconds: 0
+    // //   }
+    // // }
+
+
+    // if (this.loginForm.valid) {
+    //   const formValues = this.loginForm.value as LoginRequest;
+
+    //   // this.loginService.login(formValues).subscribe({
+    //   //   next: (loginResponse) => {
+    //   //     console.log("Data next: " + JSON.stringify(loginResponse));
+    //   //     localStorage.setItem("tokenData", JSON.stringify(mockedToken));
+    //   //   },
+    //   //   error: (errorData) => {
+    //   //     console.log("Data error: " + errorData);
+    //   //     this.loginError = errorData;
+    //   //   },
+    //   //   complete: () => {
+    //   //     console.log("Loggin completed");
+    //   //     this.routeService.navigateByUrl("/home");
+    //   //     this.loginForm.reset();
+    //   //   }
+    //   // });
+
+    //   try {
+    //     const loginObservable = this.loginService.login(formValues);
+    //     const loginResponse = await firstValueFrom(loginObservable);
+    //     mockedToken.data.token = loginResponse.data?.token;
+    //     localStorage.setItem("tokenData", JSON.stringify(mockedToken.data));
+    //     this.routeService.navigateByUrl("/home");
+    //     this.loginForm.reset();
+    //   } catch (e: any) {
+    //     console.log("Error");
+    //   }
+
+
+    // } else {
+    //   // invalid
+    //   this.loginForm.markAllAsTouched();
+    //   console.log("logged invalid")
+    // }
+
+  }
+
+
+  show() {
+    this.notificationService.showSuccess("Login ok");
+  }
+}
