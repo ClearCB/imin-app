@@ -1,12 +1,9 @@
-import { HttpErrorResponse, HttpHeaders, HttpInterceptorFn } from '@angular/common/http';
-import { catchError, switchMap, throwError } from 'rxjs';
-import { LoginService } from '../service/login.service';
-import { inject } from '@angular/core';
+import { HttpInterceptorFn } from '@angular/common/http';
 import { AUTH_CONSTANTS } from '../../auth-constants';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
-  const loginService = inject(LoginService);
+  // const loginService = inject(AuthService);
 
   // Extract data if present
   const tokenData = localStorage.getItem(AUTH_CONSTANTS.LOCAL_STORAGE_KEYS.ACTIVE_USER_DATA);
@@ -28,30 +25,36 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   return next(cloneRequest)
-    .pipe(
-      catchError((error: HttpErrorResponse) => {
+  // .pipe(
+  //   catchError(async (error: HttpErrorResponse) => {
 
-        if (error.status === 401) {
+  //     if (error.status === 401) {
 
-          const isRefresh = false; // Check if refresh token is available and valid.
-          if (isRefresh) {
+  //       const isRefresh = false; // Check if refresh token is available and valid.
+  //       if (isRefresh) {
 
-            return loginService.refreshToken()
-              .pipe(
-                switchMap(() => {
-                  return next(cloneRequest);
-                }),
-                catchError((e: any) => {
-                  loginService.logout();
-                  return throwError(() => e);
-                })
-              );
-          }
+  //         try {
 
-          return next(cloneRequest);
-        }
 
-        return throwError(() => error);
+  //           const refreshToken = await loginService.refreshToken();
 
-      }));
+  //           if (refreshToken) {
+  //             return next(cloneRequest);
+  //           } else {
+  //             loginService.logout();
+  //           }
+
+  //         } catch (e: any) {
+  //           loginService.logout();
+  //           throwError(() => e);
+  //         }
+
+  //       }
+
+  //       return next(cloneRequest);
+  //     }
+
+  //     return throwError(() => error);
+
+  //   }));
 };

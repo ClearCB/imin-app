@@ -1,9 +1,15 @@
 export const AUTH_CONSTANTS = {
     MESSAGES: {
+        VALIDATION: {
+            INVALID_USERNAME: "Invalid username ",
+        },
         INVALID_REGISTER_REQUEST: "Invalid register request.",
         INVALID_LOGIN_REQUEST: "Invalid login request.",
         INVALID_REFRESH_TOKEN_REQUEST: "Invalid refresh token request.",
-        GENERIC_LOGIN_ERROR: "An error has occurred in login process.",
+        BAD_CREDENTIALS_ERROR: "Bad credentials.",
+        GENERIC_LOGIN_ERROR: "An error has ocurred while loggin in.",
+        GENERIC_LOGOUT_ERROR: "An error has ocurred while loggin out.",
+        OK_LOGIN: "Login succeed.",
     },
     LOCAL_STORAGE_KEYS: {
         ACTIVE_USER_DATA: "imin-user-data"

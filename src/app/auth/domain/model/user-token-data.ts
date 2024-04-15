@@ -1,9 +1,6 @@
-export interface UserTokenData {
+export interface UserData {
 
-    userId: string;
     username: string;
-    expirationTimeInSeconds: number;
     token: string;
-    refreshToken: string;
 
 }

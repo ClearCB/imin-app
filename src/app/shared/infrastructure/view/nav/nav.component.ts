@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LoginService } from '../../../../auth/infrastructure/service/login.service';
+import { AuthService } from '../../../../auth/infrastructure/service/auth.service';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +13,7 @@ import { LoginService } from '../../../../auth/infrastructure/service/login.serv
 export class NavComponent implements OnInit, OnDestroy {
   userLoggedIn: boolean = false;
 
-  constructor(private loginService: LoginService) {
+  constructor(private authService: AuthService, private router: Router) {
 
   }
 
@@ -25,10 +26,13 @@ export class NavComponent implements OnInit, OnDestroy {
     // this.loginService.currentUserLoginIn.subscribe({
     //   next: (userLoggedin) => this.userLoggedIn = userLoggedin
     // })
+
+    this.userLoggedIn = this.authService.isAuthenticated();
   }
 
 
   logout(): void {
-    this.loginService.logout();
+    this.authService.logout();
+    this.router.navigateByUrl("/login")
   }
 }

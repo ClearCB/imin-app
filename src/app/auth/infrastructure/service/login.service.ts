@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, catchError, Observable, Subject, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { LoginRequest } from '../../domain/model/login-request';
 import { LoginResponse } from '../../domain/model/login-response';
-import { LoginUseCase } from '../../domain/port/in/login-use-case';
 
 @Injectable({
   providedIn: 'root'
@@ -17,23 +16,23 @@ export class LoginService {
   }
 
   // get the data in cookie / session storage and retrive if logged in
-  currentUserLogged: BehaviorSubject<LoginResponse> = new BehaviorSubject<LoginResponse>({
-    data: { userId: "", username: "", token: "", refreshToken: "", expirationTimeInSeconds: 0 },
-    message: "",
-    result: true,
-  });
+  // currentUserLogged: BehaviorSubject<LoginResponse> = new BehaviorSubject<LoginResponse>({
+  //   data: { userId: "", username: "", token: "", refreshToken: "", expirationTimeInSeconds: 0 },
+  //   message: "",
+  //   result: true,
+  // });
 
-  get userData(): Observable<LoginResponse> {
-    return this.currentUserLogged.asObservable();
-  }
+  // get userData(): Observable<LoginResponse> {
+  //   return this.currentUserLogged.asObservable();
+  // }
 
   public $refreshToken = new Subject<boolean>;
 
 
-  constructor(private httpClient: HttpClient, private loginUseCase: LoginUseCase) {
-    this.$refreshToken.subscribe((res: any) => {
-      this.refreshToken();
-    })
+  constructor(private httpClient: HttpClient) {
+    // this.$refreshToken.subscribe((res: any) => {
+    //   this.refreshToken();
+    // })
   }
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
@@ -65,25 +64,25 @@ export class LoginService {
     //   );
   }
 
-  logout(): void {
-    // Remove the token of cookei or what ever
-    this.currentUserLogged?.next({
-      data: { userId: "", username: "", token: "", refreshToken: "", expirationTimeInSeconds: 0 },
-      message: "",
-      result: true,
-    });
-    this.currentUserLoginIn.next(false);
-    localStorage.removeItem("tokenData");
-  }
+  // logout(): void {
+  //   // Remove the token of cookei or what ever
+  //   this.currentUserLogged?.next({
+  //     data: { userId: "", username: "", token: "", refreshToken: "", expirationTimeInSeconds: 0 },
+  //     message: "",
+  //     result: true,
+  //   });
+  //   this.currentUserLoginIn.next(false);
+  //   localStorage.removeItem("tokenData");
+  // }
 
-  refreshToken() {
-    const tokenData: any = localStorage.getItem("tokenData");
+  // refreshToken() {
+  //   const tokenData: any = localStorage.getItem("tokenData");
 
-    const body = { refreshToken: JSON.parse(tokenData).refreshToken };
+  //   const body = { refreshToken: JSON.parse(tokenData).refreshToken };
 
 
-    return this.httpClient.post<any>("http://localhost:8080/auth/refreshToken", body);
-  }
+  //   return this.httpClient.post<any>("http://localhost:8080/auth/refreshToken", body);
+  // }
 
 
 
@@ -111,14 +110,5 @@ export class LoginService {
 
     return throwError(() => new Error("Algo falló!"))
   }
-
-
-  isAuthenticated() {
-    if (this.currentUserLogged.value?.data) {
-      return this.currentUserLogged.value?.data.token.length > 0;
-    }
-    return false;
-  }
-
 
 }

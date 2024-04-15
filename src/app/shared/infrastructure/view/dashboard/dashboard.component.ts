@@ -3,8 +3,9 @@ import { NavComponent } from '../nav/nav.component';
 import { LoginService } from '../../../../auth/infrastructure/service/login.service';
 import { lastValueFrom } from 'rxjs';
 import { LoginResponse } from '../../../../auth/domain/model/login-response';
-import { NotificationService } from '../service/notification.service';
-import { ThemeService } from '../service/theme.service';
+import { NotificationService } from '../../service/notification.service';
+import { ThemeService } from '../../service/theme.service';
+import { AuthService } from '../../../../auth/infrastructure/service/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +22,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(private loginService: LoginService,
     private notificationService: NotificationService,
-    private themeService: ThemeService) {
+    private themeService: ThemeService,
+    private authService: AuthService) {
 
   }
   ngOnDestroy(): void {
@@ -39,7 +41,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // })
 
 
-    this.tokenData = localStorage.getItem("tokenData");
+    if (this.authService.isAuthenticated()) {
+      this.notificationService.showSuccess(JSON.stringify(this.authService.getUserData()));
+    }
   }
 
 
@@ -50,6 +54,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   changeTheme(theme: string) {
     this.themeService.switchTheme(theme);
+    this.authService.logout();
+    this.notificationService.showSuccess("LOgged out");
   }
 
 }

@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '../../service/login.service';
-import { LoginRequest } from '../../../domain/model/login-request';
-import { LoginUseCase } from '../../../domain/port/in/login-use-case';
-import { AUTH_CONSTANTS } from '../../../auth-constants';
-import { NotificationService } from '../../../../shared/infrastructure/view/service/notification.service';
+import { RegisterRequest } from '../../../domain/model/register-request';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -31,9 +28,7 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private routeService: Router,
-    private loginService: LoginService,
-    private loginUseCase: LoginUseCase,
-    private notificationService: NotificationService) {
+    private authService: AuthService) {
   }
 
 
@@ -42,20 +37,12 @@ export class LoginComponent {
 
     if (this.loginForm.valid) {
 
-      const loginRequest = this.loginForm.value as LoginRequest;
+      const loginRequest = this.loginForm.value as RegisterRequest;
+      const loginResponse = await this.authService.login(loginRequest);
 
-      try {
-
-        const loginResponse = await this.loginUseCase.login(loginRequest);
-        localStorage.setItem(AUTH_CONSTANTS.LOCAL_STORAGE_KEYS.ACTIVE_USER_DATA, JSON.stringify(loginResponse));
-
-        this.show();
+      if (loginResponse) {
         this.loginForm.reset();
         this.routeService.navigateByUrl("/home");
-
-      } catch (e: any) {
-        console.error(e.message);
-
       }
 
     } else {
@@ -116,8 +103,4 @@ export class LoginComponent {
 
   }
 
-
-  show() {
-    this.notificationService.showSuccess("Login ok");
-  }
 }
