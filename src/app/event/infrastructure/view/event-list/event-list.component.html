@@ -1,0 +1,63 @@
+<form [formGroup]="eventForm">
+    <p>{{eventFormError}}</p>
+    <div class="mb-3">
+        <label for="exampleInputusername1" class="form-label">Title</label>
+        <input formControlName="title" type="text" class="form-control" id="exampleInputusername1"
+            aria-describedby="usernameHelp">
+        <!-- @if (username.invalid && (username.dirty || username.touched)) {
+
+        @if(username.errors?.['required']){
+        <div>
+            Username required
+        </div>
+        }
+
+        @if(username.errors?.['username']){
+        <div>
+            username format invalid
+        </div>
+        }
+        } -->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Small description</label>
+        <input formControlName="smallDescription" type="text" class="form-control">
+
+        <!-- @if (password.invalid && (password.dirty || password.touched)) {
+
+        @if(password.errors?.['required']){
+        <div>
+            Password required
+        </div>
+        }
+
+        } -->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Large description</label>
+        <input formControlName="largeDescription" type="password" class="form-control">
+
+        <!-- @if (password.invalid && (password.dirty || password.touched)) {
+
+        @if(password.errors?.['required']){
+        <div>
+            Password required
+        </div>
+        }
+
+        } -->
+    </div>
+    <button type="submit" (click)="handleSubmit()" class="btn btn-primary">Submit</button>
+</form>
+
+@for (event of events; track event.id) {
+
+<app-event-detail [eventId]="event.id"></app-event-detail>
+<button type="submit" (click)="deleteEvent(event.id)" class="btn btn-primary">Delete</button>
+}
+
+<!-- <h2>{{event.title}}</h2>
+<p>{{event.id}}</p>
+<p>{{event.smallDescription}}</p>
+<p>{{event.largeDescription}}</p>
+-->

@@ -1,13 +1,9 @@
-import { HttpRequest, HttpHandlerFn, HttpEvent, HttpHeaders } from "@angular/common/http";
+import { HttpRequest, HttpHandlerFn, HttpEvent } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 export function headersInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 
-  const contentType = new HttpHeaders({
-    'Content-Type': 'application/json'
-  });
-
-  const cloneRequest = req.clone({ headers: contentType });
+  const cloneRequest = req.clone({ headers: req.headers.set('Content-Type', 'application/json') });
 
   return next(cloneRequest)
 

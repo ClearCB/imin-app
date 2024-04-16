@@ -5,6 +5,12 @@
 
 }
 @if (userLoggedIn) {
+<p>
+    {{userInfo?.userData?.username}}
+</p>
+<p>
+    {{userInfo?.userData?.token}}
+</p>
 }
 
 @if(tokenData)
@@ -15,3 +21,4 @@
 <button (click)="petition()"> petition </button>
 <button (click)="changeTheme('saga-blue')">Light</button>
 <button (click)="changeTheme('saga-blue-dark')">Dark</button>
+<a class="nav-link" routerLink="/new-event">Create event</a>

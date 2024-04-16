@@ -1,0 +1,50 @@
+<form [formGroup]="eventForm">
+    <p>{{eventFormError}}</p>
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input formControlName="title" type="text" class="form-control" aria-describedby="usernameHelp">
+        <!-- @if (username.invalid && (username.dirty || username.touched)) {
+
+        @if(username.errors?.['required']){
+        <div>
+            Username required
+        </div>
+        }
+
+        @if(username.errors?.['username']){
+        <div>
+            username format invalid
+        </div>
+        }
+        } -->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Small description</label>
+        <input formControlName="smallDescription" type="text" class="form-control">
+
+        <!-- @if (password.invalid && (password.dirty || password.touched)) {
+
+        @if(password.errors?.['required']){
+        <div>
+            Password required
+        </div>
+        }
+
+        } -->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Large description</label>
+        <input formControlName="largeDescription" type="password" class="form-control">
+
+        <!-- @if (password.invalid && (password.dirty || password.touched)) {
+
+        @if(password.errors?.['required']){
+        <div>
+            Password required
+        </div>
+        }
+
+        } -->
+    </div>
+    <button type="submit" (click)="handleSubmit()" class="btn btn-primary">Submit</button>
+</form>
