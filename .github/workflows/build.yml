@@ -38,7 +38,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag imin-app:latest
+        run: docker build . --file Dockerfile --tag  clearcb/imin-app:latest
 
       - name: Push Docker image to Docker Hub
-        run: docker push imin-app:latest
+        run: docker push  clearcb/imin-app:latest
