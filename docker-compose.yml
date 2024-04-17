@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres:latest
+    container_name: my_postgres_dev_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./scripts/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  api-business:
+    image: clearcb/imin-api-business:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./src:/app/src
+
+  angular-app:
+    image: clearcb/imin-app:latest  # Specify the image name
+    depends_on:
+      - api-business
+    ports:
+      - "4200:80"
+
+
+volumes:
+  db_data:

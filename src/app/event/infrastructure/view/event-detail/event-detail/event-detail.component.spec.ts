@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EventDetailComponent } from './event-detail.component';
+import { MessageService } from 'primeng/api';
+import { EventGatewayPort } from '../../../../domain/port/output/event-gateway-port';
 
 describe('EventDetailComponent', () => {
   let component: EventDetailComponent;
@@ -8,10 +10,11 @@ describe('EventDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EventDetailComponent]
+      imports: [EventDetailComponent],
+      providers: [MessageService, EventGatewayPort]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(EventDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

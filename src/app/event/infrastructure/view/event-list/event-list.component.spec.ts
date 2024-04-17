@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EventListComponent } from './event-list.component';
+import { NotificationService } from '../../../../shared/infrastructure/service/notification.service';
+import { MessageService } from 'primeng/api';
+import { EventGatewayPort } from '../../../domain/port/output/event-gateway-port';
 
 describe('EventListComponent', () => {
   let component: EventListComponent;
@@ -8,10 +11,11 @@ describe('EventListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EventListComponent]
+      imports: [EventListComponent],
+      providers: [NotificationService, MessageService, EventGatewayPort]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(EventListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

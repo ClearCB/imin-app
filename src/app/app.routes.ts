@@ -6,10 +6,12 @@ import { GeneralErrorComponent } from './shared/infrastructure/view/error/genera
 import { authGuard } from './auth/infrastructure/guard/auth.guard';
 import { LayoutComponent } from './shared/infrastructure/view/layout/layout.component';
 import { EventListComponent } from './event/infrastructure/view/event-list/event-list.component';
+import { RegisterComponent } from './auth/infrastructure/view/register/register.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' }, // Empty route => home
     { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
     { path: 'home', component: DashboardComponent },
     { path: 'new-event', component: EventListComponent },
     { path: 'error', component: GeneralErrorComponent, canActivate: [authGuard] },

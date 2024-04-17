@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { RegisterRequest } from '../../../domain/model/register-request';
 import { AuthService } from '../../service/auth.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss'
 })
-export class LoginComponent {
+export class RegisterComponent {
 
   loginError: string = "";
 
@@ -38,7 +38,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
 
       const loginRequest = this.loginForm.value as RegisterRequest;
-      const loginResponse = await this.authService.login(loginRequest);
+      const loginResponse = await this.authService.register(loginRequest);
 
       if (loginResponse) {
         this.loginForm.reset();
