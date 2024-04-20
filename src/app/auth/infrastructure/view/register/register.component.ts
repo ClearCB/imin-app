@@ -18,12 +18,14 @@ export class RegisterComponent {
   // Forms
   loginForm = this.formBuilder.group({
     username: ["admin", [Validators.required]],
-    password: ["admin", Validators.required]
+    password: ["admin", Validators.required],
+    confirmationPassword: ["admin", Validators.required]
   })
 
   // Getters 
   get username() { return this.loginForm.controls.username }
   get password() { return this.loginForm.controls.password }
+  get confirmationPassword() { return this.loginForm.controls.confirmationPassword }
 
   constructor(
     private formBuilder: FormBuilder,
