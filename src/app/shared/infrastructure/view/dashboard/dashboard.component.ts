@@ -1,110 +1,56 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavComponent } from '../nav/nav.component';
-import { LoginService } from '../../../../auth/infrastructure/service/login.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoginResponse } from '../../../../auth/domain/model/login-response';
-import { NotificationService } from '../../service/notification.service';
-import { ThemeService } from '../../service/theme.service';
-import { AuthService } from '../../../../auth/infrastructure/service/auth.service';
-import { EventService } from '../../../../event/infrastructure/service/event.service';
-import { EventModel } from '../../../../event/domain/model/event-model';
 import { RouterLink } from '@angular/router';
+import { Sidebar, SidebarModule } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { FooterComponent } from '../footer/footer.component';
+import { CurrencyPipe, NgStyle } from '@angular/common';
+import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
+import { LayoutService } from '../../service/app.layout.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NavComponent, RouterLink],
+  imports: [
+    TableModule, MenuModule,
+    RouterLink, ButtonModule, SidebarModule,
+    AvatarModule, AvatarGroupModule,
+    FooterComponent, NgStyle, CurrencyPipe
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
   userLoggedIn: boolean = false;
   userInfo?: LoginResponse;
   tokenData?: any;
 
+  items!: MenuItem[];
 
-  constructor(private loginService: LoginService,
-    private notificationService: NotificationService,
-    private themeService: ThemeService,
-    private authService: AuthService,
-    private eventService: EventService) {
+  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
 
+  closeCallback(e: any): void {
+    this.sidebarRef.close(e);
   }
-  ngOnDestroy(): void {
-    // this.loginService.currentUserLoginIn.unsubscribe();
-    // this.loginService.currentUserLogged.unsubscribe();
+
+  sidebarVisible: boolean = false;
+
+  constructor(
+    public layoutService: LayoutService) {
+
   }
 
   ngOnInit(): void {
-    // this.loginService.currentUserLoginIn.subscribe({
-    //   next: (userLoggedin) => this.userLoggedIn = userLoggedin
-    // })
 
-    // this.loginService.currentUserLogged.subscribe({
-    //   next: (userData) => this.userInfo = userData
-    // })
+    this.items = [
+      { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+      { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+    ];
 
-
-    this.userLoggedIn = this.authService.isAuthenticated();
-
-    if (this.userLoggedIn) {
-      const userData = this.authService.getUserData();
-
-      if (userData) {
-        this.userInfo = userData;
-      }
-      this.notificationService.showSuccess(JSON.stringify(this.authService.getUserData()));
-    }
-  }
-
-
-  async petition() {
-
-    let event: EventModel = {
-      id: "",
-      title: "mytitle",
-      smallDescription: "mysmalldescription",
-      largeDescription: "largeDescription"
-    }
-
-    const res = await this.eventService.createEvent(event);
-
-    if (res) {
-
-      event = res;
-    }
-
-
-    event = {
-      id: event.id,
-      title: "mytitle UPDATED",
-      smallDescription: "mysmalldescription UPDATED",
-      largeDescription: "largeDescription UPDATED"
-    }
-
-    if (event.id) {
-      const updatedEvent = await this.eventService.updateEvent(event.id, event);
-    }
-
-    let eventGet: EventModel | undefined;
-
-    if (event.id) {
-      eventGet = await this.eventService.getEvent(event.id);
-    }
-
-    if (eventGet) {
-
-      if (eventGet.id) {
-        await this.eventService.deleteEvent(eventGet.id);
-      }
-    }
-
-  }
-
-
-  changeTheme(theme: string) {
-    this.themeService.switchTheme(theme);
-    this.authService.logout();
-    this.notificationService.showSuccess("LOgged out");
   }
 
 }

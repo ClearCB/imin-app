@@ -6,6 +6,5 @@ export abstract class AuthGatewayPort {
 
     abstract login(loginRequest: LoginRequest): Promise<LoginResponse | undefined>;
     abstract register(registerRequest: RegisterRequest): Promise<LoginResponse | undefined>;
-    // abstract refreshToken(refreshTokenRequest: RefreshTokenRequest): Promise<LoginResponse | undefined>;
 
 }

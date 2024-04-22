@@ -27,10 +27,4 @@ export class AuthGatewayAdapterService extends AuthGatewayPort {
 
   }
 
-  // override async refreshToken(refreshTokenRequest: RefreshTokenRequest): Promise<LoginResponse> {
-
-  //   return this.externalApiService.refreshToken(refreshTokenRequest);
-
-  // }
-
 }

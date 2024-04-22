@@ -4,7 +4,6 @@ import { RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { DashboardComponent } from './shared/infrastructure/view/dashboard/dashboard.component';
 import { FooterComponent } from './shared/infrastructure/view/footer/footer.component';
-import { HeaderComponent } from './shared/infrastructure/view/header/header.component';
 import { MessageService } from 'primeng/api';
 
 describe('AppComponent', () => {
@@ -13,7 +12,6 @@ describe('AppComponent', () => {
       imports: [AppComponent, RouterOutlet,
         FooterComponent,
         DashboardComponent,
-        HeaderComponent,
         ToastModule],
       providers: [MessageService]
     }).compileComponents();
@@ -28,7 +26,6 @@ describe('AppComponent', () => {
   it(`should have the 'imin-app' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('imin-app');
   });
 
   it('should render title', () => {

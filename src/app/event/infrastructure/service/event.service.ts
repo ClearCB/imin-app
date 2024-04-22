@@ -92,7 +92,6 @@ export class EventService {
         return;
       }
 
-      this.notificationService.showSuccess(EVENT_CONSTANTS.MESSAGES.EVENT_CREATE_OK);
       return event;
 
     } catch (e: any) {

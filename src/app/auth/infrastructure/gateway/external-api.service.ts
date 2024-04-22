@@ -33,12 +33,4 @@ export class ExternalApiService {
 
   }
 
-  // refreshToken(refreshTokenRequest: RefreshTokenRequest): Promise<LoginResponse> {
-
-  //   const body = JSON.stringify(refreshTokenRequest);
-  //   const url = `${AUTH_CONSTANTS.API.BASE_URL}${AUTH_CONSTANTS.API.ENDPOINTS.REFRESH_TOKEN}`;
-
-  //   return lastValueFrom(this.httpClient.post<LoginResponse>(url, body));
-
-  // }
 }

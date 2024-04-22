@@ -50,7 +50,7 @@ export class AuthService {
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(AUTH_CONSTANTS.MESSAGES.GENERIC_LOGIN_ERROR);
+      this.notificationService.showError(e.error.message);
       return;
     }
 
@@ -89,7 +89,7 @@ export class AuthService {
 
     } catch (e: any) {
 
-      console.error(e.error.message);
+      console.error(e.message);
       this.notificationService.showError(e.error.message);
       return;
     }

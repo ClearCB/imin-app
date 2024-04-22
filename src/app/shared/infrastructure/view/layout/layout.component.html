@@ -1,4 +1,14 @@
-<p>layout works!</p>
-
-<!-- In case admin panel: wathc routes.ts  -->
-<!-- <router-outlet></router-outler> -->
+<div class="layout-wrapper" [ngClass]="containerClass">
+    <app-top-bar></app-top-bar>
+    <div class="layout-sidebar">
+        <app-side-bar></app-side-bar>
+    </div>
+    <div class="layout-main-container">
+        <div class="layout-main">
+            <router-outlet></router-outlet>
+            <app-footer></app-footer>
+        </div>
+    </div>
+    <app-config-bar></app-config-bar>
+    <div class="layout-mask"></div>
+</div>

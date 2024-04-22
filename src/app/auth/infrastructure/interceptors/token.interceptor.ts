@@ -1,10 +1,15 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { AUTH_CONSTANTS } from '../../auth-constants';
 import { LoginResponse } from '../../domain/model/login-response';
+import { inject } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
+import { AuthService } from '../service/auth.service';
+import { Router } from '@angular/router';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
-  // const loginService = inject(AuthService);
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
   const tokenData = localStorage.getItem(AUTH_CONSTANTS.LOCAL_STORAGE_KEYS.ACTIVE_USER_DATA);
   let cloneRequest;
@@ -21,36 +26,20 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   return next(cloneRequest)
-  // .pipe(
-  //   catchError(async (error: HttpErrorResponse) => {
+    .pipe(
+      catchError((error: HttpErrorResponse) => {
 
-  //     if (error.status === 401) {
-
-  //       const isRefresh = false; // Check if refresh token is available and valid.
-  //       if (isRefresh) {
-
-  //         try {
+        if (error.status === 401) {
 
 
-  //           const refreshToken = await loginService.refreshToken();
+          authService.logout();
+          router.navigate(['/login']);
 
-  //           if (refreshToken) {
-  //             return next(cloneRequest);
-  //           } else {
-  //             loginService.logout();
-  //           }
+          return next(cloneRequest);
+        }
 
-  //         } catch (e: any) {
-  //           loginService.logout();
-  //           throwError(() => e);
-  //         }
+        return throwError(() => error);
 
-  //       }
-
-  //       return next(cloneRequest);
-  //     }
-
-  //     return throwError(() => error);
-
-  //   }));
+      })
+    )
 };
