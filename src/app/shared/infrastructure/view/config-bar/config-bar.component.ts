@@ -23,6 +23,11 @@ export class ConfigBarComponent {
 
   scales: number[] = [12, 13, 14, 15, 16];
 
+  localesList = [
+    { code: 'en', label: 'English' },
+    { code: 'es', label: 'Spanish' }
+  ];
+
   constructor(
     public layoutService: LayoutService,
   ) { }

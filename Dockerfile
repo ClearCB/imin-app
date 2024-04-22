@@ -11,17 +11,18 @@ COPY ./ /usr/local/app/
 RUN npm install
 
 # Generate the build of the application
-RUN npm run build
+RUN npm run build:localize
 
 # Stage 2: Serve app with nginx server
 
 # Use official nginx image as the base image
 FROM nginx:latest
 
-RUN rm -rf /usr/share/nginx/html/*
-
 # Copy the build output to replace the default nginx contents.
-COPY --from=build /usr/local/app/dist/imin-app/browser /usr/share/nginx/html
+COPY --from=build /usr/local/app/dist/imin-app/browser /usr/share/nginx/html/app
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80
 EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

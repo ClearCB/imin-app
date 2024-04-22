@@ -36,7 +36,9 @@ services:
       - ./src:/app/src
 
   angular-app:
-    image: clearcb/imin-app:latest
+    # image: clearcb/imin-app:latest
+    build:
+      dockerfile: Dockerfile
     depends_on:
       - api-business
     ports:

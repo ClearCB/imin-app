@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="es" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="6575195871133210332" datatype="html">
+        <source>Orders</source>
+        <target>Pedidos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            src/app/shared/infrastructure/view/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5758979416111114819" datatype="html">
+        <source>24 new </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            src/app/shared/infrastructure/view/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4290716975641879598" datatype="html">
+        <source>since last visit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            src/app/shared/infrastructure/view/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1836325341458112664" datatype="html">
+        <source>Revenue</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            src/app/shared/infrastructure/view/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">22,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1063361146465973343" datatype="html">
+        <source>since last week</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">
+            src/app/shared/infrastructure/view/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">31,32</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
