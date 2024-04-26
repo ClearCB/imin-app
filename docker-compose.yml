@@ -35,14 +35,14 @@ services:
     volumes:
       - ./src:/app/src
 
-  angular-app:
-    # image: clearcb/imin-app:latest
-    build:
-      dockerfile: Dockerfile
-    depends_on:
-      - api-business
-    ports:
-      - "4200:80"
+  # angular-app:
+  #   # image: clearcb/imin-app:latest
+  #   build:
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - api-business
+  #   ports:
+  #     - "4200:80"
 
 volumes:
   db_data:

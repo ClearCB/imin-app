@@ -55,10 +55,14 @@ CREATE TABLE "dbo"."event" (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title VARCHAR(55) NOT NULL,
     small_description VARCHAR(155) NOT NULL,
+    location_name VARCHAR(55) NOT NULL UNIQUE,
+    start_date DATE,
+    finish_date DATE,
+    latitude FLOAT,
+    longitude FLOAT,
     large_description TEXT,
     is_online boolean,
-    location_id UUID NOT NULL,
-    FOREIGN KEY (location_id) REFERENCES "dbo".location(id)
+    UNIQUE(latitude, longitude, start_date)
 );
 
 CREATE TABLE "dbo".event_user (
@@ -136,13 +140,10 @@ INSERT INTO "dbo".community (id, name) VALUES
   ('3ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Tech Enthusiasts'),
   ('4ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Book Club');
 
-INSERT INTO "dbo".location (id, name, latitude, longitude) VALUES
-  ('1ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Tech Hub', 40.7128, -74.0060),
-  ('2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Library', 41.8781, -87.6298);
-
-INSERT INTO "dbo"."event" (id, title, small_description, large_description, is_online, location_id) VALUES
-  ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Tech Talk', 'Join us for an insightful tech discussion.', 'This event will cover various topics in the field of technology.', true, '1ae70aa2-2f09-4c0f-8940-f8ad514cfb4e'),
-  ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Book Reading', 'Come and enjoy a captivating book reading session.', 'We will be exploring the themes of the book and discussing its impact.', false, '2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e');
+INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
+VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event 1', 'Description of Event 1', 'Location 1', '2024-05-01', '2024-05-03', 40.7128, -74.0060, 'Large description of Event 1', FALSE);
+INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
+VALUES ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event 2', 'Description of Event 2', 'Location 2', '2024-05-05', '2024-05-07', 34.0522, -118.2437, 'Large description of Event 2', TRUE);
 
 INSERT INTO "dbo".event_user (event_id, user_id) VALUES
   ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1ae70aa2-2f09-4c0f-8940-f8ad514cfb4e'),

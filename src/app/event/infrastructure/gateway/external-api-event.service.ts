@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { EventModel } from '../../domain/model/event-model';
 import { EVENT_CONSTANTS } from '../../event-constants';
+import { EventMapperService } from '../mapper/event-mapper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,9 @@ export class ExternalApiEventService {
 
   createEvent(event: EventModel): Promise<EventModel | undefined> {
 
-    const body = JSON.stringify(event);
+    const eventDto = EventMapperService.toGateway(event);
+
+    const body = JSON.stringify(eventDto);
     const url = `${EVENT_CONSTANTS.API.BASE_URL}${EVENT_CONSTANTS.API.ENDPOINTS.CREATE_EVENT}`;
 
     return lastValueFrom(this.httpClient.post<EventModel>(url, body));
@@ -23,7 +26,9 @@ export class ExternalApiEventService {
 
   updateEvent(eventId: string, event: EventModel): Promise<EventModel | undefined> {
 
-    const body = JSON.stringify(event);
+    const eventDto = EventMapperService.toGateway(event);
+
+    const body = JSON.stringify(eventDto);
     const url = `${EVENT_CONSTANTS.API.BASE_URL}${EVENT_CONSTANTS.API.ENDPOINTS.UPDATE_EVENT}/${eventId}`;
 
     return lastValueFrom(this.httpClient.put<EventModel>(url, body));

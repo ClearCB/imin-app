@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { LoginResponse } from '../../domain/model/login-response';
 import { AUTH_CONSTANTS } from '../../auth-constants';
 import { NotificationService } from '../../../shared/infrastructure/service/notification.service';
@@ -9,24 +9,44 @@ import { LocalStorageRepositoryPort } from '../../../shared/domain/port/out/loca
 import { logout } from '../../application/logout/logout-use-case';
 import { register } from '../../application/register/register-use-case';
 import { RegisterRequest } from '../../domain/model/register-request';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  // get the data in cookie / session storage and retrive if logged in
-  // currentUserLogged: BehaviorSubject<LoginResponse | null> = new BehaviorSubject<LoginResponse | null>(null);
+  currentUserLogged: BehaviorSubject<LoginResponse | null> = new BehaviorSubject<LoginResponse | null>(null);
 
-  // get userData(): Observable<LoginResponse | null> {
-  //   return this.currentUserLogged.asObservable();
-  // }
+  get userData(): Observable<LoginResponse | null> {
+    return this.currentUserLogged.asObservable();
+  }
+
+  currentUserLoginIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  get userLoggedIn(): Observable<boolean> {
+    return this.currentUserLoginIn.asObservable();
+  }
 
   constructor(
     private notificationService: NotificationService,
     private authGateway: AuthGatewayPort,
     private localStorageRepository: LocalStorageRepositoryPort
-  ) { }
+  ) {
+
+    this.checkIfUserLoggedIn();
+  }
+
+  checkIfUserLoggedIn(): void {
+
+    const userDataLogged = this.localStorageRepository.getItem(AUTH_CONSTANTS.LOCAL_STORAGE_KEYS.ACTIVE_USER_DATA);
+
+    if (userDataLogged) {
+      this.currentUserLogged.next(JSON.parse(userDataLogged));
+      this.currentUserLoginIn.next(true);
+    }
+
+  }
 
   async login(loginRequest: LoginRequest): Promise<LoginResponse | undefined> {
 
@@ -44,6 +64,9 @@ export class AuthService {
         JSON.stringify(loginResponse)
       );
 
+      this.currentUserLoginIn.next(true);
+      this.currentUserLogged.next(loginResponse);
+
       this.notificationService.showSuccess(AUTH_CONSTANTS.MESSAGES.OK_LOGIN);
       return loginResponse;
 
@@ -59,8 +82,13 @@ export class AuthService {
   logout(): void {
 
     try {
+
       logout(this.localStorageRepository);
       this.notificationService.showSuccess(AUTH_CONSTANTS.MESSAGES.OK_LOGIN);
+
+      this.currentUserLogged?.next(null);
+      this.currentUserLoginIn.next(false);
+
     } catch (e: any) {
       this.notificationService.showError(AUTH_CONSTANTS.MESSAGES.GENERIC_LOGIN_ERROR);
     }
@@ -68,7 +96,6 @@ export class AuthService {
   }
 
   async register(registerRequest: RegisterRequest): Promise<LoginResponse | undefined> {
-
 
     try {
 
@@ -84,6 +111,8 @@ export class AuthService {
         JSON.stringify(loginResponse)
       );
 
+      this.currentUserLogged.next(loginResponse);
+
       this.notificationService.showSuccess(AUTH_CONSTANTS.MESSAGES.OK_LOGIN);
       return loginResponse;
 
@@ -95,45 +124,6 @@ export class AuthService {
     }
 
   }
-
-  // async refreshToken(): Promise<LoginResponse | undefined> {
-
-  //   try {
-
-  //     const userData = this.getUserData();
-
-  //     if (!userData) {
-  //       return;
-  //     }
-
-  //     const refreshTokenRequest = {
-  //       userId: userData.data.userId,
-  //       refreshToken: userData.data.refreshToken
-  //     }
-
-  //     const loginResponse = await refreshToken(this.authGateway, refreshTokenRequest);
-
-  //     if (!loginResponse?.result) {
-  //       this.notificationService.showError(AUTH_CONSTANTS.MESSAGES.BAD_CREDENTIALS_ERROR);
-  //       return;
-  //     }
-
-  //     this.localStorageRepository.setItem(
-  //       AUTH_CONSTANTS.LOCAL_STORAGE_KEYS.ACTIVE_USER_DATA,
-  //       JSON.stringify(loginResponse)
-  //     );
-
-  //     this.notificationService.showSuccess(AUTH_CONSTANTS.MESSAGES.OK_LOGIN);
-  //     return loginResponse;
-
-  //   } catch (e: any) {
-
-  //     console.error(e.message);
-  //     this.notificationService.showError(AUTH_CONSTANTS.MESSAGES.GENERIC_LOGIN_ERROR);
-  //     return;
-  //   }
-
-  // }
 
   public getUserData(): LoginResponse | null {
 
@@ -151,14 +141,9 @@ export class AuthService {
 
   public isAuthenticated() {
 
-    const localStorageData = this.localStorageRepository.getItem(AUTH_CONSTANTS.LOCAL_STORAGE_KEYS.ACTIVE_USER_DATA);
-
-    if (localStorageData) {
-      const userData = JSON.parse(localStorageData) as LoginResponse;
-
-      return userData.userData?.token.length > 0;
+    if (this.currentUserLogged.value?.userData.token) {
+      return this.currentUserLogged.value.userData.token;
     }
-
     return false;
 
   }

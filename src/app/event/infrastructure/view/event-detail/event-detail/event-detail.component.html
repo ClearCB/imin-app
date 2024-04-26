@@ -1,50 +1,54 @@
 <form [formGroup]="eventForm">
-    <p>{{eventFormError}}</p>
-    <div class="mb-3">
-        <label class="form-label">Title</label>
-        <input formControlName="title" type="text" class="form-control" aria-describedby="usernameHelp">
-        <!-- @if (username.invalid && (username.dirty || username.touched)) {
 
-        @if(username.errors?.['required']){
-        <div>
-            Username required
-        </div>
-        }
+    <div class="grid">
 
-        @if(username.errors?.['username']){
-        <div>
-            username format invalid
+        <div class="col-12 flex flex-column row-gap-3">
+            <h3>EVENT</h3>
+            <div class="flex flex-column gap-2">
+                <label class="form-label">Title</label>
+                <input formControlName="title" pInputText type="text" class="form-control"
+                    aria-describedby="usernameHelp">
+            </div>
+            <div class="flex flex-column gap-2">
+                <label class="form-label">Small description</label>
+                <input formControlName="smallDescription" pInputText type="text" class="form-control">
+            </div>
+            <div class="flex flex-column gap-2">
+                <label class="form-label">Large description</label>
+                <input formControlName="largeDescription" pInputText type="text" class="form-control">
+            </div>
         </div>
-        }
-        } -->
+
+
+        <div class="col-12 flex flex-column row-gap-3">
+            <h3>LOCATION</h3>
+            <div class="flex flex-column gap-2">
+                <label class="form-label">Nombre</label>
+                <input formControlName="locationName" pInputText type="text" class="form-control"
+                    aria-describedby="usernameHelp">
+            </div>
+            <div class="flex flex-column gap-2">
+                <label class="form-label">Latitutde</label>
+                <input formControlName="latitude" pInputText type="text" class="form-control"
+                    aria-describedby="usernameHelp">
+            </div>
+            <div class="flex flex-column gap-2">
+                <label class="form-label">Longitude</label>
+                <input formControlName="longitude" pInputText type="text" class="form-control"
+                    aria-describedby="usernameHelp">
+            </div>
+            <div class="flex flex-column gap-2">
+                <label class="form-label">Is online</label>
+                <p-checkbox formControlName="online" [binary]="true" inputId="ny"></p-checkbox>
+            </div>
+
+        </div>
+
+        <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
+            <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary">Submit</button>
+            <button type="submit" pButton pRipple (click)="deleteEvent()" class="p-button-danger">Delete</button>
+        </div>
+
     </div>
-    <div class="mb-3">
-        <label class="form-label">Small description</label>
-        <input formControlName="smallDescription" type="text" class="form-control">
 
-        <!-- @if (password.invalid && (password.dirty || password.touched)) {
-
-        @if(password.errors?.['required']){
-        <div>
-            Password required
-        </div>
-        }
-
-        } -->
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Large description</label>
-        <input formControlName="largeDescription" type="password" class="form-control">
-
-        <!-- @if (password.invalid && (password.dirty || password.touched)) {
-
-        @if(password.errors?.['required']){
-        <div>
-            Password required
-        </div>
-        }
-
-        } -->
-    </div>
-    <button type="submit" (click)="handleSubmit()" class="btn btn-primary">Submit</button>
 </form>

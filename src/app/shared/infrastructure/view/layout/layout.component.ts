@@ -6,13 +6,12 @@ import { LayoutService } from '../../service/app.layout.service';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { FooterComponent } from '../footer/footer.component';
-import { ConfigBarComponent } from '../config-bar/config-bar.component';
 import { Subscription, filter } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, TopBarComponent, DashboardComponent, RouterOutlet, FooterComponent, ConfigBarComponent, SideBarComponent],
+  imports: [CommonModule, TopBarComponent, DashboardComponent, RouterOutlet, FooterComponent, SideBarComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
@@ -57,11 +56,6 @@ export class LayoutComponent {
       }
     });
 
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.hideMenu();
-        this.hideProfileMenu();
-      });
   }
 
   hideMenu() {
