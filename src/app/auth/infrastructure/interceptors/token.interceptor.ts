@@ -5,11 +5,13 @@ import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../../shared/infrastructure/service/notification.service';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   const authService = inject(AuthService);
   const router = inject(Router);
+  const notificationService = inject(NotificationService);
 
   const tokenData = localStorage.getItem(AUTH_CONSTANTS.LOCAL_STORAGE_KEYS.ACTIVE_USER_DATA);
   let cloneRequest;
@@ -32,6 +34,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
         if (error.status === 401) {
 
 
+          notificationService.showWarn(AUTH_CONSTANTS.MESSAGES.NOT_VALID_SESSION);
           authService.logout();
           router.navigate(['/login']);
 

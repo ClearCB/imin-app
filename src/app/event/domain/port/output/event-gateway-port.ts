@@ -1,3 +1,5 @@
+import { SearchCriteria } from "../../../../shared/domain/model/search-criteria";
+import { SearchEventOptions } from "../../../application/search-event/search-event-options";
 import { EventModel } from "../../model/event-model";
 
 export abstract class EventGatewayPort {
@@ -6,4 +8,5 @@ export abstract class EventGatewayPort {
     abstract deleteEvent(eventId: string): Promise<void>;
     abstract getEvent(eventId: string): Promise<EventModel | undefined>;
     abstract getAllEvent(): Promise<EventModel[] | undefined>;
+    abstract searchEvent(searchOptions: SearchEventOptions): Promise<EventModel[] | undefined>;
 }

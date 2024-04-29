@@ -33,4 +33,11 @@ export class ExternalApiService {
 
   }
 
+  validateToken(): Promise<void> {
+
+    const url = `${AUTH_CONSTANTS.API.BASE_URL}${AUTH_CONSTANTS.API.ENDPOINTS.VALIDATE_TOKEN}`;
+    return lastValueFrom(this.httpClient.post<void>(url, {}));
+
+  }
+
 }

@@ -84,7 +84,6 @@ export class AuthService {
     try {
 
       logout(this.localStorageRepository);
-      this.notificationService.showSuccess(AUTH_CONSTANTS.MESSAGES.OK_LOGIN);
 
       this.currentUserLogged?.next(null);
       this.currentUserLoginIn.next(false);
@@ -139,12 +138,16 @@ export class AuthService {
 
   }
 
-  public isAuthenticated() {
+  public async isAuthenticated() {
 
-    if (this.currentUserLogged.value?.userData.token) {
-      return this.currentUserLogged.value.userData.token;
-    }
-    return false;
+    await this.validateToken();
+    return this.currentUserLogged.value?.userData.token && this.currentUserLoginIn.value;
+
+  }
+
+  public async validateToken() {
+
+    this.authGateway.validateToken();
 
   }
 }

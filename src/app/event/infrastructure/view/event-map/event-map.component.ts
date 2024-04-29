@@ -29,7 +29,7 @@ export class EventMapComponent implements OnInit {
 
     if (res) {
       this.events = res;
-      this.isDataLoaded = true; // Set flag to true once data is loaded
+      this.isDataLoaded = true;
     }
   }
 

@@ -8,6 +8,8 @@ import { updateEvent } from '../../application/update-event/update-event-use-cas
 import { getEvent } from '../../application/get-event/get-event-use-case';
 import { deleteEvent } from '../../application/delete-event/delete-event-use-case';
 import { getAllEvent } from '../../application/get-all-event/get-all-event-use-case';
+import { SearchEventOptions } from '../../application/search-event/search-event-options';
+import { searchEvent } from '../../application/search-event/search-event-use-case';
 
 @Injectable({
   providedIn: 'root'
@@ -107,6 +109,27 @@ export class EventService {
     try {
 
       const events = await getAllEvent(this.eventGatewayPort);
+
+      if (!events) {
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CREATE_KO);
+        return;
+      }
+
+      return events;
+
+    } catch (e: any) {
+
+      console.error(e.message);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CREATE_KO);
+      return;
+    }
+  }
+
+  async searchEvents(searchOptions: SearchEventOptions): Promise<EventModel[] | undefined> {
+
+    try {
+
+      const events = await searchEvent(this.eventGatewayPort, searchOptions);
 
       if (!events) {
         this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CREATE_KO);

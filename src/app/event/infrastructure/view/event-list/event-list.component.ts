@@ -11,14 +11,23 @@ import { MenuItem } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
 import { CustomMapComponent } from '../../../../map/infrastructure/view/custom-map/custom-map.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { CustomCardEventComponent } from '../custom-card-event/custom-card-event.component';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { RatingModule } from 'primeng/rating';
+import { SearchOperation } from '../../../../shared/domain/model/search-operation';
+import { SearchEventComponent } from '../search-event/search-event.component';
+
 
 @Component({
   selector: 'app-event-list',
   standalone: true,
   imports: [
-    ReactiveFormsModule, EventDetailComponent,
+    ReactiveFormsModule, CustomCardEventComponent,
     ButtonModule, ChipModule, FormsModule, RippleModule,
-    NgStyle, MenuModule, InputTextModule, CustomMapComponent
+    NgStyle, MenuModule, InputTextModule, CustomMapComponent, DropdownModule,
+    MultiSelectModule, RatingModule, SearchEventComponent
+
   ],
   templateUrl: './event-list.component.html',
   styleUrl: './event-list.component.scss'
@@ -27,30 +36,20 @@ export class EventListComponent implements OnInit {
 
   events: EventModel[] = [];
 
+  public dataSearched: boolean = false;
+
   constructor(
-    private formBuilder: FormBuilder,
-    private eventService: EventService
   ) { }
 
 
   async ngOnInit(): Promise<void> {
-    await this.getEvents();
   }
 
-  private async getEvents() {
-    const res = await this.eventService.getAllEvent();
+  handleEventSearch(events: EventModel[]) {
 
-    if (res) {
-      this.events = res;
-    }
+    this.events = events;
+    this.dataSearched = true;
   }
 
-  handleEventSubmit() {
-    this.getEvents()
-  }
-
-  handleEventDelete() {
-    this.getEvents()
-  }
 
 }

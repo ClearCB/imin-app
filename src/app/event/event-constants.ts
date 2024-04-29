@@ -17,6 +17,7 @@ export const EVENT_CONSTANTS = {
         ENDPOINTS: {
             GET_EVENT_BY_ID: "get",
             GET_ALL_EVENTS: "get-all",
+            SEARCH_EVENT: "search",
             DELETE_EVENT_BY_ID: "delete",
             CREATE_EVENT: "create",
             UPDATE_EVENT: "update",

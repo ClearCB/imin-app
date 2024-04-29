@@ -10,6 +10,8 @@ export const AUTH_CONSTANTS = {
         GENERIC_LOGIN_ERROR: "An error has ocurred while loggin in.",
         GENERIC_LOGOUT_ERROR: "An error has ocurred while loggin out.",
         OK_LOGIN: "Login succeed.",
+        SESSION_EXPIRED: "Session expired.",
+        NOT_VALID_SESSION: "Not valid active session.",
     },
     LOCAL_STORAGE_KEYS: {
         ACTIVE_USER_DATA: "imin-user-data"
@@ -19,6 +21,7 @@ export const AUTH_CONSTANTS = {
         ENDPOINTS: {
             LOGIN: "auth/login",
             REGISTER: "auth/register",
+            VALIDATE_TOKEN: "auth/validate-token",
             REFRESH_TOKEN: "auth/register",
         }
     }

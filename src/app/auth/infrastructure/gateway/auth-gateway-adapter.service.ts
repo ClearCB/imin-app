@@ -27,4 +27,11 @@ export class AuthGatewayAdapterService extends AuthGatewayPort {
 
   }
 
+
+  override async validateToken(): Promise<void> {
+
+    this.externalApiService.validateToken();
+
+  }
+
 }

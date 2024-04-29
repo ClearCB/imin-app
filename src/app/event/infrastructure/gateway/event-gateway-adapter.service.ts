@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { EventGatewayPort } from '../../domain/port/output/event-gateway-port';
 import { EventModel } from '../../domain/model/event-model';
 import { ExternalApiEventService } from './external-api-event.service';
+import { SearchCriteria } from '../../../shared/domain/model/search-criteria';
+import { SearchEventOptions } from '../../application/search-event/search-event-options';
 
 @Injectable({
   providedIn: 'root'
@@ -10,34 +12,70 @@ export class EventGatewayAdapterService extends EventGatewayPort {
 
   constructor(private externalApiEventService: ExternalApiEventService) { super() }
 
-  override createEvent(event: EventModel): Promise<EventModel | undefined> {
+  override async createEvent(event: EventModel): Promise<EventModel | undefined> {
 
-    return this.externalApiEventService.createEvent(event);
+    const res = await this.externalApiEventService.createEvent(event)
+
+    if (!res || !res.data) {
+      return;
+    }
+
+    return res.data;
 
   }
-  override updateEvent(eventId: string, event: EventModel): Promise<EventModel | undefined> {
 
-    return this.externalApiEventService.updateEvent(eventId, event);
+  override async updateEvent(eventId: string, event: EventModel): Promise<EventModel | undefined> {
+
+    const res = await this.externalApiEventService.updateEvent(eventId, event);
+
+    if (!res || !res.data) {
+      return;
+    }
+
+    return res.data;
 
   }
+
   override deleteEvent(eventId: string): Promise<void> {
 
     return this.externalApiEventService.deleteEvent(eventId);
 
-
-  }
-  override getEvent(eventId: string): Promise<EventModel | undefined> {
-
-    return this.externalApiEventService.getEvent(eventId);
-
   }
 
+  override async getEvent(eventId: string): Promise<EventModel | undefined> {
 
-  override getAllEvent(): Promise<EventModel[] | undefined> {
+    const res = await this.externalApiEventService.getEvent(eventId);
 
-    return this.externalApiEventService.getAllEvents();
+    if (!res || !res.data) {
+      return;
+    }
+
+    return res.data;
 
   }
 
+  override async getAllEvent(): Promise<EventModel[] | undefined> {
+
+    const res = await this.externalApiEventService.getAllEvents();
+
+    if (!res || !res.data) {
+      return;
+    }
+
+    return res.data;
+
+  }
+
+  override async searchEvent(searchOptions: SearchEventOptions): Promise<EventModel[] | undefined> {
+
+    const res = await this.externalApiEventService.searchEvent(searchOptions);
+
+    if (!res || !res.data) {
+      return;
+    }
+
+    return res.data;
+
+  }
 
 }
