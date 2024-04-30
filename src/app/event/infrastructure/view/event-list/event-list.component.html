@@ -6,7 +6,7 @@
 
         <div class="grid mt-5">
 
-            @if (dataSearched){
+            @if (dataSearched && dataLoaded){
 
             @for (event of events; track event.id) {
             <div class="col-12 md:col-6 lg:col-4">
@@ -19,6 +19,21 @@
             }
             }
 
+            @if (dataSearched && !dataLoaded){
+
+            @for (event of events; track event.id) {
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="surface-card shadow-2 p-3 border-round">
+                    <h5>Rounded</h5>
+                    <p-skeleton styleClass="mb-2" borderRadius="16px"></p-skeleton>
+                    <p-skeleton width="10rem" styleClass="mb-2" borderRadius="16px"></p-skeleton>
+                    <p-skeleton width="5rem" styleClass="mb-2" borderRadius="16px"></p-skeleton>
+                    <p-skeleton height="2rem" styleClass="mb-2" borderRadius="16px"></p-skeleton>
+                    <p-skeleton width="10rem" height="4rem" borderRadius="16px"></p-skeleton>
+                </div>
+            </div>
+            }
+            }
 
         </div>
 

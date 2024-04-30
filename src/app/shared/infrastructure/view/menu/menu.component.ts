@@ -22,7 +22,7 @@ export class MenuComponent {
         label: 'Home',
         items: [
           { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
-          { label: 'Calendar', icon: 'pi pi-fw pi-calendar', routerLink: ['/calendar'] }
+          // { label: 'Calendar', icon: 'pi pi-fw pi-calendar', routerLink: ['/calendar'] }
         ]
       },
       {

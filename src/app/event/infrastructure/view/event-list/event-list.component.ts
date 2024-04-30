@@ -17,7 +17,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { RatingModule } from 'primeng/rating';
 import { SearchOperation } from '../../../../shared/domain/model/search-operation';
 import { SearchEventComponent } from '../search-event/search-event.component';
-
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-event-list',
@@ -26,7 +26,7 @@ import { SearchEventComponent } from '../search-event/search-event.component';
     ReactiveFormsModule, CustomCardEventComponent,
     ButtonModule, ChipModule, FormsModule, RippleModule,
     NgStyle, MenuModule, InputTextModule, CustomMapComponent, DropdownModule,
-    MultiSelectModule, RatingModule, SearchEventComponent
+    MultiSelectModule, RatingModule, SearchEventComponent, SkeletonModule
 
   ],
   templateUrl: './event-list.component.html',
@@ -37,6 +37,7 @@ export class EventListComponent implements OnInit {
   events: EventModel[] = [];
 
   public dataSearched: boolean = false;
+  public dataLoaded: boolean = false;
 
   constructor(
   ) { }
@@ -49,6 +50,7 @@ export class EventListComponent implements OnInit {
 
     this.events = events;
     this.dataSearched = true;
+    setTimeout(() => this.dataLoaded = true, 2000);
   }
 
 
