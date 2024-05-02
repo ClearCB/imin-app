@@ -13,6 +13,8 @@ export enum SearchOperation {
     GREATER_THAN = "gt",
     GREATER_EQUAL_THAN = "ge",
     LESS_THEN = "lt",
-    LESS_EQUAL_THAN = "le"
+    LESS_EQUAL_THAN = "le",
+    CONTAINS_TAG = "ct",
+    CONTAINS_CATEGORY = "cc"
 
 }

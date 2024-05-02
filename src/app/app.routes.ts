@@ -12,13 +12,13 @@ import { EventDetailComponent } from './event/infrastructure/view/event-detail/e
 import { MapLayoutComponent } from './map/infrastructure/view/map-layout/map-layout.component';
 import { EventMapComponent } from './event/infrastructure/view/event-map/event-map.component';
 import { ProfileComponent } from './account/infrastructure/view/profile/profile.component';
-import { CustomCalendarComponent } from './event/infrastructure/view/custom-calendar/custom-calendar.component';
+import { RegisterComponent } from './auth/infrastructure/view/register/register.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' }, // Empty route => home
     { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
     { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
-    { path: 'calendar', component: CustomCalendarComponent, canActivate: [authGuard] },
     {
         path: 'home', component: LayoutComponent,
         children: [

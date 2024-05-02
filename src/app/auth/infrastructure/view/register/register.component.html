@@ -1,38 +1,72 @@
-<form [formGroup]="loginForm">
-    <p>{{loginError}}</p>
-    <div class="mb-3">
-        <label for="exampleInputusername1" class="form-label">username</label>
-        <input formControlName="username" type="text" class="form-control" id="exampleInputusername1"
-            aria-describedby="usernameHelp">
-        @if (username.invalid && (username.dirty || username.touched)) {
-
-        @if(username.errors?.['required']){
-        <div>
-            Username required
+<form [formGroup]="registerForm">
+    <div
+        class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+        <div class="flex flex-column align-items-center justify-content-center">
+            <div class="w-full surface-card py-3 px-5 sm:px-8" style="border-radius:53px">
+                <div class="text-center mb-5">
+                    <img src="assets/icon.png" height="100" />
+                </div>
+                <div class="text-center mb-5">
+                    <span class="text-600 font-medium">Sign in to continue</span>
+                </div>
+                <div class="flex flex-column justify-content-center align-content-center">
+                    <div class="mb-5">
+                        <label for="registerUsername" class="block text-900 text-xl font-medium mb-2">Username</label>
+                        <input formControlName="username" id="registerUsername" type="text" placeholder="Username"
+                            pInputText class="w-full md:w-30rem" style="padding:1rem">
+                        @if (username.invalid && (username.dirty || username.touched)) {
+                        @if(username.errors?.['required']){
+                        <div class="block text-red-500 mt-2 ml-3">
+                            Username required
+                        </div>
+                        }
+                        }
+                    </div>
+                    <div class="mb-5">
+                        <label for="registerPassword" class="block text-900 font-medium text-xl">Password</label>
+                        <p-password id="registerPassword" formControlName="password" placeholder="Password"
+                            [toggleMask]="true" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                        @if (password.invalid && (password.dirty || password.touched)) {
+                        @if(password.errors?.['required']){
+                        <div class="block text-red-500 mt-2 ml-3">
+                            Password required
+                        </div>
+                        }
+                        }
+                    </div>
+                    <div class="mb-5">
+                        <label for="registerPassword" class="block text-900 font-medium text-xl">Confirmation
+                            password</label>
+                        <p-password id="registerPassword" formControlName="confirmationPassword" placeholder="Password"
+                            [toggleMask]="true" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                        @if (password.invalid && (password.dirty || password.touched)) {
+                        @if(password.errors?.['required']){
+                        <div class="block text-red-500 mt-2 ml-3">
+                            Password required
+                        </div>
+                        }
+                        }
+                    </div>
+                    <div class="flex align-items-center justify-content-end mb-5">
+                        <!-- <div class="flex align-items-center">
+                                                                                                                                            <p-checkbox id="rememberme1" formControlName="password" [binary]="true" styleClass="mr-2"></p-checkbox>
+                            <label for="rememberme1">Remember me</label>
+                        </div> -->
+                        <!-- <a class="font-medium no-underline ml-2 text-right cursor-pointer"
+                                                                                                    style="color: var(--primary-color)">Forgot password?</a> -->
+                        <a class="font-medium no-underline ml-2 text-right cursor-pointer"
+                            style="color: var(--primary-color)" [routerLink]="'/login'">Have an account? Log in</a>
+                    </div>
+                    <div class="mb-5">
+                        @if(registerError){
+                        <div class="block text-red-500 mt-2 ml-3">
+                            {{registerError}}
+                        </div>
+                        }
+                    </div>
+                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" (click)="register()"></button>
+                </div>
+            </div>
         </div>
-        }
-
-        @if(username.errors?.['username']){
-        <div>
-            username format invalid
-        </div>
-        }
-        }
     </div>
-    <div class="mb-3">
-        <label for="exampleInputPassword15" class="form-label">Password</label>
-        <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1">
-
-        @if (password.invalid && (password.dirty || password.touched)) {
-
-        @if(password.errors?.['required']){
-        <div>
-            Password required
-        </div>
-        }
-
-        }
-    </div>
-    <button type="submit" (click)="login()" class="btn btn-primary">Submit</button>
 </form>
-<a class="nav-link" routerLink="/login">Iniciar sesión</a>

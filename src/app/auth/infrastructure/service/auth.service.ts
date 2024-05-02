@@ -141,13 +141,13 @@ export class AuthService {
   public async isAuthenticated() {
 
     await this.validateToken();
-    return this.currentUserLogged.value?.userData.token && this.currentUserLoginIn.value;
+    return (this.currentUserLogged.value?.userData.token && this.currentUserLoginIn.value);
 
   }
 
   public async validateToken() {
 
-    this.authGateway.validateToken();
+    return this.authGateway.validateToken();
 
   }
 }

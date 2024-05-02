@@ -30,7 +30,8 @@ export class LoginComponent {
   loginForm = this.formBuilder.group({
     username: ["admin", [Validators.required]],
     password: ["password", Validators.required]
-  })
+  },
+    { updateOn: 'blur' })
 
   // Getters 
   get username() { return this.loginForm.controls.username }
