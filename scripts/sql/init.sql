@@ -16,6 +16,17 @@ CREATE TABLE "auth"."permission" (
     name VARCHAR(55) NOT NULL UNIQUE
 );
 
+CREATE TABLE "dbo"."category" (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(55) NOT NULL UNIQUE,
+    icon VARCHAR(55) NOT NULL UNIQUE
+);
+
+CREATE TABLE "dbo"."tag" (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(55) NOT NULL UNIQUE
+);
+
 CREATE TABLE "auth"."action_permission" (
     action_id UUID NOT NULL,
     permission_id UUID NOT NULL,
@@ -55,14 +66,14 @@ CREATE TABLE "dbo"."event" (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title VARCHAR(55) NOT NULL,
     small_description VARCHAR(155) NOT NULL,
-    location_name VARCHAR(55) NOT NULL UNIQUE,
-    start_date DATE,
-    finish_date DATE,
+    location_name VARCHAR(55) NOT NULL,
+    start_date TIMESTAMP,
+    finish_date TIMESTAMP,
     latitude FLOAT,
     longitude FLOAT,
     large_description TEXT,
     is_online boolean,
-    UNIQUE(latitude, longitude, start_date)
+    UNIQUE(location_name, start_date)
 );
 
 CREATE TABLE "dbo".event_user (
@@ -73,12 +84,36 @@ CREATE TABLE "dbo".event_user (
     FOREIGN KEY (user_id) REFERENCES "auth"."user"(id)
 );
 
+CREATE TABLE "dbo".event_tag (
+    event_id UUID NOT NULL,
+    tag_id BIGINT NOT NULL,
+    PRIMARY KEY (event_id, tag_id),
+    FOREIGN KEY (event_id) REFERENCES "dbo".event(id),
+    FOREIGN KEY (tag_id) REFERENCES "dbo"."tag"(id)
+);
+
+CREATE TABLE "dbo".event_category (
+    event_id UUID NOT NULL,
+    category_id BIGINT NOT NULL,
+    PRIMARY KEY (event_id, category_id),
+    FOREIGN KEY (event_id) REFERENCES "dbo".event(id),
+    FOREIGN KEY (category_id) REFERENCES "dbo"."category"(id)
+);
+
 CREATE TABLE "dbo".event_communities (
     event_id UUID NOT NULL,
     community_id UUID NOT NULL,
     PRIMARY KEY (event_id, community_id),
     FOREIGN KEY (event_id) REFERENCES "dbo".event(id),
     FOREIGN KEY (community_id) REFERENCES "dbo".community(id)
+);
+
+CREATE TABLE "dbo".event_image (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    event_id UUID NOT NULL,
+    bytes bytea NOT NULL,
+    is_main boolean,
+    FOREIGN KEY (event_id) REFERENCES "dbo".event(id)
 );
 
 CREATE TABLE "dbo".membership (
@@ -160,3 +195,36 @@ INSERT INTO "dbo".membership (id, community_id, user_id, role_id) VALUES
 INSERT INTO "dbo".attendance (id, user_id, event_id, role_id) VALUES
   ('de4d96d3-122f-4a35-840d-93af2ad6a7b9','1ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '890e8756-f624-46a1-9f05-0c8f73cb2122'),
   ('8f6e5b94-2043-45bf-b3f5-743d36b94fe8','2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'd3f8634d-93c0-4636-aa7d-4f9c6322d499');
+
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 1', 'pi-id-card');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 2', 'pi-users');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 3', 'pi-map');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 4', 'pi-thumbtack');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 5', 'pi-search');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 6', 'pi-plus-circle');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 7', 'pi-calendar');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 8', 'pi-home');
+
+INSERT INTO "dbo"."tag" (name) VALUES ('Tag 1');
+INSERT INTO "dbo"."tag" (name) VALUES ('Tag 2');
+INSERT INTO "dbo"."tag" (name) VALUES ('Tag 3');
+INSERT INTO "dbo"."tag" (name) VALUES ('Tag 4');
+INSERT INTO "dbo"."tag" (name) VALUES ('Tag 5');
+INSERT INTO "dbo"."tag" (name) VALUES ('Tag 6');
+INSERT INTO "dbo"."tag" (name) VALUES ('Tag 7');
+INSERT INTO "dbo"."tag" (name) VALUES ('Tag 8');
+
+INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 1);
+INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 2);
+INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 3);
+INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 4);
+INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 5);
+INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 6);
+INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 7);
+INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 8);
+
+
+INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 1);
+INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 2);
+INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 3);
+INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 4);
