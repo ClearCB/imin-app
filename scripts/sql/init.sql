@@ -113,6 +113,7 @@ CREATE TABLE "dbo".event_image (
     event_id UUID NOT NULL,
     bytes bytea NOT NULL,
     is_main boolean,
+    UNIQUE (is_main, event_id),
     FOREIGN KEY (event_id) REFERENCES "dbo".event(id)
 );
 

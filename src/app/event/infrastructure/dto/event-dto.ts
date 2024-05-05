@@ -1,3 +1,6 @@
+import { Tag } from "primeng/tag";
+import { Category } from "../../../shared/domain/model/category";
+
 export interface EventDTO {
 
     title?: string;
@@ -6,6 +9,10 @@ export interface EventDTO {
     locationName: string;
     latitude: number;
     longitude: number;
-    online: boolean;
+    startDate: boolean;
+    finishDate: boolean;
+    categories: number[];
+    tags: number[];
+    isOnline: boolean;
 
 }

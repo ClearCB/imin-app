@@ -7,9 +7,29 @@ export const SHARED_CONSTANTS = {
             ENDPOINTS: {
                 UPLOAD: "upload",
                 DELETE: "delete",
-                GET: "get",
+                GET: "get/",
             }
         }
+
+    },
+    ENDPOINTS: {
+        HOME: "",
+        EVENT: {
+            NAME: "event",
+            CHILDREN: {
+                CREATE: "create",
+                LIST: "list",
+                MAP: "map",
+                DETAIL: "detail",
+            }
+        },
+        LOGIN: "login",
+        LOGOUT: "logout",
+        PROFILE: "profile",
+        REGISTER: "register",
+        ERROR: "error",
+        FORBIDDEN: "forbidden",
+        NOT_FOUND: "not-found",
 
     }
 }

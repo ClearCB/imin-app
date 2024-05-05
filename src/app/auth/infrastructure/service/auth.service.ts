@@ -111,6 +111,7 @@ export class AuthService {
       );
 
       this.currentUserLogged.next(loginResponse);
+      this.currentUserLoginIn.next(true);
 
       this.notificationService.showSuccess(AUTH_CONSTANTS.MESSAGES.OK_LOGIN);
       return loginResponse;

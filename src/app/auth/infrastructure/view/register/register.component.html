@@ -48,14 +48,8 @@
                         }
                     </div>
                     <div class="flex align-items-center justify-content-end mb-5">
-                        <!-- <div class="flex align-items-center">
-                                                                                                                                            <p-checkbox id="rememberme1" formControlName="password" [binary]="true" styleClass="mr-2"></p-checkbox>
-                            <label for="rememberme1">Remember me</label>
-                        </div> -->
-                        <!-- <a class="font-medium no-underline ml-2 text-right cursor-pointer"
-                                                                                                    style="color: var(--primary-color)">Forgot password?</a> -->
                         <a class="font-medium no-underline ml-2 text-right cursor-pointer"
-                            style="color: var(--primary-color)" [routerLink]="'/login'">Have an account? Log in</a>
+                            style="color: var(--primary-color)" [routerLink]="loginRoute">Have an account? Log in</a>
                     </div>
                     <div class="mb-5">
                         @if(registerError){

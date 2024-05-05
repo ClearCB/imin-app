@@ -2,12 +2,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../../service/app.layout.service';
 import { NgClass } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Route, Router, RouterLink } from '@angular/router';
 import { TooltipModule } from 'primeng/tooltip';
 import { AuthService } from '../../../../auth/infrastructure/service/auth.service';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { FormBuilder, FormGroup, FormsModule, NgModel } from '@angular/forms';
 import { LoginResponse } from '../../../../auth/domain/model/login-response';
+import { SHARED_CONSTANTS } from '../../../shared-constants';
 
 @Component({
   selector: 'app-top-bar',
@@ -19,6 +20,10 @@ import { LoginResponse } from '../../../../auth/domain/model/login-response';
 export class TopBarComponent implements OnInit {
 
   items!: MenuItem[];
+
+  homeRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.HOME}`;
+  profileRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.PROFILE}`;
+  loginRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`;
 
   formGroup: FormGroup | undefined;
 
@@ -62,7 +67,8 @@ export class TopBarComponent implements OnInit {
   constructor(
     public layoutService: LayoutService,
     private authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
     // if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     //   this.selected = true;
@@ -87,6 +93,7 @@ export class TopBarComponent implements OnInit {
 
   singOut() {
     this.authService.logout();
+    this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`);
   }
 
   changeTheme(theme: string, colorScheme: string) {

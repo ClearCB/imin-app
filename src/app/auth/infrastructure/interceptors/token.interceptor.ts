@@ -6,6 +6,7 @@ import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../shared/infrastructure/service/notification.service';
+import { SHARED_CONSTANTS } from '../../../shared/shared-constants';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
@@ -33,7 +34,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
         if (error.status === 401 && authService.currentUserLoginIn.value) { // User logged in already, session invalid.
 
           authService.logout();
-          router.navigate(['/login']);
+          router.navigate([`/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`]);
 
           return next(cloneRequest);
         }

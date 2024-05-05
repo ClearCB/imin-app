@@ -9,6 +9,7 @@ import { RippleModule } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { PasswordModule } from 'primeng/password';
+import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ import { PasswordModule } from 'primeng/password';
 export class LoginComponent {
 
   loginError: string = "";
+  registerRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.REGISTER}`;
 
   // Forms
   loginForm = this.formBuilder.group({
@@ -52,7 +54,7 @@ export class LoginComponent {
 
       if (loginResponse) {
         this.loginForm.reset();
-        this.routeService.navigateByUrl("/home");
+        this.routeService.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.HOME}`);
       }
 
     } else {

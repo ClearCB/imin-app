@@ -1,3 +1,5 @@
+import { Category } from "../../../shared/domain/model/category";
+import { Tag } from "../../../shared/domain/model/tag";
 import { EVENT_CONSTANTS } from "../../event-constants";
 
 export interface EventModel {
@@ -9,7 +11,13 @@ export interface EventModel {
     locationName: string;
     latitude: number;
     longitude: number;
-    online: boolean;
+    startDate: boolean;
+    finishDate: boolean;
+    categories: Category[];
+    tags: Tag[];
+    mainImageId: string;
+    isOnline: boolean;
+    isActive: boolean;
 
 }
 

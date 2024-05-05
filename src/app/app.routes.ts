@@ -8,33 +8,37 @@ import { EventListComponent } from './event/infrastructure/view/event-list/event
 import { NotFoundErrorComponent } from './shared/infrastructure/view/error/not-found-error/not-found-error.component';
 import { ForbiddenErrorComponent } from './shared/infrastructure/view/error/forbidden-error/forbidden-error.component';
 import { EventCreateFormComponent } from './event/infrastructure/view/event-create-form/event-create-form.component';
-import { EventDetailComponent } from './event/infrastructure/view/event-detail/event-detail/event-detail.component';
+import { EventDetailComponent } from './event/infrastructure/view/event-detail/event-detail.component';
 import { MapLayoutComponent } from './map/infrastructure/view/map-layout/map-layout.component';
-import { EventMapComponent } from './event/infrastructure/view/event-map/event-map.component';
 import { ProfileComponent } from './account/infrastructure/view/profile/profile.component';
 import { RegisterComponent } from './auth/infrastructure/view/register/register.component';
+import { SHARED_CONSTANTS } from './shared/shared-constants';
+import { EventMapLayoutComponent } from './event/infrastructure/view/event-map-layout/event-map-layout.component';
+import { EventListLayoutComponent } from './event/infrastructure/view/event-list-layout/event-list-layout.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' }, // Empty route => home
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
+    { path: SHARED_CONSTANTS.ENDPOINTS.LOGIN, component: LoginComponent },
+    { path: SHARED_CONSTANTS.ENDPOINTS.REGISTER, component: RegisterComponent },
+    { path: SHARED_CONSTANTS.ENDPOINTS.PROFILE, component: ProfileComponent, canActivate: [authGuard] },
     {
-        path: 'home', component: LayoutComponent,
+        path: '', component: LayoutComponent,
         children: [
-            { path: '', component: DashboardComponent },
+            { path: 'home', component: DashboardComponent },
             {
-                path: 'event-map', component: EventMapComponent,
-                children: [{ path: "", component: MapLayoutComponent }]
+                path: SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME,
+                children: [
+                    { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.CREATE, component: EventCreateFormComponent, canActivate: [authGuard] },
+                    { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.MAP, component: EventMapLayoutComponent, },
+                    { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.LIST, component: EventListLayoutComponent },
+                    { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/:eventId`, component: EventDetailComponent },
+                ]
             },
-            { path: 'event-list', component: EventListComponent },
-            { path: 'event-new', component: EventCreateFormComponent, canActivate: [authGuard] },
-            { path: 'event-detail', component: EventDetailComponent },
         ]
     },
-    { path: 'error', component: GeneralErrorComponent, },
-    { path: 'forbidden', component: ForbiddenErrorComponent },
-    { path: 'not-found', component: NotFoundErrorComponent },
+    { path: SHARED_CONSTANTS.ENDPOINTS.ERROR, component: GeneralErrorComponent, },
+    { path: SHARED_CONSTANTS.ENDPOINTS.FORBIDDEN, component: ForbiddenErrorComponent },
+    { path: SHARED_CONSTANTS.ENDPOINTS.NOT_FOUND, component: NotFoundErrorComponent },
     { path: '**', redirectTo: '/not-found' },
 
 ];

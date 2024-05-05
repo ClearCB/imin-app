@@ -8,6 +8,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
+import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
 
 @Component({
   selector: 'app-register',
@@ -24,6 +25,7 @@ import { RippleModule } from 'primeng/ripple';
 export class RegisterComponent {
 
   registerError: string | null = "";
+  loginRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`;
 
   // Forms
   registerForm = this.formBuilder.group({
@@ -57,7 +59,7 @@ export class RegisterComponent {
 
       if (loginResponse && loginResponse.result) {
         this.registerForm.reset();
-        this.routeService.navigateByUrl("/home");
+        this.routeService.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.HOME}`);
       }
 
     } else {
@@ -68,28 +70,6 @@ export class RegisterComponent {
   }
 
   matchValidator(controlName: string, matchingControlName: string): ValidatorFn {
-    return (abstractControl: AbstractControl) => {
-      const control = abstractControl.get(controlName);
-      const matchingControl = abstractControl.get(matchingControlName);
-
-      if (matchingControl!.errors && !matchingControl!.errors?.['confirmedValidator']) {
-        return null;
-      }
-
-      if (control!.value !== matchingControl!.value) {
-        const error = { confirmedValidator: 'Passwords do not match.' };
-        matchingControl!.setErrors(error);
-        this.registerError = error.confirmedValidator;
-        return error;
-      } else {
-        this.registerError = null;
-        matchingControl!.setErrors(null);
-        return null;
-      }
-    }
-  }
-
-  trimV(controlName: string, matchingControlName: string): ValidatorFn {
     return (abstractControl: AbstractControl) => {
       const control = abstractControl.get(controlName);
       const matchingControl = abstractControl.get(matchingControlName);

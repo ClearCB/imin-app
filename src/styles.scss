@@ -11,3 +11,17 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.fab {
+
+    border-radius: 50%;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.fab:hover {
+    background-color: #0056b3;
+}
