@@ -15,12 +15,13 @@ import { RegisterComponent } from './auth/infrastructure/view/register/register.
 import { SHARED_CONSTANTS } from './shared/shared-constants';
 import { EventMapLayoutComponent } from './event/infrastructure/view/event-map-layout/event-map-layout.component';
 import { EventListLayoutComponent } from './event/infrastructure/view/event-list-layout/event-list-layout.component';
+import { EventProfileTabComponent } from './account/infrastructure/view/event-profile-tab/event-profile-tab.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' }, // Empty route => home
     { path: SHARED_CONSTANTS.ENDPOINTS.LOGIN, component: LoginComponent },
     { path: SHARED_CONSTANTS.ENDPOINTS.REGISTER, component: RegisterComponent },
-    { path: SHARED_CONSTANTS.ENDPOINTS.PROFILE, component: ProfileComponent, canActivate: [authGuard] },
+    { path: SHARED_CONSTANTS.ENDPOINTS.USER.CHILDREN.PROFILE, component: ProfileComponent, canActivate: [authGuard] },
     {
         path: '', component: LayoutComponent,
         children: [
@@ -32,8 +33,18 @@ export const routes: Routes = [
                     { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.MAP, component: EventMapLayoutComponent, },
                     { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.LIST, component: EventListLayoutComponent },
                     { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/:eventId`, component: EventDetailComponent },
+                    { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN}/:eventId`, component: EventDetailComponent },
+                    { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/:eventId`, component: EventDetailComponent },
+                    { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/:eventId`, component: EventDetailComponent },
                 ]
             },
+            {
+                path: SHARED_CONSTANTS.ENDPOINTS.USER.NAME,
+                children: [
+                    { path: `${SHARED_CONSTANTS.ENDPOINTS.USER.CHILDREN.PROFILE}`, component: ProfileComponent },
+                    { path: `${SHARED_CONSTANTS.ENDPOINTS.USER.CHILDREN.EVENTS}`, component: EventProfileTabComponent },
+                ]
+            }
         ]
     },
     { path: SHARED_CONSTANTS.ENDPOINTS.ERROR, component: GeneralErrorComponent, },
