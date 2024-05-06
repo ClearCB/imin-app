@@ -5,11 +5,14 @@ import { LocalStorageRepositoryPort } from "../shared/domain/port/out/local-stor
 import { LocalStorageRepositoryAdapterService } from "../shared/infrastructure/service/local-storage-repository-adapter.service";
 import { EventGatewayPort } from "../event/domain/port/output/event-gateway-port";
 import { EventGatewayAdapterService } from "../event/infrastructure/gateway/event-gateway-adapter.service";
+import { ConfigurationGatewayPort } from "../config/domain/port/out/configuration-gateway";
+import { ConfigurationGatewayAdapterService } from "../config/infrastructure/gateway/configuration-gateway-adapter.service";
 
 export function customProvider(): Provider[] {
     return [
         { provide: AuthGatewayPort, useClass: AuthGatewayAdapterService },
         { provide: LocalStorageRepositoryPort, useClass: LocalStorageRepositoryAdapterService },
         { provide: EventGatewayPort, useClass: EventGatewayAdapterService },
+        { provide: ConfigurationGatewayPort, useClass: ConfigurationGatewayAdapterService },
     ]
 }

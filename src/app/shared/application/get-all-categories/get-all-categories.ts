@@ -1,8 +1,8 @@
-import { EventModel } from "../../domain/model/event-model";
-import { EventGatewayPort } from "../../domain/port/output/event-gateway-port";
+import { Category } from "../../domain/model/category";
+import { CommonRepositoryPort } from "../../domain/port/out/common-repository-port";
 
-export async function getAllCategories(eventGateway: ): Promise<EventModel[] | undefined> {
+export async function getAllCategories(commonRepositoryPort: CommonRepositoryPort): Promise<Category[] | undefined> {
 
-    return await eventGateway.getAllEvent();
+    return await commonRepositoryPort.getAllCategories();
 
 }

@@ -9,6 +9,12 @@ export const SHARED_CONSTANTS = {
                 DELETE: "delete",
                 GET: "get/",
             }
+        },
+        CONFIGURATION: {
+            BASE_URL: "http://localhost:8080/api/v1/configuration/",
+            ENDPOINTS: {
+                GET: "get/",
+            }
         }
 
     },
@@ -23,9 +29,16 @@ export const SHARED_CONSTANTS = {
                 DETAIL: "detail",
             }
         },
+        USER: {
+            NAME: "user",
+            CHILDREN: {
+                PROFILE: "profile",
+                EVENTS: "my-events",
+            }
+
+        },
         LOGIN: "login",
         LOGOUT: "logout",
-        PROFILE: "profile",
         REGISTER: "register",
         ERROR: "error",
         FORBIDDEN: "forbidden",

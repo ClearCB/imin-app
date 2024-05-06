@@ -7,6 +7,7 @@ import { EventMapperService } from '../mapper/event-mapper.service';
 import { ApiResponse } from '../../../shared/domain/model/api-response';
 import { SearchCriteria } from '../../../shared/domain/model/search-criteria';
 import { SearchEventOptions } from '../../application/search-event/search-event-options';
+import { UserData } from '../../../auth/domain/model/user-token-data';
 
 @Injectable({
   providedIn: 'root'
@@ -69,5 +70,15 @@ export class ExternalApiEventService {
     }
 
     return lastValueFrom(this.httpClient.post<ApiResponse>(url, JSON.stringify(searchOptions.body)));
+  };
+
+  addUserToEvent(event: EventModel, userData: UserData): Promise<ApiResponse | undefined> {
+
+    const eventDto = EventMapperService.toGateway(event);
+
+    let url = `${EVENT_CONSTANTS.API.BASE_URL}${EVENT_CONSTANTS.API.ENDPOINTS.ADD_USER}`;
+    const body = JSON.stringify({ event: eventDto, userData: userData });
+
+    return lastValueFrom(this.httpClient.post<ApiResponse>(url, JSON.stringify(body)));
   };
 }

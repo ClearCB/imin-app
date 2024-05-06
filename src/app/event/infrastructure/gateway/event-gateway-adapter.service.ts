@@ -4,11 +4,13 @@ import { EventModel } from '../../domain/model/event-model';
 import { ExternalApiEventService } from './external-api-event.service';
 import { SearchCriteria } from '../../../shared/domain/model/search-criteria';
 import { SearchEventOptions } from '../../application/search-event/search-event-options';
+import { UserData } from '../../../auth/domain/model/user-token-data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventGatewayAdapterService extends EventGatewayPort {
+
 
   constructor(private externalApiEventService: ExternalApiEventService) { super() }
 
@@ -76,6 +78,17 @@ export class EventGatewayAdapterService extends EventGatewayPort {
 
     return res.data;
 
+  }
+
+  override async addUserToEvent(event: EventModel, userData: UserData): Promise<boolean | undefined> {
+
+    const res = await this.externalApiEventService.addUserToEvent(event, userData);
+
+    if (!res || !res.data) {
+      return false;
+    }
+
+    return true;
   }
 
 }

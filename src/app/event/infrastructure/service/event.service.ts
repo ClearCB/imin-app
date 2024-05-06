@@ -10,6 +10,8 @@ import { deleteEvent } from '../../application/delete-event/delete-event-use-cas
 import { getAllEvent } from '../../application/get-all-event/get-all-event-use-case';
 import { SearchEventOptions } from '../../application/search-event/search-event-options';
 import { searchEvent } from '../../application/search-event/search-event-use-case';
+import { UserData } from '../../../auth/domain/model/user-token-data';
+import { addUserToEvent } from '../../application/add-user-to-event/attend-event-use-case';
 
 @Injectable({
   providedIn: 'root'
@@ -137,6 +139,27 @@ export class EventService {
       }
 
       return events;
+
+    } catch (e: any) {
+
+      console.error(e.message);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      return;
+    }
+  }
+
+  async addUserToEvent(event: EventModel, userData: UserData): Promise<boolean | undefined> {
+
+    try {
+
+      const userAddedToEvent = await addUserToEvent(this.eventGatewayPort, event, userData);
+
+      if (!userAddedToEvent) {
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
+        return;
+      }
+
+      return userAddedToEvent;
 
     } catch (e: any) {
 
