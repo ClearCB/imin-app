@@ -1,0 +1,15 @@
+@if (authenticated) {
+<p-fileUpload customUpload="true" name="files[]" (uploadHandler)="onUpload($event)" [headers]="httpHeaders"
+    [multiple]="true" accept="image/*" maxFileSize="1000000">
+    <ng-template pTemplate="content">
+        @if (uploadedFiles.length) {
+        <ul>
+            @for (file of uploadedFiles; track $index) {
+            <li>{{ file.name }} - {{ file.size }} bytes</li>
+            }
+
+        </ul>
+        }
+    </ng-template>
+</p-fileUpload>
+}
