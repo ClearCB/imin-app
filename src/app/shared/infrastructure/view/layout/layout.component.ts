@@ -1,4 +1,4 @@
-import { Component, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { TopBarComponent } from '../top-bar/top-bar.component';
@@ -7,16 +7,28 @@ import { CommonModule } from '@angular/common';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { FooterComponent } from '../footer/footer.component';
 import { Subscription, filter } from 'rxjs';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { EventCreateFormComponent } from '../../../../event/infrastructure/view/event-create-form/event-create-form.component';
+import { AuthService } from '../../../../auth/infrastructure/service/auth.service';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, TopBarComponent, DashboardComponent, RouterOutlet, FooterComponent, SideBarComponent],
+  imports: [
+    CommonModule, TopBarComponent, DashboardComponent,
+    RouterOutlet, FooterComponent, SideBarComponent,
+    SpeedDialModule
+  ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnInit, OnDestroy {
   overlayMenuOpenSubscription: Subscription;
+
+  ref: DynamicDialogRef | undefined;
+
+  userLoggedIn: boolean = false;
 
   menuOutsideClickListener: any;
 
@@ -26,8 +38,10 @@ export class LayoutComponent {
 
   @ViewChild(TopBarComponent) appTopbar!: TopBarComponent;
 
+  items: any;
 
-  constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router) {
+  constructor(public layoutService: LayoutService, private authService: AuthService,
+    public renderer: Renderer2, public router: Router, public dialogService: DialogService) {
     this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
       if (!this.menuOutsideClickListener) {
         this.menuOutsideClickListener = this.renderer.listen('document', 'click', event => {
@@ -61,6 +75,34 @@ export class LayoutComponent {
         this.hideMenu();
         this.hideProfileMenu();
       });
+  }
+  ngOnInit(): void {
+
+    this.authService.currentUserLoginIn.subscribe({
+      next: (userLoggedin) => this.userLoggedIn = userLoggedin
+    })
+
+    this.items = [
+      {
+        tooltipOptions: {
+          tooltipLabel: 'Add event'
+        },
+        icon: 'pi pi-map-marker',
+        command: () => {
+          this.ref = this.dialogService.open(EventCreateFormComponent, {
+            header: 'Select a Product',
+            width: '85vw',
+            modal: true,
+            breakpoints: {
+              '960px': '75vw',
+              '640px': '90vw'
+            },
+            baseZIndex: 10000,
+            maximizable: true
+          });
+        }
+      }
+    ];
   }
 
   hideMenu() {

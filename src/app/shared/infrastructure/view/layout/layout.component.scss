@@ -1,0 +1,17 @@
+:host ::ng-deep {
+    .speeddial-linear-demo {
+        position: fixed;
+        bottom: calc(10% - 2rem);
+        right: calc(10% - 2rem);
+    }
+
+    .p-speeddial-action {
+        background-color: rgb(229, 229, 229);
+        color: rgb(42, 41, 41);
+    }
+
+    .p-speeddial-action:hover {
+        background-color: rgb(185, 185, 185);
+    }
+
+}
