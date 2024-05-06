@@ -1,13 +1,10 @@
-<div class="surface-ground px-2 py-3 md:px-4 lg:px-4">
+<div class="grid">
 
-    <div class="grid">
-
-        <div class="col-12 ">
-            <div class="surface-card shadow-2 p-3 border-round map-container">
-                <app-custom-map [markers]="markers"></app-custom-map>
-            </div>
+    <div class="col-12 ">
+        <div class="surface-card shadow-2 p-3 border-round map-container">
+            <app-custom-map (searchEventEmiter)="handleClickMarker($event)"
+                (markerMouseOut)="handleMouseOutMarker($event)" [markers]="markers" [events]="events"></app-custom-map>
         </div>
-
     </div>
 
 </div>

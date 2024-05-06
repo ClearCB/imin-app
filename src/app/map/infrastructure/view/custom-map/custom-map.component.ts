@@ -1,6 +1,14 @@
-import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
-import L, { icon, LatLng } from "leaflet";
+import L, { icon, LatLng, Marker, popup } from "leaflet";
+import { async } from "rxjs";
+import { EventModel } from "../../../../event/domain/model/event-model";
+import { e } from "@fullcalendar/core/internal-common";
+import { Router } from "@angular/router";
+import { DynamicDialogRef, DialogService } from "primeng/dynamicdialog";
+import { EventCreateFormComponent } from "../../../../event/infrastructure/view/event-create-form/event-create-form.component";
+import { FileService } from "../../../../shared/infrastructure/service/file-service.service";
+import { EventDetailComponent } from "../../../../event/infrastructure/view/event-detail/event-detail.component";
 
 @Component({
   selector: 'app-custom-map',
@@ -11,14 +19,22 @@ import L, { icon, LatLng } from "leaflet";
 })
 export class CustomMapComponent implements AfterViewInit {
 
+  
+  ref: DynamicDialogRef | undefined;
+  
   @Input()
   public markers: L.Marker[] = [];
+
+  @Input()
+  public events: EventModel[] = [];
   private map: any;
 
-  constructor() { }
+  @Output() searchEventEmiter: EventEmitter<EventModel> = new EventEmitter<EventModel>();
+  @Output() markerMouseOut: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  constructor(private router: Router, private fileService: FileService, private dialogService: DialogService) { }
 
   ngAfterViewInit(): void {
-    // this.initMap();
     this.getMapCenter();
   }
 
@@ -39,7 +55,7 @@ export class CustomMapComponent implements AfterViewInit {
 
         this.initMap();
 
-      });
+      },() => this.initMap());
     }
   }
 
@@ -96,9 +112,56 @@ export class CustomMapComponent implements AfterViewInit {
     marker.addTo(this.map);
 
 
-    this.markers.forEach(marker => {
+    this.events.forEach(event => {
+
+      let latlang = new LatLng(
+        event.latitude, event.longitude
+      )
+
+      var cafe = L.icon({
+        iconUrl: 'assets/markers/cafe.png',
+        iconSize: [20, 20], // size of the icon
+        iconAnchor: [20, 20], // point of the icon which will correspond to marker's location
+      });
+  
+      const marker =  new Marker(latlang, { icon: cafe });
+
+      var ifno = L.icon({
+        iconUrl: 'assets/markers/information.png',
+        iconSize: [20, 20], // size of the icon
+        iconAnchor: [20, 20], // point of the icon which will correspond to marker's location
+      });
+
+      marker.on('mouseover', (e: any) => {
+
+        this.handleClickMarkerOver(event);
+      });
+
+      marker.on('mouseout', (e: any) => {
+        this.handleClickMarkerOut(event);
+      });
+
+      marker.on('click', (e: any) => {
+        e.originalEvent.preventDefault();
+        this.handleClickMarker(event);
+      });
+      
+      marker.setIcon(ifno);
+      marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
       marker.addTo(this.map);
     })
+
+
+    // this.markers.forEach(marker => {
+    //   var ifno = L.icon({
+    //     iconUrl: 'assets/markers/information.png',
+    //     iconSize: [20, 20], // size of the icon
+    //     iconAnchor: [20, 20], // point of the icon which will correspond to marker's location
+    //   });
+    //   marker.setIcon(ifno);
+    //   marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+    //   marker.addTo(this.map);
+    // })
 
   }
 
@@ -116,7 +179,6 @@ export class CustomMapComponent implements AfterViewInit {
       northEast = bounds.getNorthEast(),
       southWest = bounds.getSouthWest(),
       southEast = bounds.getSouthEast();
-    console.log(JSON.stringify(northEast), JSON.stringify(northWest), JSON.stringify(southEast), JSON.stringify(southWest));
 
 
   }
@@ -139,16 +201,16 @@ export class CustomMapComponent implements AfterViewInit {
         radius: 500
       }).addTo(this.map);
 
-      console.log(circle.getRadius());
-      console.log(circle.getBounds());
-      console.log(circle.getLatLng());
+      // console.log(circle.getRadius());
+      // console.log(circle.getBounds());
+      // console.log(circle.getLatLng());
 
       const c = circle.getLatLng();
       const ev = e.latlng;
 
       var d = this.map.distance(ev, c)
 
-      console.log("Distance" + d);
+      // console.log("Distance" + d);
 
       popup
         .setLatLng(e.latlng)
@@ -192,6 +254,42 @@ export class CustomMapComponent implements AfterViewInit {
     layerControl.addOverlay(library, "Library");
     L.control.scale().addTo(this.map);
 
+  }
+  
+  async handleClickMarker(event: any) {
+    this.goToEventDetail(event);
+    // this.searchEventEmiter.emit(event);
+  }
+  
+  async handleClickMarkerOut(event: any) {
+    this.markerMouseOut.emit(true);
+  }
+  async handleClickMarkerOver(event: any) {
+    this.searchEventEmiter.emit(event);
+  }
+
+  findEventByLatLang(latLan: any){
+
+    return this.markers
+  }
+
+
+  goToEventDetail(event: EventModel) {
+
+    this.ref = this.dialogService.open(EventDetailComponent, {
+      data:event,
+      header: 'Select a Product',
+      width: '85vw',
+      modal: true,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      },
+      baseZIndex: 10000,
+      maximizable: true
+    });
+
+    // this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/${eventId}`);
   }
 } 
 

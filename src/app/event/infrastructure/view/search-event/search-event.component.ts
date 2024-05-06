@@ -32,6 +32,9 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { SliderModule } from 'primeng/slider';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroupModule } from 'primeng/inputgroup';
+import { searchOnlineEvent } from '../../../application/search-event/search-event-precon-searchs';
+import { FileService } from '../../../../shared/infrastructure/service/file-service.service';
+import { CustomFileComponent } from '../../../../shared/infrastructure/view/custom-file/custom-file.component';
 
 @Component({
   selector: 'app-search-event',
@@ -47,39 +50,35 @@ import { InputGroupModule } from 'primeng/inputgroup';
     InputTextareaModule, RadioButtonModule, InputTextModule,
     RatingModule, ChipModule, KnobModule,
     InputSwitchModule, ListboxModule, SelectButtonModule,
-    CheckboxModule, ButtonModule, InputGroupModule, InputGroupAddonModule
+    CheckboxModule, ButtonModule, InputGroupModule, InputGroupAddonModule,
+    CustomFileComponent
   ],
   templateUrl: './search-event.component.html',
   styleUrl: './search-event.component.scss'
 })
 export class SearchEventComponent {
 
-  @Output() searchEventEmiter: EventEmitter<EventModel[]> = new EventEmitter<EventModel[]>();
+  @Output() searchEventEmiter: EventEmitter<Promise<EventModel[] | undefined>> = new EventEmitter<Promise<EventModel[] | undefined>>();
 
   searchForm = this.formBuilder.group({
 
   });
 
-  constructor(private eventService: EventService, private formBuilder: FormBuilder) {
+  constructor(private eventService: EventService, private formBuilder: FormBuilder, private fileService: FileService) {
 
   }
 
   async searchEvent() {
 
-    const options = {
-      pageNumber: 0,
-      pageSize: 10,
-      searchCriteriaList: [
-        {
-          filterKey: "isOnline",
-          operation: SearchOperation.EQUAL,
-          value: true
-        }
-      ]
-    }
+    const onlineEventsOptions = searchOnlineEvent(false);
 
-    const res = await this.eventService.searchEvents(options);
+    const res = this.eventService.searchEvents(onlineEventsOptions);
     this.searchEventEmiter.emit(res);
+
+  }
+
+  uploadImage() {
+
 
   }
 

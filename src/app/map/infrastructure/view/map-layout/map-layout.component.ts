@@ -1,18 +1,23 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CustomMapComponent } from '../custom-map/custom-map.component';
 import { EventModel } from '../../../../event/domain/model/event-model';
 import { LatLng, Marker } from 'leaflet';
 import { EventService } from '../../../../event/infrastructure/service/event.service';
 import L, { icon } from "leaflet";
+import { searchOnlineEvent } from '../../../../event/application/search-event/search-event-precon-searchs';
 
 @Component({
   selector: 'app-map-layout',
   standalone: true,
-  imports: [CustomMapComponent],
+  imports: [CustomMapComponent,],
   templateUrl: './map-layout.component.html',
   styleUrl: './map-layout.component.scss'
 })
 export class MapLayoutComponent implements OnInit {
+
+  @Output() searchEventEmiter: EventEmitter<EventModel> = new EventEmitter<EventModel>();
+  @Output() markerMouseOut: EventEmitter<boolean> = new EventEmitter<boolean>();
+
 
   public latLangMarkers: LatLng[] = [];
   public markers: Marker[] = [];
@@ -32,7 +37,6 @@ export class MapLayoutComponent implements OnInit {
       ))
 
       this.markers = this.mapToMarker()
-      console.log(this.latLangMarkers);
     }
 
   }
@@ -46,5 +50,15 @@ export class MapLayoutComponent implements OnInit {
     });
 
     return this.latLangMarkers.map(ll => new Marker(ll, { icon: cafe }))
+  }
+
+  async handleClickMarker(event: any) {
+
+    this.searchEventEmiter.emit(event);
+  }
+
+  async handleMouseOutMarker(event: any) {
+
+    this.markerMouseOut.emit(event);
   }
 }

@@ -1,0 +1,20 @@
+:host ::ng-deep {
+
+    .custom-card-image-container {
+        min-height: 150px;
+        max-height: 150px;
+    }
+
+    .p-card {
+
+        transition: transform 0.3s ease;
+
+    }
+
+    .p-card:hover {
+
+        transform: scale(1.02);
+
+    }
+
+}
