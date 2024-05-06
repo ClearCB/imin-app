@@ -9,6 +9,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { FormBuilder, FormGroup, FormsModule, NgModel } from '@angular/forms';
 import { LoginResponse } from '../../../../auth/domain/model/login-response';
 import { SHARED_CONSTANTS } from '../../../shared-constants';
+import { ConfigurationService } from '../../../../config/infrastructure/service/configuration.service';
+import { initUserConfiguration } from '../../../../config/domain/model/user-configuration';
 
 @Component({
   selector: 'app-top-bar',
@@ -22,7 +24,7 @@ export class TopBarComponent implements OnInit {
   items!: MenuItem[];
 
   homeRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.HOME}`;
-  profileRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.PROFILE}`;
+  profileRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.USER.CHILDREN.PROFILE}`;
   loginRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`;
 
   formGroup: FormGroup | undefined;
@@ -68,7 +70,8 @@ export class TopBarComponent implements OnInit {
     public layoutService: LayoutService,
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private configurationService: ConfigurationService
   ) {
     // if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     //   this.selected = true;
@@ -76,7 +79,7 @@ export class TopBarComponent implements OnInit {
     // }
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.formGroup = this.formBuilder.group({
       checked: true
     })
@@ -89,6 +92,15 @@ export class TopBarComponent implements OnInit {
       next: (userData) => this.userInfo = userData
     })
 
+
+    // const activeConfiguration = await this.configurationService.getUserConfiguration(userInfo.userData);
+    const activeConfiguration = initUserConfiguration
+
+    activeConfiguration?.preferedTheme === 'dark'
+      ? this.selected = true
+      : this.selected = false
+
+    this.toggleTheme();
   }
 
   singOut() {
