@@ -64,10 +64,10 @@ export class ExternalApiEventService {
 
     let url = `${EVENT_CONSTANTS.API.BASE_URL}${EVENT_CONSTANTS.API.ENDPOINTS.SEARCH_EVENT}`;
 
-    if (searchOptions.pageNumber && searchOptions.pageSize) {
+    if (searchOptions.pageNumber != null && searchOptions.pageSize != null) {
       url = `${url}?pageSize=${searchOptions.pageSize}&pageNum=${searchOptions.pageNumber}`
     }
 
-    return lastValueFrom(this.httpClient.post<ApiResponse>(url, { body: JSON.stringify(searchOptions.searchCriteriaList) }));
+    return lastValueFrom(this.httpClient.post<ApiResponse>(url, JSON.stringify(searchOptions.body)));
   };
 }

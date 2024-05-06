@@ -18,7 +18,11 @@ export class EventMapperService {
       locationName: event.largeDescription,
       latitude: event.latitude,
       longitude: event.longitude,
-      online: event.online
+      startDate: event.startDate,
+      finishDate: event.finishDate,
+      categories: event.categories.map(c => c.id),
+      tags: event.tags.map(t => t.id),
+      isOnline: event.isOnline,
     }
 
   }

@@ -90,7 +90,7 @@ export class EventService {
       const event = await getEvent(this.eventGatewayPort, eventId);
 
       if (!event) {
-        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CREATE_KO);
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
         return;
       }
 
@@ -99,7 +99,7 @@ export class EventService {
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CREATE_KO);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
       return;
     }
   }
@@ -111,7 +111,7 @@ export class EventService {
       const events = await getAllEvent(this.eventGatewayPort);
 
       if (!events) {
-        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CREATE_KO);
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
         return;
       }
 
@@ -120,7 +120,7 @@ export class EventService {
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CREATE_KO);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
       return;
     }
   }
@@ -132,7 +132,7 @@ export class EventService {
       const events = await searchEvent(this.eventGatewayPort, searchOptions);
 
       if (!events) {
-        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CREATE_KO);
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
         return;
       }
 
@@ -141,7 +141,7 @@ export class EventService {
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CREATE_KO);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
       return;
     }
   }
