@@ -1,54 +1,88 @@
-<div class="card">
-    <form [formGroup]="eventForm">
+<div class="grid  p-fluid">
 
-        <div class="grid">
+    <div class="card col-12">
+        <form [formGroup]="eventForm">
 
-            <div class="col-12 flex flex-column row-gap-3">
-                <h3>EVENT</h3>
-                <div class="flex flex-column gap-2">
-                    <label class="form-label">Title</label>
-                    <input formControlName="title" pInputText type="text" class="form-control"
-                        aria-describedby="usernameHelp">
+            <div class="grid">
+
+                <div class="col-12">
+
+                    <h3>EVENT</h3>
+
+                    <div class="col-12">
+                        <div class="grid ">
+                            <div class="col-4">
+                                <label for="username">Title</label>
+                                <input formControlName="title" pInputText type="text" class="form-control"
+                                    aria-describedby="usernameHelp">
+                            </div>
+                            <div class="col-8 p-">
+                                <label class="form-label">Small description</label>
+                                <input formControlName="smallDescription" pInputText type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12">
+                        <label for="float-input">Summary</label>
+                        <textarea id="float-input" rows="5" cols="30" pInputTextarea [autoResize]="true">
+                        </textarea>
+                    </div>
+
+
+                    <div class="col-12">
+                        <div class="flex flex-row justify-content-between">
+                            <p-calendar formControlName="date" />
+                            <p-calendar formControlName="date" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-12">
+
+                        <p-dropdown optionLabel="name" placeholder="Select a City" />
+
+                        <p-multiSelect placeholder="Select Cities" optionLabel="name" display="chip"
+                            [showClear]="true" />
+
+                    </div>
+
+                    <div class="col-12">
+                        <div class="flex flex-column gap-2">
+                            <label class="form-label">Is online</label>
+                            <p-checkbox formControlName="online" [binary]="true" inputId="ny"></p-checkbox>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="flex flex-column gap-2">
-                    <label class="form-label">Small description</label>
-                    <input formControlName="smallDescription" pInputText type="text" class="form-control">
+
+                <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
+                    <button type="submit" pButton pRipple (click)="handleSubmit()"
+                        class="p-button-primary">Submit</button>
                 </div>
-                <div class="flex flex-column gap-2">
-                    <label class="form-label">Large description</label>
-                    <input formControlName="largeDescription" pInputText type="text" class="form-control">
-                </div>
+
             </div>
+        </form>
 
 
-            <div class="col-12 flex flex-column row-gap-3">
-                <h3>LOCATION</h3>
-                <div class="flex flex-column gap-2">
-                    <label class="form-label">Nombre</label>
-                    <input formControlName="locationName" pInputText type="text" class="form-control"
-                        aria-describedby="usernameHelp">
-                </div>
-                <div class="flex flex-column gap-2">
-                    <label class="form-label">Latitutde</label>
-                    <input formControlName="latitude" pInputText type="text" class="form-control"
-                        aria-describedby="usernameHelp">
-                </div>
-                <div class="flex flex-column gap-2">
-                    <label class="form-label">Longitude</label>
-                    <input formControlName="longitude" pInputText type="text" class="form-control"
-                        aria-describedby="usernameHelp">
-                </div>
-                <div class="flex flex-column gap-2">
-                    <label class="form-label">Is online</label>
-                    <p-checkbox formControlName="online" [binary]="true" inputId="ny"></p-checkbox>
-                </div>
+    </div>
 
-            </div>
+    <div class="card col-12">
 
-            <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
-                <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary">Submit</button>
-            </div>
+        <h1>Image</h1>
+        <app-custom-file></app-custom-file>
 
-        </div>
-    </form>
+    </div>
+
+    <div class="card col-12">
+
+        <h1>Location</h1>
+        <label class="form-label">Name</label>
+        <input formControlName="smallDescription" pInputText type="text" class="form-control">
+
+        <app-map-layout></app-map-layout>
+
+    </div>
+
 </div>

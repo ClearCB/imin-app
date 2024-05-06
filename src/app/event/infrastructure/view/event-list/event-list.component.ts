@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EventModel } from '../../../domain/model/event-model';
 import { EventService } from '../../service/event.service';
-import { EventDetailComponent } from '../event-detail/event-detail/event-detail.component';
+import { EventDetailComponent } from '../event-detail/event-detail.component';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
-import { NgStyle } from '@angular/common';
+import { CommonModule, NgClass, NgStyle } from '@angular/common';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
@@ -15,9 +15,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CustomCardEventComponent } from '../custom-card-event/custom-card-event.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { RatingModule } from 'primeng/rating';
-import { SearchOperation } from '../../../../shared/domain/model/search-operation';
 import { SearchEventComponent } from '../search-event/search-event.component';
 import { SkeletonModule } from 'primeng/skeleton';
+import { DataViewLayoutOptions, DataViewModule } from 'primeng/dataview';
+import { TagModule } from 'primeng/tag';
+import { CustomListItemEventComponent } from '../custom-list-item-event/custom-list-item-event.component';
 
 @Component({
   selector: 'app-event-list',
@@ -26,7 +28,12 @@ import { SkeletonModule } from 'primeng/skeleton';
     ReactiveFormsModule, CustomCardEventComponent,
     ButtonModule, ChipModule, FormsModule, RippleModule,
     NgStyle, MenuModule, InputTextModule, CustomMapComponent, DropdownModule,
-    MultiSelectModule, RatingModule, SearchEventComponent, SkeletonModule
+    MultiSelectModule, RatingModule, SearchEventComponent, SkeletonModule, NgClass,
+    DataViewModule,
+    TagModule,
+    RatingModule,
+    ButtonModule,
+    CommonModule, CustomListItemEventComponent
 
   ],
   templateUrl: './event-list.component.html',
@@ -34,6 +41,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 })
 export class EventListComponent implements OnInit {
 
+  @Input()
   events: EventModel[] = [];
 
   public dataSearched: boolean = false;
@@ -46,12 +54,6 @@ export class EventListComponent implements OnInit {
   async ngOnInit(): Promise<void> {
   }
 
-  handleEventSearch(events: EventModel[]) {
-
-    this.events = events;
-    this.dataSearched = true;
-    setTimeout(() => this.dataLoaded = true, 2000);
-  }
 
 
 }
