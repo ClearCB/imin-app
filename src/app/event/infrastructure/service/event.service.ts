@@ -12,6 +12,9 @@ import { SearchEventOptions } from '../../application/search-event/search-event-
 import { searchEvent } from '../../application/search-event/search-event-use-case';
 import { UserData } from '../../../auth/domain/model/user-token-data';
 import { addUserToEvent } from '../../application/add-user-to-event/attend-event-use-case';
+import { getEventAttendance } from '../../application/get-event-attendance/get-event-attendance-use-case';
+import { getUserAttendance } from '../../application/get-user-attendance/get-user-attendance-use-case';
+import { User } from '../../../auth/domain/model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -153,6 +156,65 @@ export class EventService {
     try {
 
       const userAddedToEvent = await addUserToEvent(this.eventGatewayPort, event, userData);
+
+      if (!userAddedToEvent) {
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
+        return;
+      }
+
+      return userAddedToEvent;
+
+    } catch (e: any) {
+
+      console.error(e.message);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      return;
+    }
+  }
+
+  async removeUserFromEvent(event: EventModel, userData: UserData): Promise<boolean | undefined> {
+
+    try {
+
+      const userRemovedFromEvent = await addUserToEvent(this.eventGatewayPort, event, userData);
+      return userRemovedFromEvent;
+
+    } catch (e: any) {
+
+      console.error(e.message);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      return;
+    }
+  }
+
+
+  async getEventAttendance(event: EventModel): Promise<User[] | undefined> {
+
+    try {
+
+      const userAddedToEvent = await getEventAttendance(this.eventGatewayPort, event.id);
+
+      if (!userAddedToEvent) {
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
+        return;
+      }
+
+      return userAddedToEvent;
+
+    } catch (e: any) {
+
+      console.error(e.message);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      return;
+    }
+  }
+
+
+  async getUserAttendance(userData: UserData): Promise<EventModel[] | undefined> {
+
+    try {
+
+      const userAddedToEvent = await getUserAttendance(this.eventGatewayPort, userData.id);
 
       if (!userAddedToEvent) {
         this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);

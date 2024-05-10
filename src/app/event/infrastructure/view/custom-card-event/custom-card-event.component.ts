@@ -37,7 +37,7 @@ export class CustomCardEventComponent implements OnInit {
 
   goToEventDetail(eventId: string) {
     this.ref = this.dialogService.open(EventDetailComponent, {
-      data: event,
+      data: this.event,
       header: 'Select a Product',
       width: '85vw',
       modal: true,

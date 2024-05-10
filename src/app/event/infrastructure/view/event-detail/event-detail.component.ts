@@ -13,9 +13,9 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FileService } from '../../../../shared/infrastructure/service/file-service.service';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { AuthService } from '../../../../auth/infrastructure/service/auth.service';
-import { UserData } from '../../../../auth/domain/model/user-token-data';
-import { t } from '@fullcalendar/core/internal-common';
 import { LoginResponse } from '../../../../auth/domain/model/login-response';
+import { User } from '../../../../auth/domain/model/user';
+import { CompactUserListComponent } from '../compact-user-list/compact-user-list.component';
 
 @Component({
   selector: 'app-event-detail',
@@ -24,6 +24,7 @@ import { LoginResponse } from '../../../../auth/domain/model/login-response';
     ReactiveFormsModule, EventDetailComponent,
     ButtonModule, ChipModule, FormsModule, RippleModule,
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
+    CompactUserListComponent
 
   ],
 
@@ -43,7 +44,10 @@ export class EventDetailComponent {
 
   userInfo?: LoginResponse | null;
 
-  event: EventModel | undefined = undefined;
+  event?: EventModel;
+
+  usersLoaded: boolean = false;
+  usersAttendance: User[] = []; 
 
   // Forms
   eventForm = this.formBuilder.group({
@@ -86,6 +90,15 @@ export class EventDetailComponent {
       this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);
     }
 
+    if (this.event){
+      const usersResponse = await this.eventService.getEventAttendance(this.event);
+
+      if(usersResponse){
+        this.usersAttendance = usersResponse;
+      }
+    }
+
+    this.usersLoaded = true
   }
 
   private async getEvent(eventId: string) {

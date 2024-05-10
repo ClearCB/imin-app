@@ -173,7 +173,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"password\",\r\n    \"confirmationPassword\":\"password\"\r\n}",
+							"raw": "{\r\n    \"username\":\"admin1\",\r\n    \"password\":\"password\",\r\n    \"confirmationPassword\":\"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -349,7 +349,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"MYSUPERSTITLE\",\r\n    \"smallDescription\": \"mysmalldescription\",\r\n    \"largeDescription\": \"largeDescription\",\r\n    \"locationName\": \"Library1234567891\",\r\n    \"latitude\": 40.878,\r\n    \"longitude\": -87.6298,\r\n    \"isOnline\": true,\r\n    \"startDate\":\"2024-05-01T00:00:00\",\r\n    \"finishDate\": \"2024-05-15T00:00:00\",\r\n    \"tags\":[\r\n        ],\r\n    \"categories\":[{\"id\":8}]\r\n}",
+							"raw": "{\r\n    \"title\": \"MYSUPERSTITLE\",\r\n    \"smallDescription\": \"mysmalldescription\",\r\n    \"largeDescription\": \"largeDescription\",\r\n    \"locationName\": \"Library1234567891\",\r\n    \"latitude\": 40.878,\r\n    \"longitude\": -87.6298,\r\n    \"isOnline\": true,\r\n    \"startDate\":\"2024-05-15T00:00:00\",\r\n    \"finishDate\": \"2024-05-15T00:00:00\",\r\n    \"tags\":[\r\n        ],\r\n    \"categories\":[{\"id\":8}]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -420,12 +420,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}get/5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
+							"raw": "{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}get/6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
 							"host": [
 								"{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}get"
 							],
 							"path": [
-								"5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e"
+								"6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e"
 							]
 						}
 					},
@@ -458,7 +458,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// {\r\n//     \"dataOption\":\"all\",\r\n//     \"searchCriteriaList\":[\r\n//        {\r\n//           \"filterKey\":\"latitude\",\r\n//           \"operation\":\"gt\",\r\n//           \"value\": 20\r\n//        },\r\n//        {\r\n//           \"filterKey\":\"latitude\",\r\n//           \"operation\":\"lt\",\r\n//           \"value\": 50\r\n//        },\r\n//        {\r\n//           \"filterKey\":\"longitude\",\r\n//           \"operation\":\"gt\",\r\n//           \"value\": -90\r\n//        },\r\n//        {\r\n//           \"filterKey\":\"longitude\",\r\n//           \"operation\":\"lt\",\r\n//           \"value\": -70\r\n//        },\r\n//        {\r\n//           \"filterKey\":\"isOnline\",\r\n//           \"operation\":\"eq\",\r\n//           \"value\": true\r\n//        }\r\n//     ]\r\n// }\r\n\r\n{\r\n    \"dataOption\":\"all\",\r\n    \"searchCriteriaList\":[\r\n\r\n       {\r\n          \"filterKey\":\"categories\",\r\n          \"operation\":\"cc\",\r\n          \"value\": [\"Category 8\"]\r\n       }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"searchCriteriaList\": [\r\n        {\r\n            \"filterKey\": \"isOnline\",\r\n            \"operation\": \"eq\",\r\n            \"value\": true\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -469,6 +469,152 @@
 							"raw": "{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}search",
 							"host": [
 								"{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddUserToEvent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"userId\": \"2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e\",\r\n\t\"eventId\": \"5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}add-user",
+							"host": [
+								"{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}add-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserAttendance",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}user/event/2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
+							"host": [
+								"{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}user"
+							],
+							"path": [
+								"event",
+								"2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEventAttendance",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"userId\": \"2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e\",\r\n\t\"eventId\": \"5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}event/user/5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
+							"host": [
+								"{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}event"
+							],
+							"path": [
+								"user",
+								"5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveUserFromEvent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"userId\": \"2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e\",\r\n\t\"eventId\": \"5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}remove-user",
+							"host": [
+								"{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}remove-user"
 							]
 						}
 					},
@@ -574,12 +720,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}update/5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
+							"raw": "{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}update/6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
 							"host": [
 								"{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}update"
 							],
 							"path": [
-								"5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e"
+								"6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e"
 							]
 						}
 					},
@@ -693,12 +839,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{API_BUSINESS_URL}}{{API_IMAGE_ENDPOINT}}get/5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
+							"raw": "{{API_BUSINESS_URL}}{{API_IMAGE_ENDPOINT}}get/6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
 							"host": [
 								"{{API_BUSINESS_URL}}{{API_IMAGE_ENDPOINT}}get"
 							],
 							"path": [
-								"5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e"
+								"6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e"
 							]
 						}
 					},
@@ -767,14 +913,19 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "files",
+									"key": "images",
 									"type": "file",
-									"src": "/C:/Users/xuloa/OneDrive/Imágenes/luna.jpg"
+									"src": "/C:/Users/xuloa/OneDrive/Imágenes/glboo.jpg"
 								},
 								{
 									"key": "eventId",
-									"value": "5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
+									"value": "db5156d1-821a-4768-a927-da9099ab7169",
 									"type": "text"
+								},
+								{
+									"key": "mainImage",
+									"type": "file",
+									"src": "/C:/Users/xuloa/OneDrive/Imágenes/glboo.jpg"
 								}
 							]
 						},
@@ -782,6 +933,44 @@
 							"raw": "{{API_BUSINESS_URL}}{{API_IMAGE_ENDPOINT}}upload",
 							"host": [
 								"{{API_BUSINESS_URL}}{{API_IMAGE_ENDPOINT}}upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Email",
+			"item": [
+				{
+					"name": "SendEmail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"to\":\"abelcasasccb@gmail.com\",\r\n    \"cc\":\"ipopdue24@gmail.com\",\r\n    \"subject\":\"subject\",\r\n    \"message\":\"message\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BUSINESS_URL}}{{API_EMAIL_ENDPOINT}}send-email",
+							"host": [
+								"{{API_BUSINESS_URL}}{{API_EMAIL_ENDPOINT}}send-email"
 							]
 						}
 					},
@@ -831,6 +1020,11 @@
 		{
 			"key": "API_IMAGE_ENDPOINT",
 			"value": "image/",
+			"type": "string"
+		},
+		{
+			"key": "API_EMAIL_ENDPOINT",
+			"value": "email/",
 			"type": "string"
 		},
 		{

@@ -45,6 +45,10 @@
 
         </div>
 
+        @if(usersLoaded){
+            <app-compact-user-list [users]="usersAttendance"></app-compact-user-list>
+        }
+
         <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
             <button type="submit" pButton pRipple (click)="handleAttendProcess()"
                 class="p-button-primary">Attend</button>

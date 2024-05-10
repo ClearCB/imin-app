@@ -8,9 +8,9 @@
                     </span>
                 </div>
             </ng-template>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit...
-            </p>
+            @if (dataLoaded) {
+                <app-event-list [events]="events"></app-event-list>
+            }
         </p-tabPanel>
         <p-tabPanel header="Header II">
             <ng-template pTemplate="header">

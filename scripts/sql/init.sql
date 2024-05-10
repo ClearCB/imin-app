@@ -72,6 +72,7 @@ CREATE TABLE "dbo"."event" (
     latitude FLOAT,
     longitude FLOAT,
     large_description TEXT,
+    max_attendance int DEFAULT 10,
     is_online boolean,
     UNIQUE(location_name, start_date)
 );

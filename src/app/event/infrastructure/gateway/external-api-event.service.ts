@@ -72,13 +72,37 @@ export class ExternalApiEventService {
     return lastValueFrom(this.httpClient.post<ApiResponse>(url, JSON.stringify(searchOptions.body)));
   };
 
-  addUserToEvent(event: EventModel, userData: UserData): Promise<ApiResponse | undefined> {
+  addUserToEvent(eventId: string, userId: string): Promise<ApiResponse | undefined> {
 
-    const eventDto = EventMapperService.toGateway(event);
 
     let url = `${EVENT_CONSTANTS.API.BASE_URL}${EVENT_CONSTANTS.API.ENDPOINTS.ADD_USER}`;
-    const body = JSON.stringify({ event: eventDto, userData: userData });
+    const body = JSON.stringify({ eventId: eventId, userId: userId });
 
     return lastValueFrom(this.httpClient.post<ApiResponse>(url, JSON.stringify(body)));
   };
+
+  removeUserFromEvent(eventId: string, userId: string): Promise<ApiResponse | undefined> {
+
+    let url = `${EVENT_CONSTANTS.API.BASE_URL}${EVENT_CONSTANTS.API.ENDPOINTS.REMOVE_USER}`;
+    const body = JSON.stringify({ eventId: eventId, userId: userId });
+
+    return lastValueFrom(this.httpClient.post<ApiResponse>(url, JSON.stringify(body)));
+  };
+
+
+  getEventAttendance(eventId:string): Promise<ApiResponse | undefined> {
+
+    let url = `${EVENT_CONSTANTS.API.BASE_URL}${EVENT_CONSTANTS.API.ENDPOINTS.EVENT_ATTENDANCE}${eventId}`;
+
+    return lastValueFrom(this.httpClient.get<ApiResponse>(url));
+  };
+
+  getUserAttendance(userId: string): Promise<ApiResponse | undefined> {
+
+    let url = `${EVENT_CONSTANTS.API.BASE_URL}${EVENT_CONSTANTS.API.ENDPOINTS.USER_ATTENDANCE}${userId}`;
+
+    return lastValueFrom(this.httpClient.get<ApiResponse>(url));
+
+  };
+
 }

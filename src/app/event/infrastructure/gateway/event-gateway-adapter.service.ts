@@ -11,7 +11,6 @@ import { UserData } from '../../../auth/domain/model/user-token-data';
 })
 export class EventGatewayAdapterService extends EventGatewayPort {
 
-
   constructor(private externalApiEventService: ExternalApiEventService) { super() }
 
   override async createEvent(event: EventModel): Promise<EventModel | undefined> {
@@ -82,7 +81,7 @@ export class EventGatewayAdapterService extends EventGatewayPort {
 
   override async addUserToEvent(event: EventModel, userData: UserData): Promise<boolean | undefined> {
 
-    const res = await this.externalApiEventService.addUserToEvent(event, userData);
+    const res = await this.externalApiEventService.addUserToEvent(event.id, userData.id);
 
     if (!res || !res.data) {
       return false;
@@ -91,4 +90,38 @@ export class EventGatewayAdapterService extends EventGatewayPort {
     return true;
   }
 
+  
+  override async removeUserFromEvent(event: EventModel, userData: UserData): Promise<boolean | undefined> {
+
+    const res = await this.externalApiEventService.removeUserFromEvent(event.id, userData.id);
+
+    if (!res) {
+      return false;
+    }
+
+    return true;
+  }
+  
+  override async getEventAttendance(eventId:string): Promise<any[] | undefined> {
+
+    const res = await this.externalApiEventService.getEventAttendance(eventId);
+
+    if (!res || !res.data) {
+      return [];
+    }
+
+    return res.data;
+  }
+
+  
+  override async getUserAttendance(userId: string): Promise<EventModel[] | undefined> {
+
+    const res = await this.externalApiEventService.getUserAttendance(userId);
+
+    if (!res || !res.data) {
+      return [];
+    }
+
+    return res.data;
+  }
 }

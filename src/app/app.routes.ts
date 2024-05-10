@@ -43,7 +43,8 @@ export const routes: Routes = [
                 children: [
                     { path: `${SHARED_CONSTANTS.ENDPOINTS.USER.CHILDREN.PROFILE}`, component: ProfileComponent },
                     { path: `${SHARED_CONSTANTS.ENDPOINTS.USER.CHILDREN.EVENTS}`, component: EventProfileTabComponent },
-                ]
+                ],
+                canActivate: [authGuard]
             }
         ]
     },
