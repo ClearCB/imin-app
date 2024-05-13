@@ -1,15 +1,11 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import L, { icon, LatLng, marker, Marker, popup } from "leaflet";
-import { async } from "rxjs";
 import { EventModel } from "../../../../event/domain/model/event-model";
-import { e } from "@fullcalendar/core/internal-common";
 import { Router } from "@angular/router";
-import { DynamicDialogRef, DialogService } from "primeng/dynamicdialog";
-import { EventCreateFormComponent } from "../../../../event/infrastructure/view/event-create-form/event-create-form.component";
 import { FileService } from "../../../../shared/infrastructure/service/file-service.service";
-import { EventDetailComponent } from "../../../../event/infrastructure/view/event-detail/event-detail.component";
 import { categoryIcon } from "../../../../shared/domain/model/category";
+import { EventService } from "../../../../event/infrastructure/service/event.service";
 
 @Component({
   selector: 'app-custom-map',
@@ -20,7 +16,6 @@ import { categoryIcon } from "../../../../shared/domain/model/category";
 })
 export class CustomMapComponent implements AfterViewInit, OnChanges {
 
-  ref: DynamicDialogRef | undefined;
   private map: any;
 
   @Input()
@@ -38,7 +33,7 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
 
   markerToCreate: any;
 
-  constructor(private router: Router, private fileService: FileService, private dialogService: DialogService) { }
+  constructor(private router: Router, private fileService: FileService, private eventService: EventService) { }
 
   ngAfterViewInit(): void {
     this.getMapCenter();
@@ -50,6 +45,8 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
       this.removeMarkers();
       this.prepareEventMarkers();
     }
+
+   
   }
 
   private removeMarkers() {
@@ -196,18 +193,7 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
 
   goToEventDetail(event: EventModel) {
 
-    this.ref = this.dialogService.open(EventDetailComponent, {
-      data: event,
-      header: 'Select a Product',
-      width: '85vw',
-      modal: true,
-      breakpoints: {
-        '960px': '75vw',
-        '640px': '90vw'
-      },
-      baseZIndex: 10000,
-      maximizable: true
-    });
+    this.eventService.goToEventDetail(event);
 
   }
 } 

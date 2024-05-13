@@ -105,4 +105,12 @@ export class ExternalApiEventService {
 
   };
 
+  getUsersEvents(userId: string): Promise<ApiResponse | undefined> {
+
+    let url = `${EVENT_CONSTANTS.API.BASE_URL}${EVENT_CONSTANTS.API.ENDPOINTS.USERS_EVENTS}${userId}`;
+
+    return lastValueFrom(this.httpClient.get<ApiResponse>(url));
+
+  };
+
 }

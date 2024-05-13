@@ -535,6 +535,47 @@
 							}
 						},
 						"url": {
+							"raw": "{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}user/event/attendance/2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
+							"host": [
+								"{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}user"
+							],
+							"path": [
+								"event",
+								"attendance",
+								"2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUsersEvent",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
 							"raw": "{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}user/event/2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
 							"host": [
 								"{{API_BUSINESS_URL}}{{API_EVENT_ENDPOINT}}user"
@@ -913,19 +954,14 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "images",
-									"type": "file",
-									"src": "/C:/Users/xuloa/OneDrive/Imágenes/glboo.jpg"
-								},
-								{
 									"key": "eventId",
-									"value": "db5156d1-821a-4768-a927-da9099ab7169",
+									"value": "6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e",
 									"type": "text"
 								},
 								{
 									"key": "mainImage",
 									"type": "file",
-									"src": "/C:/Users/xuloa/OneDrive/Imágenes/glboo.jpg"
+									"src": "/C:/Users/xuloa/Downloads/generic.jpg"
 								}
 							]
 						},

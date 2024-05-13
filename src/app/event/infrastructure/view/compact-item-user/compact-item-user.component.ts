@@ -17,7 +17,7 @@ export class CompactItemUserComponent {
   userData: User | null = null;
 
 
-  ref: DynamicDialogRef | undefined;
+  userRef: DynamicDialogRef | undefined;
   
   constructor(private dialogService: DialogService){
 
@@ -25,7 +25,7 @@ export class CompactItemUserComponent {
 
 
   goToUserDetail() {
-    this.ref = this.dialogService.open(DetailUserComponent, {
+    this.userRef = this.dialogService.open(DetailUserComponent, {
       data: this.userData,
       header: 'Select a Product',
       width: '85vw',

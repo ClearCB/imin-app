@@ -7,44 +7,51 @@
 
                 <div class="col-12">
 
-                    <h3>EVENT</h3>
+                    <div class="col-12 flex flex-row justify-content-around">
+                        <h3>EVENT</h3>
+                        <!-- <a [routerLink]="eventDetailUrl">Ir a evento</a> -->
+                    </div>
+
 
                     <div class="col-12">
                         <div class="grid ">
                             <div class="col-4">
                                 <label for="username">Title</label>
                                 <input formControlName="title" pInputText type="text" class="form-control"
-                                    aria-describedby="usernameHelp">
+                                    aria-describedby="usernameHelp" [disabled]="true">
                             </div>
                             <div class="col-8 p-">
                                 <label class="form-label">Small description</label>
-                                <input formControlName="smallDescription" pInputText type="text" class="form-control">
+                                <input formControlName="smallDescription" pInputText type="text" class="form-control" [disabled]="true">
                             </div>
                         </div>
                     </div>
 
                     <div class="col-12">
                         <label for="float-input">Summary</label>
-                        <textarea id="float-input" rows="5" cols="30" formControlName="largeDescription" pInputTextarea [autoResize]="true">
+                        <textarea id="float-input" rows="5" cols="30" formControlName="largeDescription" pInputTextarea
+                            [autoResize]="true">
                         </textarea>
                     </div>
-                    
-                    
+
+
                     <div class="col-12">
                         <div class="flex flex-row justify-content-around">
-                            <label for="startDate">Start date</label>
-                            <p-calendar name="startDate" formControlName="startDate" />
-                            <label for="finishDate">Finish date</label>
-                            <p-calendar name="finishDate" formControlName="finishDate" />
+                            <label>Start date</label>
+                            <p-calendar formControlName="startDate" />
+                            <label>Finish date</label>
+                            <p-calendar formControlName="finishDate" />
                         </div>
                     </div>
 
 
                     <div class="col-12">
 
-                        <p-dropdown optionLabel="name" placeholder="Select a category" [options]="categories" formControlName="categoryId"/>
-                        <!-- <p-multiSelect formControlName="categoryId" placeholder="Select Cities" optionLabel="name" display="chip"
-                            [showClear]="true" /> -->
+                        <div class="grid">
+                            @for (category of event?.categories; track $index) {
+                            <p-chip class="col-6" [label]="category.name"></p-chip>
+                            }
+                        </div>
 
                     </div>
 
@@ -56,6 +63,22 @@
                     </div>
 
                 </div>
+
+
+                @if(event && events.length == 1){
+
+                <div class="card col-12">
+
+                    <h1>Location</h1>
+                    <label class="form-label">Name</label>
+                    <input pInputText formControlName="locationName" type="text" class="form-control mb-6" />
+
+                    <div class=" side-map-container">
+                        <app-custom-map [events]="events" [style]="{height:'50vh'}"></app-custom-map>
+                    </div>
+
+                </div>
+                }
 
             </div>
         </form>

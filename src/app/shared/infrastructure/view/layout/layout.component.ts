@@ -26,7 +26,7 @@ import { AuthService } from '../../../../auth/infrastructure/service/auth.servic
 export class LayoutComponent implements OnInit, OnDestroy {
   overlayMenuOpenSubscription: Subscription;
 
-  ref: DynamicDialogRef | undefined;
+  eventCreateForm: DynamicDialogRef | undefined;
 
   userLoggedIn: boolean = false;
 
@@ -89,7 +89,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         },
         icon: 'pi pi-map-marker',
         command: () => {
-          this.ref = this.dialogService.open(EventCreateFormComponent, {
+          this.eventCreateForm = this.dialogService.open(EventCreateFormComponent, {
             header: 'Select a Product',
             width: '85vw',
             modal: true,

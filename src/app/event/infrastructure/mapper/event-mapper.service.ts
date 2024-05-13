@@ -39,4 +39,8 @@ export class EventMapperService {
       }
 
   }
+
+  public static toDomain(event: EventModel):EventModel{
+    return {...event, startDate: new Date(event.startDate), finishDate: new Date(event.finishDate)}
+  }
 }

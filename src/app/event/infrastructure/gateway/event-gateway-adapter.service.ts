@@ -124,4 +124,14 @@ export class EventGatewayAdapterService extends EventGatewayPort {
 
     return res.data;
   }
+  override async getUsersEvents(userId: string): Promise<EventModel[] | undefined> {
+
+    const res = await this.externalApiEventService.getUsersEvents(userId);
+
+    if (!res || !res.data) {
+      return [];
+    }
+
+    return res.data;
+  }
 }

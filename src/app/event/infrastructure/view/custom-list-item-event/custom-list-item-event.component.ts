@@ -5,8 +5,7 @@ import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
 import { EventModel } from '../../../domain/model/event-model';
 import { RatingModule } from 'primeng/rating';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EventCreateFormComponent } from '../event-create-form/event-create-form.component';
-import { EventDetailComponent } from '../event-detail/event-detail.component';
+import { EventService } from '../../service/event.service';
 
 @Component({
   selector: 'app-custom-list-item-event',
@@ -24,7 +23,7 @@ export class CustomListItemEventComponent implements OnInit {
   @Input()
   event: EventModel | null = null;
 
-  constructor(private router: Router, private fileService: FileService, private dialogService: DialogService) { }
+  constructor(private router: Router, private fileService: FileService, private eventService: EventService) { }
   async ngOnInit() {
     
     if (this.event) {
@@ -38,18 +37,7 @@ export class CustomListItemEventComponent implements OnInit {
 
   goToEventDetail(event: EventModel) {
 
-    this.ref = this.dialogService.open(EventDetailComponent, {
-      data: event,
-      header: 'Select a Product',
-      width: '85vw',
-      modal: true,
-      breakpoints: {
-        '960px': '75vw',
-        '640px': '90vw'
-      },
-      baseZIndex: 10000,
-      maximizable: true
-    });
+    this.eventService.goToEventDetail(event);
 
     // this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/${eventId}`);
   }

@@ -31,6 +31,7 @@ export const routes: Routes = [
                     { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.CREATE, component: EventCreateFormComponent, canActivate: [authGuard] },
                     { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.MAP, component: EventMapLayoutComponent, },
                     { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.LIST, component: EventListLayoutComponent },
+                    { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.UPDATE}/:eventId`, component: EventCreateFormComponent },
                     { path: `:eventId`, component: EventDetailComponent },
                 ]
             },

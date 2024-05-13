@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Validators, FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventModel } from '../../../domain/model/event-model';
 import { EventService } from '../../service/event.service';
@@ -21,6 +21,7 @@ import { Category } from '../../../../shared/domain/model/category';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-event-detail',
@@ -29,7 +30,9 @@ import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
     ReactiveFormsModule, EventDetailComponent,
     ButtonModule, ChipModule, FormsModule, RippleModule,
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
-    CompactUserListComponent, CustomMapComponent, DropdownModule, InputTextareaModule
+    CompactUserListComponent, CustomMapComponent, 
+    DropdownModule, InputTextareaModule, CalendarModule, CheckboxModule,
+    ChipModule
   ],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss'
@@ -44,6 +47,7 @@ export class EventDetailComponent {
 
   imageSrc: string | undefined = "";
 
+  events: EventModel[] = [];
 
   userInfo?: LoginResponse | null;
 
@@ -64,8 +68,8 @@ export class EventDetailComponent {
     locationName: ["", [Validators.required]],
     latitude: [0, [Validators.required]],
     longitude: [0, [Validators.required]],
-    startDate: [new Date(), [Validators.required]],
-    finishDate: [new Date(), [Validators.required]],
+    startDate: new FormControl<Date | null>(null),
+    finishDate:  new FormControl<Date | null>(null),
     categoryId: [{ id: 0, name: "", icon: "" }, [Validators.required]],
     // tagsId: [0, [Validators.required]],
     isOnline: [true, [Validators.required]],
@@ -77,7 +81,6 @@ export class EventDetailComponent {
   constructor(
     private formBuilder: FormBuilder,
     private fileService: FileService,
-    private dialogConfig: DynamicDialogConfig,
     private eventService: EventService,
     private authService: AuthService,
     private route: ActivatedRoute) { }
@@ -88,10 +91,11 @@ export class EventDetailComponent {
     const eventParamId = this.route.snapshot.paramMap.get('eventId');
 
     if (eventParamId) {
-      await this.getEvent(this.eventId);
-    } else if (this.dialogConfig.data){
-      this.event = this.dialogConfig.data;
-    }
+      await this.getEvent(eventParamId);
+    } 
+    // else if (this.dialogConfig.data){
+    //   this.event = this.dialogConfig.data;
+    // }
 
     this.authService.currentUserLogged.subscribe({
       next: (userData) => this.userInfo = userData
@@ -107,6 +111,8 @@ export class EventDetailComponent {
       if (usersResponse) {
         this.usersAttendance = usersResponse;
       }
+
+      this.events.push(this.event);
     }
 
     this.usersLoaded = true
@@ -123,23 +129,36 @@ export class EventDetailComponent {
     }
 
     const initValue = {
-      id: this.event.id,
+      // id: this.event.id,
       title: this.event.title,
       smallDescription: this.event.smallDescription,
       largeDescription: this.event.largeDescription,
       locationName: this.event.locationName,
-      isOnline: this.event.isOnline,
+      isOnline: this.event.isOnline ? this.event.isOnline : false,
       latitude: this.event.latitude,
       longitude: this.event.longitude,
-      startDate: this.event.startDate,
-      finishDate: this.event.finishDate,
-      categoryId: category
+      startDate: new Date(this.event.startDate),
+      finishDate: new Date(this.event.finishDate),
+      categoryId: category,
     }
 
-    this.eventForm.setValue(initValue);
-
+    this.eventForm.setValue(initValue)
+    // this.initFormValues(this.event);
   }
-
+  
+  private initFormValues(event: EventModel){
+    
+    if (this.event){
+      this.eventForm.controls.title.setValue(this.event?.title);
+      this.eventForm.controls.smallDescription.setValue(this.event?.smallDescription);
+      this.eventForm.controls.largeDescription.setValue(this.event?.largeDescription);
+      this.eventForm.controls.latitude.setValue(this.event?.latitude);
+      this.eventForm.controls.locationName.setValue(this.event?.locationName);
+      this.eventForm.controls.startDate.setValue(this.event?.startDate);
+      this.eventForm.controls.finishDate.setValue(this.event?.finishDate);
+      this.eventForm.controls.isOnline.setValue(this.event?.isOnline);
+    }
+  }
   async handleSubmit() {
 
     if (this.eventForm.valid) {

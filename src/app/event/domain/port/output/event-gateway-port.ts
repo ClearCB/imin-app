@@ -14,4 +14,5 @@ export abstract class EventGatewayPort {
     abstract removeUserFromEvent(event: EventModel, userData: UserData): Promise<boolean | undefined>;
     abstract getEventAttendance(eventId: string): Promise<any[] | undefined>;
     abstract getUserAttendance(userId: string): Promise<EventModel[] | undefined>;
+    abstract getUsersEvents(userId: string): Promise<EventModel[] | undefined>;
 }

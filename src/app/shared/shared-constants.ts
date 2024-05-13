@@ -27,6 +27,7 @@ export const SHARED_CONSTANTS = {
                 LIST: "list",
                 MAP: "map",
                 DETAIL: "detail",
+                UPDATE: "update",
             }
         },
         USER: {
