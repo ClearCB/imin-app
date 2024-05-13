@@ -1,61 +1,101 @@
-<form [formGroup]="eventForm">
+<div class="grid  p-fluid">
 
-    <div class="grid">
-        <img [src]="imageSrc" alt="Event Image">
+    <div class="card col-12">
+        <form [formGroup]="eventForm">
 
-        <div class="col-12 flex flex-column row-gap-3">
-            <h3>EVENT</h3>
-            <div class="flex flex-column gap-2">
-                <label class="form-label">Title</label>
-                <input formControlName="title" pInputText type="text" class="form-control"
-                    aria-describedby="usernameHelp">
-            </div>
-            <div class="flex flex-column gap-2">
-                <label class="form-label">Small description</label>
-                <input formControlName="smallDescription" pInputText type="text" class="form-control">
-            </div>
-            <div class="flex flex-column gap-2">
-                <label class="form-label">Large description</label>
-                <input formControlName="largeDescription" pInputText type="text" class="form-control">
-            </div>
-        </div>
+            <div class="grid">
+
+                <div class="col-12">
+
+                    <div class="col-12 flex flex-row justify-content-around">
+                        <h3>EVENT</h3>
+                        <a [routerLink]="eventDetailUrl">Ir a evento</a>
+                    </div>
 
 
-        <div class="col-12 flex flex-column row-gap-3">
-            <h3>LOCATION</h3>
-            <div class="flex flex-column gap-2">
-                <label class="form-label">Nombre</label>
-                <input formControlName="locationName" pInputText type="text" class="form-control"
-                    aria-describedby="usernameHelp">
-            </div>
-            <div class="flex flex-column gap-2">
-                <label class="form-label">Latitutde</label>
-                <input formControlName="latitude" pInputText type="text" class="form-control"
-                    aria-describedby="usernameHelp">
-            </div>
-            <div class="flex flex-column gap-2">
-                <label class="form-label">Longitude</label>
-                <input formControlName="longitude" pInputText type="text" class="form-control"
-                    aria-describedby="usernameHelp">
-            </div>
-            <div class="flex flex-column gap-2">
-                <label class="form-label">Is online</label>
-                <p-checkbox formControlName="online" [binary]="true" inputId="ny"></p-checkbox>
-            </div>
+                    <div class="col-12">
+                        <div class="grid ">
+                            <div class="col-4">
+                                <label for="username">Title</label>
+                                <input formControlName="title" pInputText type="text" class="form-control"
+                                    aria-describedby="usernameHelp">
+                            </div>
+                            <div class="col-8 p-">
+                                <label class="form-label">Small description</label>
+                                <input formControlName="smallDescription" pInputText type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
 
-        </div>
+                    <div class="col-12">
+                        <label for="float-input">Summary</label>
+                        <textarea id="float-input" rows="5" cols="30" formControlName="largeDescription" pInputTextarea
+                            [autoResize]="true">
+                        </textarea>
+                    </div>
 
-        @if(usersLoaded){
-            <app-compact-user-list [users]="usersAttendance"></app-compact-user-list>
-        }
 
-        <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
-            <button type="submit" pButton pRipple (click)="handleAttendProcess()"
-                class="p-button-primary">Attend</button>
-            <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary">Submit</button>
-            <button type="submit" pButton pRipple (click)="deleteEvent()" class="p-button-danger">Delete</button>
-        </div>
+                    <div class="col-12">
+                        <div class="flex flex-row justify-content-around">
+                            <label for="startDate">Start date</label>
+                            <p-calendar name="startDate" formControlName="startDate" />
+                            <label for="finishDate">Finish date</label>
+                            <p-calendar name="finishDate" formControlName="finishDate" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-12">
+
+                        <p-dropdown optionLabel="name" placeholder="Select a category" [options]="categories"
+                            formControlName="categoryId" />
+
+                    </div>
+
+                    <div class="col-12">
+                        <div class="flex flex-column gap-2">
+                            <label class="form-label">Is online</label>
+                            <p-checkbox formControlName="isOnline" [binary]="true" inputId="ny"></p-checkbox>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="card col-12">
+
+                    <h1>Location</h1>
+                    <label class="form-label">Name</label>
+                    <input pInputText formControlName="locationName" type="text" class="form-control mb-6" />
+
+                    <div class=" side-map-container">
+                        <app-custom-map (mapClickedEmiiter)="handleMapClicked($event)"
+                            [style]="{height:'50vh'}"></app-custom-map>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+
 
     </div>
 
-</form>
+
+    <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
+        <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary">Submit</button>
+    </div>
+
+    @if(usersLoaded){
+    <div class="col-12 row-gap-3 p-5">
+        <app-compact-user-list [users]="usersAttendance"></app-compact-user-list>
+    </div>
+    }
+
+    <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
+        <button type="submit" pButton pRipple (click)="handleAttendProcess()" class="p-button-primary">Attend</button>
+        <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary">Submit</button>
+        <button type="submit" pButton pRipple (click)="deleteEvent()" class="p-button-danger">Delete</button>
+    </div>
+
+</div>

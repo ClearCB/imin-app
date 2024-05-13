@@ -16,6 +16,11 @@ import { AuthService } from '../../../../auth/infrastructure/service/auth.servic
 import { LoginResponse } from '../../../../auth/domain/model/login-response';
 import { User } from '../../../../auth/domain/model/user';
 import { CompactUserListComponent } from '../compact-user-list/compact-user-list.component';
+import { CustomMapComponent } from '../../../../map/infrastructure/view/custom-map/custom-map.component';
+import { Category } from '../../../../shared/domain/model/category';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
 
 @Component({
   selector: 'app-event-detail',
@@ -24,10 +29,8 @@ import { CompactUserListComponent } from '../compact-user-list/compact-user-list
     ReactiveFormsModule, EventDetailComponent,
     ButtonModule, ChipModule, FormsModule, RippleModule,
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
-    CompactUserListComponent
-
+    CompactUserListComponent, CustomMapComponent, DropdownModule, InputTextareaModule
   ],
-
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss'
 })
@@ -47,20 +50,29 @@ export class EventDetailComponent {
   event?: EventModel;
 
   usersLoaded: boolean = false;
-  usersAttendance: User[] = []; 
+  usersAttendance: User[] = [];
+
+  eventDetailUrl: string = `/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/${this.event?.id}`;
+
 
   // Forms
   eventForm = this.formBuilder.group({
 
-    id: ["", [Validators.required]],
-    title: ["my title", [Validators.required]],
-    smallDescription: ["small description", Validators.required],
-    largeDescription: ["large description", Validators.required],
-    locationName: ["nombre location", [Validators.required]],
-    latitude: [-65.732, [Validators.required]],
-    longitude: [65.732, [Validators.required]],
+    title: ["", [Validators.required]],
+    smallDescription: ["", Validators.required],
+    largeDescription: ["", Validators.required],
+    locationName: ["", [Validators.required]],
+    latitude: [0, [Validators.required]],
+    longitude: [0, [Validators.required]],
+    startDate: [new Date(), [Validators.required]],
+    finishDate: [new Date(), [Validators.required]],
+    categoryId: [{ id: 0, name: "", icon: "" }, [Validators.required]],
+    // tagsId: [0, [Validators.required]],
+    isOnline: [true, [Validators.required]],
 
   });
+
+  categories: Category[] | undefined = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -73,27 +85,26 @@ export class EventDetailComponent {
 
   async ngOnInit(): Promise<void> {
 
-    // const eventId = this.route.snapshot.paramMap.get('eventId');
-    if (this.dialogConfig.data) {
+    const eventParamId = this.route.snapshot.paramMap.get('eventId');
+
+    if (eventParamId) {
+      await this.getEvent(this.eventId);
+    } else if (this.dialogConfig.data){
       this.event = this.dialogConfig.data;
-    };
+    }
 
     this.authService.currentUserLogged.subscribe({
       next: (userData) => this.userInfo = userData
     })
 
-    // if (eventId) {
-    //   await this.getEvent(eventId);
-    // }
-
     if (this.event?.id) {
       this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);
     }
 
-    if (this.event){
+    if (this.event) {
       const usersResponse = await this.eventService.getEventAttendance(this.event);
 
-      if(usersResponse){
+      if (usersResponse) {
         this.usersAttendance = usersResponse;
       }
     }
@@ -105,14 +116,24 @@ export class EventDetailComponent {
 
     this.event = await this.eventService.getEvent(eventId) as EventModel;
 
+
+    let category: Category | null = null;
+    if (this.event.categories && this.event.categories.length > 0) {
+      category = this.event.categories[0];
+    }
+
     const initValue = {
       id: this.event.id,
       title: this.event.title,
       smallDescription: this.event.smallDescription,
       largeDescription: this.event.largeDescription,
       locationName: this.event.locationName,
+      isOnline: this.event.isOnline,
       latitude: this.event.latitude,
       longitude: this.event.longitude,
+      startDate: this.event.startDate,
+      finishDate: this.event.finishDate,
+      categoryId: category
     }
 
     this.eventForm.setValue(initValue);
@@ -121,21 +142,23 @@ export class EventDetailComponent {
 
   async handleSubmit() {
 
-    if (this.eventForm?.valid) {
-
+    if (this.eventForm.valid) {
 
       const event = this.eventForm.value as EventModel;
+
+      event.categories = this.eventForm.controls.categoryId.value
+        ? [this.eventForm.controls.categoryId.value]
+        : [];
 
       const eventCreated = await this.eventService.updateEvent(this.eventId, event);
 
       if (eventCreated) {
         this.eventForm.reset();
-        this.getEvent(eventCreated.id);
       }
 
     } else {
 
-      this.eventForm?.markAllAsTouched();
+      this.eventForm.markAllAsTouched();
     }
 
   }
@@ -145,16 +168,6 @@ export class EventDetailComponent {
     if (this.event && this.userInfo?.userData) {
       this.eventService.addUserToEvent(this.event, this.userInfo.userData);
     }
-
-  }
-
-  async updateEvent(event: EventModel) {
-    if (event.id && event) {
-
-      await this.eventService.updateEvent(event.id, event);
-      await this.getEvent(event.id);
-    }
-
 
   }
 
@@ -168,6 +181,8 @@ export class EventDetailComponent {
 
   }
 
-
-
+  handleMapClicked(latLang: { lat: number, lang: number }) {
+    this.eventForm.controls.longitude.setValue(latLang.lang);
+    this.eventForm.controls.latitude.setValue(latLang.lat);
+  }
 }

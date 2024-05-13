@@ -32,7 +32,11 @@ export class CustomCardEventComponent implements OnInit {
 
     if (this.event) {
       this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);
-    }
+      
+      if(!this.imageSrc){
+        this.imageSrc = "assets/images/generic.jpg"
+      }
+    } 
   }
 
   goToEventDetail(eventId: string) {

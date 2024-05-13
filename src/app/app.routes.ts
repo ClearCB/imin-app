@@ -9,7 +9,6 @@ import { NotFoundErrorComponent } from './shared/infrastructure/view/error/not-f
 import { ForbiddenErrorComponent } from './shared/infrastructure/view/error/forbidden-error/forbidden-error.component';
 import { EventCreateFormComponent } from './event/infrastructure/view/event-create-form/event-create-form.component';
 import { EventDetailComponent } from './event/infrastructure/view/event-detail/event-detail.component';
-import { MapLayoutComponent } from './map/infrastructure/view/map-layout/map-layout.component';
 import { ProfileComponent } from './account/infrastructure/view/profile/profile.component';
 import { RegisterComponent } from './auth/infrastructure/view/register/register.component';
 import { SHARED_CONSTANTS } from './shared/shared-constants';
@@ -32,10 +31,7 @@ export const routes: Routes = [
                     { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.CREATE, component: EventCreateFormComponent, canActivate: [authGuard] },
                     { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.MAP, component: EventMapLayoutComponent, },
                     { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.LIST, component: EventListLayoutComponent },
-                    { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/:eventId`, component: EventDetailComponent },
-                    { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN}/:eventId`, component: EventDetailComponent },
-                    { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/:eventId`, component: EventDetailComponent },
-                    { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/:eventId`, component: EventDetailComponent },
+                    { path: `:eventId`, component: EventDetailComponent },
                 ]
             },
             {

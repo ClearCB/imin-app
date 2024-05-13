@@ -1,16 +1,17 @@
-import { AfterContentChecked, AfterViewInit, Component, OnInit } from '@angular/core';
-import { MapLayoutComponent } from '../../../../map/infrastructure/view/map-layout/map-layout.component';
+import { AfterContentChecked, AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { EventModel } from '../../../domain/model/event-model';
 import { EventService } from '../../service/event.service';
 import { SearchEventComponent } from '../search-event/search-event.component';
 import { EventListComponent } from '../event-list/event-list.component';
 import { CustomCardEventComponent } from '../custom-card-event/custom-card-event.component';
 import { NotificationService } from '../../../../shared/infrastructure/service/notification.service';
+import { CustomMapComponent } from '../../../../map/infrastructure/view/custom-map/custom-map.component';
+import L, { LatLng, Marker } from 'leaflet';
 
 @Component({
   selector: 'app-event-map-layout',
   standalone: true,
-  imports: [MapLayoutComponent, SearchEventComponent, EventListComponent, CustomCardEventComponent],
+  imports: [SearchEventComponent, EventListComponent, CustomCardEventComponent, CustomMapComponent],
   templateUrl: './event-map-layout.component.html',
   styleUrl: './event-map-layout.component.scss'
 })
@@ -19,17 +20,16 @@ export class EventMapLayoutComponent implements OnInit {
   events: EventModel[] = [];
   isDataLoaded: boolean = false;
 
+  public latLangMarkers: LatLng[] = [];
+  public markers: Marker[] = [];
+
+
   eventSelected: EventModel | null = null;
 
   constructor(
     private eventService: EventService,
     private notificationService: NotificationService
   ) { }
-
-  async ngOnInit(): Promise<void> {
-    await this.getEvents();
-    // this.eventSelected = this.events[0];
-  }
 
   private async getEvents() {
     const res = await this.eventService.getAllEvent();
@@ -39,7 +39,6 @@ export class EventMapLayoutComponent implements OnInit {
       this.isDataLoaded = true;
     }
   }
-
 
   handleEventSearch(eventSearch: Promise<EventModel[] | undefined>) {
 
@@ -59,13 +58,24 @@ export class EventMapLayoutComponent implements OnInit {
 
   }
 
+  async ngOnInit(): Promise<void> {
 
-  handleSelectMapMarker(eventSearch: any) {
-    console.log(eventSearch);
-    this.eventSelected = eventSearch;
+    await this.getEvents();
+
+    if (this.events.length > 0) {
+      this.latLangMarkers = this.events.map(event => new LatLng(
+        event.latitude, event.longitude
+      ))
+
+    }
+
   }
 
-  handleMouseOutMarker(mouseOut: any) {
+  handleMouseOutMarker() {
     this.eventSelected = null;
+  }
+
+  handleMouseOnMarker(event: any) {
+    this.eventSelected = event;
   }
 }

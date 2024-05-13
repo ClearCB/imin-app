@@ -1,34 +1,34 @@
-<div class="grid p-fluid">
+<div class="grid">
     <div class="col-12">
         <div class="card">
-            <div class="p-fluid p-formgrid grid">
-                <div class="field col-6">
-                    <label for="username">Title</label>
-                    <input formControlName="title" pInputText type="text" class="form-control"
-                        aria-describedby="usernameHelp">
-                </div>
-                <div class="field col-6">
-                    <label for="username">Category</label>
-                    <p-dropdown optionLabel="name" placeholder="Select a City" />
-                </div>
-                <div class="field col-6">
-                    <label for="username">Start date</label>
-                    <p-calendar formControlName="date" />
-                </div>
-                <div class="field col-6">
-                    <label for="username">Distance</label>
-                    <input type="text" pInputText class="w-full mb-3" />
-                    <p-slider class="w-full" />
-                </div>
-                <div class="field col-12">
-                    <label for="username">Tags</label>
-                    <p-multiSelect placeholder="Select Cities" optionLabel="name" display="chip" [showClear]="true" />
-                </div>
-            </div>
             <form [formGroup]="searchForm">
-                <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
-                    <button type="submit" pButton pRipple (click)="searchEvent()"
-                        class="p-button-primary">Submit</button>
+                <div class="grid">
+                    <div class="col-12 flex flex-column gap-2">
+                        <label for="contentSearchForm">Content</label>
+                        <input formControlName="content" pInputText type="text" class="form-control"
+                            aria-describedby="contentSearchForm">
+                    </div>
+                    <div class="col-12 flex flex-column gap-2">
+                        <label for="startDateSearchForm">Minimum start date </label>
+                        <p-calendar  formControlName="startDate" />
+                    </div>
+                    <!-- <div class="col-6 flex flex-column gap-2">
+                        <label for="username">Category</label>
+                        <p-dropdown optionLabel="name" placeholder="Select a City" />
+                    </div> -->
+                    <div class=" col-12 flex flex-column gap-2">
+                        <label for="username">Distance (KM) : {{dis.value}}</label>
+                        <p-slider step="25" formControlName="distance"/>
+                    </div>
+                    <!-- <div class="col-12 flex flex-column gap-2">
+                        <label for="username">Tags</label>
+                        <p-multiSelect placeholder="Select Cities" optionLabel="name" display="chip"
+                            [showClear]="true" />
+                    </div> -->
+                    <div class="col-12 flex flex-column justify-content-center p-3">
+                        <button type="submit" pButton pRipple (click)="searchEvent()"
+                            class="p-button-primary text-center flex justify-content-center">Submit</button>
+                    </div>
                 </div>
             </form>
         </div>

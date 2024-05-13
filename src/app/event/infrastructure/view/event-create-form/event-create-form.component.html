@@ -23,43 +23,38 @@
                         </div>
                     </div>
 
-
                     <div class="col-12">
                         <label for="float-input">Summary</label>
-                        <textarea id="float-input" rows="5" cols="30" pInputTextarea [autoResize]="true">
+                        <textarea id="float-input" rows="5" cols="30" formControlName="largeDescription" pInputTextarea [autoResize]="true">
                         </textarea>
                     </div>
-
-
+                    
+                    
                     <div class="col-12">
-                        <div class="flex flex-row justify-content-between">
-                            <p-calendar formControlName="date" />
-                            <p-calendar formControlName="date" />
+                        <div class="flex flex-row justify-content-around">
+                            <label for="startDate">Start date</label>
+                            <p-calendar name="startDate" formControlName="startDate" />
+                            <label for="finishDate">Finish date</label>
+                            <p-calendar name="finishDate" formControlName="finishDate" />
                         </div>
                     </div>
 
 
                     <div class="col-12">
 
-                        <p-dropdown optionLabel="name" placeholder="Select a City" />
-
-                        <p-multiSelect placeholder="Select Cities" optionLabel="name" display="chip"
-                            [showClear]="true" />
+                        <p-dropdown optionLabel="name" placeholder="Select a category" [options]="categories" formControlName="categoryId"/>
+                        <!-- <p-multiSelect formControlName="categoryId" placeholder="Select Cities" optionLabel="name" display="chip"
+                            [showClear]="true" /> -->
 
                     </div>
 
                     <div class="col-12">
                         <div class="flex flex-column gap-2">
                             <label class="form-label">Is online</label>
-                            <p-checkbox formControlName="online" [binary]="true" inputId="ny"></p-checkbox>
+                            <p-checkbox formControlName="isOnline" [binary]="true" inputId="ny"></p-checkbox>
                         </div>
                     </div>
 
-                </div>
-
-                <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
-                    <button type="submit" pButton pRipple (click)="handleSubmit()"
-                        class="p-button-primary">Submit</button>
                 </div>
 
             </div>
@@ -70,19 +65,19 @@
 
     <div class="card col-12">
 
-        <h1>Image</h1>
-        <app-custom-file></app-custom-file>
-
-    </div>
-
-    <div class="card col-12">
-
         <h1>Location</h1>
         <label class="form-label">Name</label>
-        <input formControlName="smallDescription" pInputText type="text" class="form-control">
+        <input pInputText formControlName="locationName" type="text" class="form-control mb-6" />
 
-        <app-map-layout></app-map-layout>
+        <div class=" side-map-container">
+            <app-custom-map (mapClickedEmiiter)="handleMapClicked($event)" [style]="{height:'50vh'}"></app-custom-map>
+        </div>
 
     </div>
 
+    <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
+        <button type="submit" pButton pRipple (click)="handleSubmit()"
+            class="p-button-primary">Submit</button>
+    </div>
+    
 </div>

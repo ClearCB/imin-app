@@ -10,7 +10,6 @@ import { MenuModule } from 'primeng/menu';
 import { RippleModule } from 'primeng/ripple';
 import { EventDetailComponent } from '../event-detail/event-detail.component';
 import { CheckboxModule } from 'primeng/checkbox';
-import { MapLayoutComponent } from '../../../../map/infrastructure/view/map-layout/map-layout.component';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CustomFileComponent } from '../../../../shared/infrastructure/view/custom-file/custom-file.component';
@@ -19,6 +18,9 @@ import { CalendarModule } from 'primeng/calendar';
 import { StepperModule, StepperPanel } from 'primeng/stepper';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { CustomMapComponent } from '../../../../map/infrastructure/view/custom-map/custom-map.component';
+import { Category } from '../../../../shared/domain/model/category';
+import { CommonService } from '../../../../shared/infrastructure/service/common.service';
 
 @Component({
   selector: 'app-event-create-form',
@@ -27,8 +29,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
     ReactiveFormsModule, EventDetailComponent,
     ButtonModule, ChipModule, FormsModule, RippleModule,
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
-    MapLayoutComponent, FloatLabelModule, InputTextareaModule, MultiSelectModule,
-    CustomFileComponent, CalendarModule, StepperModule, DropdownModule
+    FloatLabelModule, InputTextareaModule, MultiSelectModule,
+    CustomFileComponent, CalendarModule, StepperModule, DropdownModule, CustomMapComponent
   ],
   templateUrl: './event-create-form.component.html',
   styleUrl: './event-create-form.component.scss'
@@ -58,22 +60,38 @@ export class EventCreateFormComponent implements OnInit {
     locationName: ["", [Validators.required]],
     latitude: [0, [Validators.required]],
     longitude: [0, [Validators.required]],
-    online: [true, [Validators.required]],
+    startDate: [new Date(), [Validators.required]],
+    finishDate: [new Date(), [Validators.required]],
+    categoryId: [null, [Validators.required]],
+    // tagsId: [0, [Validators.required]],
+    isOnline: [true, [Validators.required]],
 
   });
+
+  categories: Category[] | undefined = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private eventService: EventService,
+    private commonService: CommonService
   ) { }
-  ngOnInit(): void {
+
+  async ngOnInit() {
+
+    this.categories = await this.commonService.getAllCategories();
   }
 
   async handleSubmit() {
 
+    console.log(this.eventForm.value);
+
     if (this.eventForm.valid) {
 
       const event = this.eventForm.value as EventModel;
+
+      event.categories = this.eventForm.controls.categoryId.value 
+      ? [this.eventForm.controls.categoryId.value['id']]
+      : [];
 
       const eventCreated = await this.eventService.createEvent(event);
 
@@ -88,4 +106,9 @@ export class EventCreateFormComponent implements OnInit {
 
   }
 
+
+  handleMapClicked(latLang: { lat: number, lang: number }) {
+    this.eventForm.controls.longitude.setValue(latLang.lang);
+    this.eventForm.controls.latitude.setValue(latLang.lat);
+  }
 }

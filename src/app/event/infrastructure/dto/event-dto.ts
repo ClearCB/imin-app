@@ -9,8 +9,8 @@ export interface EventDTO {
     locationName: string;
     latitude: number;
     longitude: number;
-    startDate: boolean;
-    finishDate: boolean;
+    startDate: Date;
+    finishDate: Date;
     categories: number[];
     tags: number[];
     isOnline: boolean;

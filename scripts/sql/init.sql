@@ -177,11 +177,17 @@ INSERT INTO "dbo".community (id, name) VALUES
   ('3ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Tech Enthusiasts'),
   ('4ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Book Club');
 
+-- Inserting events
 INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event 1', 'Description of Event 1', 'Location 1', '2024-05-01', '2024-05-03', 40.7128, -74.0060, 'Large description of Event 1', FALSE);
+VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event TITLE 1', 'Description of Event 1', 'Mallorca 1', '2024-05-01', '2024-05-03', 39.000, 2.7666, 'Large description of Event 1', FALSE);
 INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event 2', 'Description of Event 2', 'Location 2', '2024-05-05', '2024-05-07', 34.0522, -118.2437, 'Large description of Event 2', TRUE);
-
+VALUES ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event TITLE 2', 'Description of Event 2', 'Mallorca 2', '2024-05-05', '2024-05-07', 39.1000, 2.9666, 'Large description of Event 2', TRUE);
+INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
+VALUES ('7ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event TITLE 3', 'Description of Event 3', 'Madrid', '2024-06-10', '2024-06-12', 40.4168, -3.7038, 'Large description of Event 3', TRUE);
+INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
+VALUES ('8ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event TITLE 4', 'Description of Event 4 TITLE 5', 'Barcelona', '2024-07-15', '2024-07-17', 41.3851, 2.1734, 'Large description of Event 4', FALSE);
+INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
+VALUES ('9ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event  TITLE 5', 'Description of Event ', 'Seville', '2024-08-20', '2024-08-22', 37.3891, -5.9845, 'Large description of Event 5', TRUE);
 INSERT INTO "dbo".event_user (event_id, user_id) VALUES
   ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1ae70aa2-2f09-4c0f-8940-f8ad514cfb4e'),
   ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e');
@@ -198,14 +204,14 @@ INSERT INTO "dbo".attendance (id, user_id, event_id, role_id) VALUES
   ('de4d96d3-122f-4a35-840d-93af2ad6a7b9','1ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '890e8756-f624-46a1-9f05-0c8f73cb2122'),
   ('8f6e5b94-2043-45bf-b3f5-743d36b94fe8','2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'd3f8634d-93c0-4636-aa7d-4f9c6322d499');
 
-INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 1', 'pi-id-card');
-INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 2', 'pi-users');
-INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 3', 'pi-map');
-INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 4', 'pi-thumbtack');
-INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 5', 'pi-search');
-INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 6', 'pi-plus-circle');
-INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 7', 'pi-calendar');
-INSERT INTO "dbo"."category" (name, icon) VALUES ('Category 8', 'pi-home');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Sport', 'sport');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Unknown', 'unknown');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Information', 'information');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Cafe', 'cafe');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Restaurant', 'food');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Travel', 'travel');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Business', 'business');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Library', 'library');
 
 INSERT INTO "dbo"."tag" (name) VALUES ('Tag 1');
 INSERT INTO "dbo"."tag" (name) VALUES ('Tag 2');
@@ -225,8 +231,9 @@ INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-894
 INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 7);
 INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 8);
 
-
+    
 INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 1);
-INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 2);
-INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 3);
-INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 4);
+INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 6);
+INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('7ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 3);
+INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('8ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 4);
+INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('9ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 5);

@@ -1,20 +1,20 @@
 <div class="grid">
     <div class="col-9">
         @if (isDataLoaded) {
-        <ng-container>
-            <app-map-layout [events]="events" (searchEventEmiter)="handleSelectMapMarker($event)"
-                (markerMouseOut)="handleMouseOutMarker($event)"></app-map-layout>
-        </ng-container>
+        <div class="side-map-container">
+            <app-custom-map (markerMouseOn)="handleMouseOnMarker($event)" [style]="{height:'72vh'}"
+                (markerMouseOut)="handleMouseOutMarker()" [events]="events"></app-custom-map>
+        </div>
         }
     </div>
     <div class="col-3 flex flex-column justify-content-center align-items-center">
         @if(!eventSelected){
-        <div class="side-map-container">
+        <div class="side-map-container side-map-right-container">
             <app-search-event (searchEventEmiter)="handleEventSearch($event)"></app-search-event>
         </div>
         }
         @if(eventSelected){
-        <div class="side-map-container">
+        <div class="side-map-container side-map-right-container">
             <app-custom-card-event [event]="eventSelected"></app-custom-card-event>
         </div>
         }

@@ -1,5 +1,5 @@
 import { CommonModule, NgStyle } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
@@ -32,9 +32,11 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { SliderModule } from 'primeng/slider';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroupModule } from 'primeng/inputgroup';
-import { searchOnlineEvent } from '../../../application/search-event/search-event-precon-searchs';
+import { searchEventFormCriteria, searchOnlineEvent } from '../../../application/search-event/search-event-precon-searchs';
 import { FileService } from '../../../../shared/infrastructure/service/file-service.service';
 import { CustomFileComponent } from '../../../../shared/infrastructure/view/custom-file/custom-file.component';
+import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
+import { SearchEventFormCriteriaOptions } from './search-event-criteria-form';
 
 @Component({
   selector: 'app-search-event',
@@ -56,29 +58,87 @@ import { CustomFileComponent } from '../../../../shared/infrastructure/view/cust
   templateUrl: './search-event.component.html',
   styleUrl: './search-event.component.scss'
 })
-export class SearchEventComponent {
+export class SearchEventComponent implements OnInit {
 
   @Output() searchEventEmiter: EventEmitter<Promise<EventModel[] | undefined>> = new EventEmitter<Promise<EventModel[] | undefined>>();
 
-  searchForm = this.formBuilder.group({
+  private userLatLang: { lat: number, lang: number } = { lat: 39, lang: 2.96666 };
 
+
+  get dis() { return this.searchForm.controls.distance }
+ 
+  searchForm = this.formBuilder.group({
+    content: [""],
+    startDate: [new Date()],
+    distance: [25],
   });
 
   constructor(private eventService: EventService, private formBuilder: FormBuilder, private fileService: FileService) {
 
   }
+  ngOnInit(): void {
+    this.getUserLocation();
+  }
+
+  private getUserLocation() {
+
+    
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+
+        // this.userLatLang.lat = position.coords.latitude;
+        // this.userLatLang.lang = position.coords.longitude;
+
+      }, function (error) {
+        console.error("Error getting user location:", error);
+      });
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }
+
+  private calculateBounds(userLat: number, userLng: number, distance: number) {
+    var earthRadius = 6371; // Earth radius in kilometers
+    var angularDistance = distance / earthRadius; // Convert distance to angular distance
+
+    // Convert latitude and longitude to radians
+    var userLatRad = userLat * Math.PI / 180;
+    var userLngRad = userLng * Math.PI / 180;
+
+    // Calculate maximum and minimum latitude
+    var maxLat = userLat + (angularDistance * (180 / Math.PI));
+    var minLat = userLat - (angularDistance * (180 / Math.PI));
+
+    // Calculate the change in longitude for the given latitude
+    var deltaLng = Math.asin(Math.sin(angularDistance) / Math.cos(userLatRad));
+
+    // Calculate maximum and minimum longitude
+    var maxLng = userLng + (deltaLng * (180 / Math.PI));
+    var minLng = userLng - (deltaLng * (180 / Math.PI));
+
+    return { latMin: minLat, longMin: minLng, latMax: maxLat, longMax: maxLng };
+}
 
   async searchEvent() {
 
-    const onlineEventsOptions = searchOnlineEvent(false);
+    if (this.searchForm.valid) {
 
-    const res = this.eventService.searchEvents(onlineEventsOptions);
-    this.searchEventEmiter.emit(res);
+      const eventSearchFormOptions = this.searchForm.value as SearchEventFormCriteriaOptions;
 
-  }
+      let userSelectedDistancesLatLang;
+      if (this.userLatLang){
+        eventSearchFormOptions.distanceBounds = this.calculateBounds(this.userLatLang.lat, this.userLatLang.lang, eventSearchFormOptions.distance); 
+      }
 
-  uploadImage() {
+      const eventOptionCriteria = searchEventFormCriteria(eventSearchFormOptions);
 
+      const eventsResponse = this.eventService.searchEvents(eventOptionCriteria);
+
+      if (eventsResponse) {
+        this.searchEventEmiter.emit(eventsResponse);
+      }
+
+    }
 
   }
 

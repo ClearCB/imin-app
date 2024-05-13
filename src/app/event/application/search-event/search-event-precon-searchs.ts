@@ -1,4 +1,6 @@
+import { SearchCriteria } from "../../../shared/domain/model/search-criteria";
 import { SearchOperation } from "../../../shared/domain/model/search-operation";
+import { SearchEventFormCriteriaOptions } from "../../infrastructure/view/search-event/search-event-criteria-form";
 
 export const searchOnlineEvent = (isOnline: boolean) => {
     return {
@@ -17,45 +19,133 @@ export const searchOnlineEvent = (isOnline: boolean) => {
     }
 }
 
-// {
-//     "dataOption":"all",
-//     "searchCriteriaList":[
-//        {
-//           "filterKey":"latitude",
-//           "operation":"gt",
-//           "value": 20
-//        },
-//        {
-//           "filterKey":"latitude",
-//           "operation":"lt",
-//           "value": 50
-//        },
-//        {
-//           "filterKey":"longitude",
-//           "operation":"gt",
-//           "value": -90
-//        },
-//        {
-//           "filterKey":"longitude",
-//           "operation":"lt",
-//           "value": -70
-//        },
-//        {
-//           "filterKey":"isOnline",
-//           "operation":"eq",
-//           "value": true
-//        }
-//     ]
-// }
+export const searchBetweenLocationEvent = (latMax: number, latMin: number, longMax: number, longMin: number) => {
+    return {
+        pageNumber: 0,
+        pageSize: 10,
+        body: {
+            dataOption: "all",
+            searchCriteriaList: [
+                {
+                    filterKey: "latitude",
+                    operation: SearchOperation.GREATER_THAN,
+                    value: latMin
+                },
+                {
+                    filterKey: "latitude",
+                    operation: SearchOperation.LESS_THEN,
+                    value: latMax
+                },
+                {
+                    filterKey: "longitude",
+                    operation: SearchOperation.GREATER_THAN,
+                    value: longMin
+                },
+                {
+                    filterKey: "longitude",
+                    operation: SearchOperation.LESS_THEN,
+                    value: longMax
+                }
+            ]
+        }
+    }
+}
 
-// {
-//     "dataOption":"all",
-//     "searchCriteriaList":[
+export const searchBetweenDatesEvent = (startDate?: Date, finishDate?: Date,) => {
 
-//        {
-//           "filterKey":"categories",
-//           "operation":"cc",
-//           "value": ["Category 8"]
-//        }
-//     ]
-// }
+    if (!startDate){
+        startDate = new Date();
+    }
+
+    if (!finishDate) {
+        finishDate = new Date();
+        finishDate.setDate(finishDate.getDate() + 7);
+    }
+
+    return {
+        pageNumber: 0,
+        pageSize: 10,
+        body: {
+            dataOption: "all",
+            searchCriteriaList: [
+                {
+                    filterKey: "startDate",
+                    operation: SearchOperation.GREATER_THAN,
+                    value: startDate.toISOString().slice(0,-1)
+                },
+                {
+                    filterKey: "finishDate",
+                    operation: SearchOperation.LESS_THEN,
+                    value: finishDate.toISOString().slice(0,-1)
+                }
+            ]
+        }
+    }
+}
+
+
+export const searchEventFormCriteria = (searchEventFormCriteria: SearchEventFormCriteriaOptions) => {
+
+    const searchCriteriaList : SearchCriteria[] = [];
+
+    if (searchEventFormCriteria.content){
+        searchCriteriaList.push({
+            filterKey: "title",
+            operation: SearchOperation.CONTAINS,
+            value: searchEventFormCriteria.content
+        });
+
+        searchCriteriaList.push({
+            filterKey: "smallDescription",
+            operation: SearchOperation.CONTAINS,
+            value: searchEventFormCriteria.content
+        });
+        
+        searchCriteriaList.push({
+            filterKey: "largeDescription",
+            operation: SearchOperation.CONTAINS,
+            value: searchEventFormCriteria.content
+        });
+    }
+
+    if (searchEventFormCriteria.startDate){
+        searchCriteriaList.push({
+            filterKey: "startDate",
+            operation: SearchOperation.GREATER_THAN,
+            value: searchEventFormCriteria.startDate.toISOString().slice(0,-1)
+        },);
+    }
+
+    if (searchEventFormCriteria.distanceBounds){
+        searchCriteriaList.push({
+            filterKey: "latitude",
+            operation: SearchOperation.GREATER_THAN,
+            value: searchEventFormCriteria.distanceBounds.latMin
+        },
+        {
+            filterKey: "latitude",
+            operation: SearchOperation.LESS_THEN,
+            value: searchEventFormCriteria.distanceBounds.latMax
+        },
+        {
+            filterKey: "longitude",
+            operation: SearchOperation.GREATER_THAN,
+            value: searchEventFormCriteria.distanceBounds.longMin
+        },
+        {
+            filterKey: "longitude",
+            operation: SearchOperation.LESS_THEN,
+            value: searchEventFormCriteria.distanceBounds.longMax
+        });
+    }
+
+    
+    return {
+        pageNumber: 0,
+        pageSize: 10,
+        body: {
+            dataOption: "all",
+            searchCriteriaList: searchCriteriaList
+        }
+    }
+}

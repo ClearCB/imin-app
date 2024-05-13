@@ -13,7 +13,7 @@ import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../../service/app.layout.service';
 import { CarouselModule } from 'primeng/carousel';
 import { SearchEventComponent } from '../../../../event/infrastructure/view/search-event/search-event.component';
-import { searchOnlineEvent } from '../../../../event/application/search-event/search-event-precon-searchs';
+import { searchBetweenDatesEvent, searchOnlineEvent } from '../../../../event/application/search-event/search-event-precon-searchs';
 import { EventService } from '../../../../event/infrastructure/service/event.service';
 import { CustomCardEventComponent } from '../../../../event/infrastructure/view/custom-card-event/custom-card-event.component';
 import { SHARED_CONSTANTS } from '../../../shared-constants';
@@ -61,7 +61,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const eOptions = searchOnlineEvent(false);
+    // const eOptions = searchOnlineEvent(false);
+
+    const startDate = new Date('2023-05-05');
+    const finishDate = new Date('2025-05-01');
+    const eOptions = searchBetweenDatesEvent(startDate, finishDate);
 
     this.eventService.searchEvents(eOptions)
       .then((events) => {

@@ -26,10 +26,14 @@ export class CustomListItemEventComponent implements OnInit {
 
   constructor(private router: Router, private fileService: FileService, private dialogService: DialogService) { }
   async ngOnInit() {
-
+    
     if (this.event) {
       this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);
-    }
+      
+      if(!this.imageSrc){
+        this.imageSrc = "assets/images/generic.jpg"
+      }
+    } 
   }
 
   goToEventDetail(event: EventModel) {

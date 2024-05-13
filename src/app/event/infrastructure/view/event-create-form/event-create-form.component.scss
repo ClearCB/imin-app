@@ -2,3 +2,19 @@
     min-height: 400px;
     max-height: 400px;
 }
+
+.side-map-container {
+    min-height: 50vh;
+    max-height: 50vh;
+}
+
+.side-map-right-container {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+}
