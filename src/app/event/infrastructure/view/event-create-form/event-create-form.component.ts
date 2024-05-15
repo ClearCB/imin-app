@@ -13,7 +13,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CustomFileComponent } from '../../../../shared/infrastructure/view/custom-file/custom-file.component';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { CalendarModule } from 'primeng/calendar';
 import { StepperModule, StepperPanel } from 'primeng/stepper';
 import { DropdownModule } from 'primeng/dropdown';
@@ -22,6 +21,8 @@ import { CustomMapComponent } from '../../../../map/infrastructure/view/custom-m
 import { Category } from '../../../../shared/domain/model/category';
 import { CommonService } from '../../../../shared/infrastructure/service/common.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { FileService } from '../../../../shared/infrastructure/service/file-service.service';
+import { ImageModule } from 'primeng/image';
 
 @Component({
   selector: 'app-event-create-form',
@@ -31,27 +32,13 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
     ButtonModule, ChipModule, FormsModule, RippleModule,
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
     FloatLabelModule, InputTextareaModule, MultiSelectModule,
-    CustomFileComponent, CalendarModule, StepperModule, DropdownModule, CustomMapComponent
+    CustomFileComponent, CalendarModule, StepperModule, DropdownModule, CustomMapComponent, ImageModule
   ],
   templateUrl: './event-create-form.component.html',
   styleUrl: './event-create-form.component.scss'
 })
 export class EventCreateFormComponent implements OnInit {
 
-  //   {
-  //     "title": "MYSUPERSTITLE",
-  //     "smallDescription": "mysmalldescription",
-  //     "largeDescription": "largeDescription",
-  //     "locationName": "Library1234567891",
-  //     "latitude": 40.878,
-  //     "longitude": -87.6298,
-  //     "isOnline": true,
-  //     "startDate":"2024-05-01T00:00:00",
-  //     "finishDate": "2024-05-15T00:00:00",
-  //     "tags":[
-  //         ],
-  //     "categories":[{"id":8}]
-  // } 
   // Forms
   eventForm = this.formBuilder.group({
 
@@ -62,40 +49,59 @@ export class EventCreateFormComponent implements OnInit {
     latitude: [0, [Validators.required]],
     longitude: [0, [Validators.required]],
     startDate: new FormControl<Date | null>(null),
-    finishDate:  new FormControl<Date | null>(null),
-    categoryId: [{ id: 0, name: "", icon: "" }, [Validators.required]],
-    // tagsId: [0, [Validators.required]],
+    finishDate: new FormControl<Date | null>(null),
+    category: [{ id: 0, name: "", icon: "" }, [Validators.required]],
     isOnline: [true, [Validators.required]],
 
   });
-  
+
   event?: EventModel;
   events: EventModel[] = [];
   categories: Category[] | undefined = [];
+
+  isCreateFormEvent: boolean = true;
+
+  eventParamId?: any;
+
+  imageSrc: string | undefined = "";
+
+  get category() { return this.eventForm.controls.category }
 
   constructor(
     private formBuilder: FormBuilder,
     private eventService: EventService,
     private commonService: CommonService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private fileService: FileService
   ) { }
 
   async ngOnInit() {
 
     this.categories = await this.commonService.getAllCategories();
 
-    const eventParamId = this.route.snapshot.paramMap.get('eventId');
+    this.eventParamId = this.route.snapshot.paramMap.get('eventId');
 
-    if (eventParamId) {
-      await this.getEvent(eventParamId);
-    } 
+    if (this.eventParamId) {
+      await this.getEvent(this.eventParamId);
+    }
 
   }
 
-  
+
   private async getEvent(eventId: string) {
 
     this.event = await this.eventService.getEvent(eventId) as EventModel;
+
+    if (!this.event) {
+      return;
+    }
+
+    this.events.length = 0;
+    this.events.push(this.event);
+
+    if (this.event?.id) {
+      this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);
+    }
 
 
     let category: Category | null = null;
@@ -114,29 +120,34 @@ export class EventCreateFormComponent implements OnInit {
       longitude: this.event.longitude,
       startDate: new Date(this.event.startDate),
       finishDate: new Date(this.event.finishDate),
-      categoryId: category,
+      category: category,
     }
 
     this.eventForm.setValue(initValue)
-    // this.initFormValues(this.event);
   }
 
   async handleSubmit() {
-
-    console.log(this.eventForm.value);
 
     if (this.eventForm.valid) {
 
       const event = this.eventForm.value as EventModel;
 
-      event.categories = this.eventForm.controls.categoryId.value 
-      ? [this.eventForm.controls.categoryId.value]
-      : [];
+      event.categories = this.eventForm.controls.category.value
+        ? [this.eventForm.controls.category.value]
+        : [];
 
-      const eventCreated = await this.eventService.createEvent(event);
+      let eventCreated;
+      if (this.eventParamId) {
+        eventCreated = await this.eventService.updateEvent(this.eventParamId, event);
+      } else {
+        eventCreated = await this.eventService.createEvent(event);
+      }
 
-      if (eventCreated) {
+      if (eventCreated && !this.eventParamId) {
         this.eventForm.reset();
+      } else if (this.eventParamId) {
+
+        await this.getEvent(this.eventParamId);
       }
 
     } else {
@@ -150,5 +161,11 @@ export class EventCreateFormComponent implements OnInit {
   handleMapClicked(latLang: { lat: number, lang: number }) {
     this.eventForm.controls.longitude.setValue(latLang.lang);
     this.eventForm.controls.latitude.setValue(latLang.lat);
+  }
+
+  handleUploadedFile() {
+    if (this.event){
+      this.getEvent(this.event.id);
+    }
   }
 }

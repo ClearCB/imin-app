@@ -54,8 +54,8 @@ export class CommonService {
         icon:"business",
       },{
         id:8,
-        name:"Library",
-        icon:"library",
+        name:"Study",
+        icon:"study",
       }];
       // const categoriesResponse = await getAllCategories(this.commonRespository);
 

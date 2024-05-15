@@ -21,9 +21,11 @@ import { SHARED_CONSTANTS } from '../../../shared/shared-constants';
 import { Router } from '@angular/router';
 import { getUsersEvents } from '../../application/get-users-events/get-users-events-use-case';
 import { EventMapperService } from '../mapper/event-mapper.service';
+import { AuthService } from '../../../auth/infrastructure/service/auth.service';
+import { removeUserFromEvent } from '../../application/remove-user-to-event/remove-event-use-case';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventService {
 
@@ -33,7 +35,7 @@ export class EventService {
     private notificationService: NotificationService,
     private eventGatewayPort: EventGatewayPort,
     private dialogService: DialogService,
-    private router: Router
+    private router: Router,
   ) { }
 
 
@@ -185,7 +187,7 @@ export class EventService {
 
     try {
 
-      const userRemovedFromEvent = await addUserToEvent(this.eventGatewayPort, event, userData);
+      const userRemovedFromEvent = await removeUserFromEvent(this.eventGatewayPort, event, userData);
       return userRemovedFromEvent;
 
     } catch (e: any) {
@@ -260,6 +262,24 @@ export class EventService {
   }
 
   public goToEventDetail(event:EventModel){
+    this.ref = this.dialogService.open(EventDetailComponent, {
+      data: event,
+      header: 'Select a Product',
+      width: '85vw',
+      modal: true,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      },
+      baseZIndex: 10000,
+      maximizable: true
+    });
+
+    // this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${event.id}`);
+
+  }
+
+  public goToEventEditForm(event:EventModel){
     // this.ref = this.dialogService.open(EventDetailComponent, {
     //   // data: event,
     //   header: 'Select a Product',
@@ -273,7 +293,7 @@ export class EventService {
     //   maximizable: true
     // });
 
-    this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${event.id}`);
+    this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.UPDATE}/${event.id}`);
 
   }
 

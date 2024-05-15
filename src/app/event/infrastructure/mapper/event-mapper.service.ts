@@ -13,34 +13,35 @@ export class EventMapperService {
 
   public static toGateway(event: EventModel): EventDTO {
 
-    let tags: number[] = [];
-    let categories: number[] = [];
+    let tags: { id: number }[] = [];
+    let categories: { id: number }[] = [];
 
-    if ( event.categories){
-      categories = event.categories.map(c => c.id)
+    if (event.categories) {
+      categories = event.categories.map(c => ({ id: c.id }))
     }
 
-    if ( event.tags){
-      tags = event.tags.map(t => t.id)
+    if (event.tags) {
+      tags = event.tags.map(t => ({ id: t.id }))
     }
 
-      return {
-        title: event.title,
-        smallDescription: event.smallDescription,
-        largeDescription: event.largeDescription,
-        locationName: event.largeDescription,
-        latitude: event.latitude,
-        longitude: event.longitude,
-        startDate: event.startDate,
-        finishDate: event.finishDate,
-        categories: categories,
-        tags: tags,
-        isOnline: event.isOnline,
-      }
+    return {
+      title: event.title,
+      smallDescription: event.smallDescription,
+      largeDescription: event.largeDescription,
+      userId: event.userId,
+      locationName: event.locationName,
+      latitude: event.latitude,
+      longitude: event.longitude,
+      startDate: event.startDate,
+      finishDate: event.finishDate,
+      categories: categories,
+      tags: tags,
+      isOnline: event.isOnline,
+    }
 
   }
 
-  public static toDomain(event: EventModel):EventModel{
-    return {...event, startDate: new Date(event.startDate), finishDate: new Date(event.finishDate)}
+  public static toDomain(event: EventModel): EventModel {
+    return { ...event, startDate: new Date(event.startDate), finishDate: new Date(event.finishDate) }
   }
 }

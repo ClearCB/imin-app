@@ -14,7 +14,8 @@ export const AUTH_CONSTANTS = {
         NOT_VALID_SESSION: "Not valid active session.",
     },
     LOCAL_STORAGE_KEYS: {
-        ACTIVE_USER_DATA: "imin-user-data"
+        ACTIVE_USER_DATA: "imin-user-data",
+        ACTIVE_USER_CONFIG: "imin-user-config",
     },
     API: {
         BASE_URL: "http://localhost:8080/",

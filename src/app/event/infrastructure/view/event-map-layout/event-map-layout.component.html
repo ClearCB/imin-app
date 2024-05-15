@@ -3,7 +3,7 @@
         @if (isDataLoaded) {
         <div class="side-map-container">
             <app-custom-map (markerMouseOn)="handleMouseOnMarker($event)" [style]="{height:'72vh'}"
-                (markerMouseOut)="handleMouseOutMarker()" [events]="events"></app-custom-map>
+                (markerMouseOut)="handleMouseOutMarker()" (markerClick)="handleMarkerClick($event)" [events]="events"></app-custom-map>
         </div>
         }
     </div>

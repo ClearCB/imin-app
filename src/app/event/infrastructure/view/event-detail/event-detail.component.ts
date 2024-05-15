@@ -16,12 +16,13 @@ import { AuthService } from '../../../../auth/infrastructure/service/auth.servic
 import { LoginResponse } from '../../../../auth/domain/model/login-response';
 import { User } from '../../../../auth/domain/model/user';
 import { CompactUserListComponent } from '../compact-user-list/compact-user-list.component';
-import { CustomMapComponent } from '../../../../map/infrastructure/view/custom-map/custom-map.component';
 import { Category } from '../../../../shared/domain/model/category';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
 import { CalendarModule } from 'primeng/calendar';
+import { CustomMapDetailComponent } from '../../../../map/infrastructure/view/custom-map-detail/custom-map-detail.component';
+import { ImageModule } from 'primeng/image';
 
 @Component({
   selector: 'app-event-detail',
@@ -30,9 +31,9 @@ import { CalendarModule } from 'primeng/calendar';
     ReactiveFormsModule, EventDetailComponent,
     ButtonModule, ChipModule, FormsModule, RippleModule,
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
-    CompactUserListComponent, CustomMapComponent, 
+    CompactUserListComponent, CustomMapDetailComponent,
     DropdownModule, InputTextareaModule, CalendarModule, CheckboxModule,
-    ChipModule
+    ChipModule, ImageModule
   ],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss'
@@ -69,7 +70,7 @@ export class EventDetailComponent {
     latitude: [0, [Validators.required]],
     longitude: [0, [Validators.required]],
     startDate: new FormControl<Date | null>(null),
-    finishDate:  new FormControl<Date | null>(null),
+    finishDate: new FormControl<Date | null>(null),
     categoryId: [{ id: 0, name: "", icon: "" }, [Validators.required]],
     // tagsId: [0, [Validators.required]],
     isOnline: [true, [Validators.required]],
@@ -82,6 +83,7 @@ export class EventDetailComponent {
     private formBuilder: FormBuilder,
     private fileService: FileService,
     private eventService: EventService,
+    private dialogConfig: DynamicDialogConfig,
     private authService: AuthService,
     private route: ActivatedRoute) { }
 
@@ -92,30 +94,19 @@ export class EventDetailComponent {
 
     if (eventParamId) {
       await this.getEvent(eventParamId);
-    } 
-    // else if (this.dialogConfig.data){
-    //   this.event = this.dialogConfig.data;
-    // }
+    }
+    else if (this.dialogConfig.data) {
+      this.event = this.dialogConfig.data;
+
+      if (this.event) {
+        await this.getEvent(this.event.id);
+      }
+    }
 
     this.authService.currentUserLogged.subscribe({
       next: (userData) => this.userInfo = userData
     })
 
-    if (this.event?.id) {
-      this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);
-    }
-
-    if (this.event) {
-      const usersResponse = await this.eventService.getEventAttendance(this.event);
-
-      if (usersResponse) {
-        this.usersAttendance = usersResponse;
-      }
-
-      this.events.push(this.event);
-    }
-
-    this.usersLoaded = true
   }
 
   private async getEvent(eventId: string) {
@@ -142,13 +133,29 @@ export class EventDetailComponent {
       categoryId: category,
     }
 
+    if (this.event?.id) {
+      this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);
+    }
+
+    if (this.event) {
+      const usersResponse = await this.eventService.getEventAttendance(this.event);
+
+      if (usersResponse) {
+        this.usersAttendance = usersResponse;
+      }
+
+      this.events.push(this.event);
+    }
+
+    this.usersLoaded = true
+
     this.eventForm.setValue(initValue)
     // this.initFormValues(this.event);
   }
-  
-  private initFormValues(event: EventModel){
-    
-    if (this.event){
+
+  private initFormValues(event: EventModel) {
+
+    if (this.event) {
       this.eventForm.controls.title.setValue(this.event?.title);
       this.eventForm.controls.smallDescription.setValue(this.event?.smallDescription);
       this.eventForm.controls.largeDescription.setValue(this.event?.largeDescription);
@@ -185,7 +192,17 @@ export class EventDetailComponent {
   async handleAttendProcess() {
 
     if (this.event && this.userInfo?.userData) {
-      this.eventService.addUserToEvent(this.event, this.userInfo.userData);
+      await this.eventService.addUserToEvent(this.event, this.userInfo.userData);
+      await this.getEvent(this.event.id);
+    }
+
+  }
+
+  async handleDisAttendProcess() {
+
+    if (this.event && this.userInfo?.userData) {
+      await this.eventService.removeUserFromEvent(this.event, this.userInfo.userData);
+      await this.getEvent(this.event.id);
     }
 
   }

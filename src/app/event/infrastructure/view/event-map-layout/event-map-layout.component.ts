@@ -78,4 +78,8 @@ export class EventMapLayoutComponent implements OnInit {
   handleMouseOnMarker(event: any) {
     this.eventSelected = event;
   }
+
+  handleMarkerClick(event: any) {
+    this.eventService.goToEventDetail(event);
+  }
 }

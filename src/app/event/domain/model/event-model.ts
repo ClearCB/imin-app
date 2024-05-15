@@ -6,6 +6,7 @@ export interface  EventModel {
 
     id: string;
     title: string;
+    userId: string;
     smallDescription: string;
     largeDescription: string;
     locationName: string;

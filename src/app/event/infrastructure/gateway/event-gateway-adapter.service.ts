@@ -5,6 +5,7 @@ import { ExternalApiEventService } from './external-api-event.service';
 import { SearchCriteria } from '../../../shared/domain/model/search-criteria';
 import { SearchEventOptions } from '../../application/search-event/search-event-options';
 import { UserData } from '../../../auth/domain/model/user-token-data';
+import { EventMapperService } from '../mapper/event-mapper.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,7 @@ export class EventGatewayAdapterService extends EventGatewayPort {
     if (!res || !res.data) {
       return;
     }
-
-    return res.data;
+    return EventMapperService.toDomain(res.data)
 
   }
 
@@ -33,7 +33,7 @@ export class EventGatewayAdapterService extends EventGatewayPort {
       return;
     }
 
-    return res.data;
+    return EventMapperService.toDomain(res.data)
 
   }
 
@@ -51,8 +51,7 @@ export class EventGatewayAdapterService extends EventGatewayPort {
       return;
     }
 
-    return res.data;
-
+    return EventMapperService.toDomain(res.data)
   }
 
   override async getAllEvent(): Promise<EventModel[] | undefined> {
@@ -63,7 +62,7 @@ export class EventGatewayAdapterService extends EventGatewayPort {
       return;
     }
 
-    return res.data;
+    return res.data.map((e:EventModel) => EventMapperService.toDomain(e));
 
   }
 
@@ -75,7 +74,7 @@ export class EventGatewayAdapterService extends EventGatewayPort {
       return;
     }
 
-    return res.data;
+    return res.data.map((e:EventModel) => EventMapperService.toDomain(e));
 
   }
 
@@ -122,7 +121,7 @@ export class EventGatewayAdapterService extends EventGatewayPort {
       return [];
     }
 
-    return res.data;
+    return res.data.map((e:EventModel) => EventMapperService.toDomain(e));
   }
   override async getUsersEvents(userId: string): Promise<EventModel[] | undefined> {
 
@@ -132,6 +131,6 @@ export class EventGatewayAdapterService extends EventGatewayPort {
       return [];
     }
 
-    return res.data;
+    return res.data.map((e:EventModel) => EventMapperService.toDomain(e));
   }
 }

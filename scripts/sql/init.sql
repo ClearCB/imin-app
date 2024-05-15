@@ -65,6 +65,7 @@ CREATE TABLE "dbo".location (
 CREATE TABLE "dbo"."event" (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title VARCHAR(55) NOT NULL,
+    user_id UUID NOT NULL,
     small_description VARCHAR(155) NOT NULL,
     location_name VARCHAR(55) NOT NULL,
     start_date TIMESTAMP,
@@ -74,15 +75,8 @@ CREATE TABLE "dbo"."event" (
     large_description TEXT,
     max_attendance int DEFAULT 10,
     is_online boolean,
+    FOREIGN KEY (user_id) REFERENCES "auth".user(id),
     UNIQUE(location_name, start_date)
-);
-
-CREATE TABLE "dbo".event_user (
-    event_id UUID NOT NULL,
-    user_id UUID NOT NULL,
-    PRIMARY KEY (event_id, user_id),
-    FOREIGN KEY (event_id) REFERENCES "dbo".event(id),
-    FOREIGN KEY (user_id) REFERENCES "auth"."user"(id)
 );
 
 CREATE TABLE "dbo".event_tag (
@@ -178,19 +172,16 @@ INSERT INTO "dbo".community (id, name) VALUES
   ('4ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Book Club');
 
 -- Inserting events
-INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event TITLE 1', 'Description of Event 1', 'Mallorca 1', '2024-05-01', '2024-05-03', 39.000, 2.7666, 'Large description of Event 1', FALSE);
-INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event TITLE 2', 'Description of Event 2', 'Mallorca 2', '2024-05-05', '2024-05-07', 39.1000, 2.9666, 'Large description of Event 2', TRUE);
-INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('7ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event TITLE 3', 'Description of Event 3', 'Madrid', '2024-06-10', '2024-06-12', 40.4168, -3.7038, 'Large description of Event 3', TRUE);
-INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('8ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event TITLE 4', 'Description of Event 4 TITLE 5', 'Barcelona', '2024-07-15', '2024-07-17', 41.3851, 2.1734, 'Large description of Event 4', FALSE);
-INSERT INTO "dbo"."event" (id, title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('9ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 'Event  TITLE 5', 'Description of Event ', 'Seville', '2024-08-20', '2024-08-22', 37.3891, -5.9845, 'Large description of Event 5', TRUE);
-INSERT INTO "dbo".event_user (event_id, user_id) VALUES
-  ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1ae70aa2-2f09-4c0f-8940-f8ad514cfb4e'),
-  ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '2ae70aa2-2f09-4c0f-8940-f8ad514cfb4e');
+INSERT INTO "dbo"."event" (id, user_id ,title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
+VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd','Event TITLE 1', 'Description of Event 1', 'Mallorca 1', '2024-05-01', '2024-05-03', 39.000, 2.7666, 'Large description of Event 1', FALSE);
+INSERT INTO "dbo"."event" (id,  user_id ,title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
+VALUES ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd','Event TITLE 2', 'Description of Event 2', 'Mallorca 2', '2024-05-05', '2024-05-07', 39.1000, 2.9666, 'Large description of Event 2', TRUE);
+INSERT INTO "dbo"."event" (id,  user_id ,title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
+VALUES ('7ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd','Event TITLE 3', 'Description of Event 3', 'Madrid', '2024-06-10', '2024-06-12', 40.4168, -3.7038, 'Large description of Event 3', TRUE);
+INSERT INTO "dbo"."event" (id,  user_id ,title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
+VALUES ('8ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd','Event TITLE 4', 'Description of Event 4 TITLE 5', 'Barcelona', '2024-07-15', '2024-07-17', 41.3851, 2.1734, 'Large description of Event 4', FALSE);
+INSERT INTO "dbo"."event" (id,  user_id ,title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
+VALUES ('9ae70aa2-2f09-4c0f-8940-f8ad514cfb4e','1fa34d17-6d33-4b16-a75b-d2b6f165bdfd', 'Event  TITLE 5', 'Description of Event ', 'Seville', '2024-08-20', '2024-08-22', 37.3891, -5.9845, 'Large description of Event 5', TRUE);
 
 INSERT INTO "dbo".event_communities (event_id, community_id) VALUES
   ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '3ae70aa2-2f09-4c0f-8940-f8ad514cfb4e'),
@@ -211,7 +202,7 @@ INSERT INTO "dbo"."category" (name, icon) VALUES ('Cafe', 'cafe');
 INSERT INTO "dbo"."category" (name, icon) VALUES ('Restaurant', 'food');
 INSERT INTO "dbo"."category" (name, icon) VALUES ('Travel', 'travel');
 INSERT INTO "dbo"."category" (name, icon) VALUES ('Business', 'business');
-INSERT INTO "dbo"."category" (name, icon) VALUES ('Library', 'library');
+INSERT INTO "dbo"."category" (name, icon) VALUES ('Study', 'study');
 
 INSERT INTO "dbo"."tag" (name) VALUES ('Tag 1');
 INSERT INTO "dbo"."tag" (name) VALUES ('Tag 2');
@@ -231,7 +222,7 @@ INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-894
 INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 7);
 INSERT INTO "dbo"."event_tag" (event_id, tag_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 8);
 
-    
+
 INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 1);
 INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 6);
 INSERT INTO "dbo"."event_category" (event_id, category_id) VALUES ('7ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', 3);

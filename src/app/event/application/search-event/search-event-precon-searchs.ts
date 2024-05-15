@@ -53,7 +53,7 @@ export const searchBetweenLocationEvent = (latMax: number, latMin: number, longM
 
 export const searchBetweenDatesEvent = (startDate?: Date, finishDate?: Date,) => {
 
-    if (!startDate){
+    if (!startDate) {
         startDate = new Date();
     }
 
@@ -71,12 +71,12 @@ export const searchBetweenDatesEvent = (startDate?: Date, finishDate?: Date,) =>
                 {
                     filterKey: "startDate",
                     operation: SearchOperation.GREATER_THAN,
-                    value: startDate.toISOString().slice(0,-1)
+                    value: startDate.toISOString().slice(0, -1)
                 },
                 {
                     filterKey: "finishDate",
                     operation: SearchOperation.LESS_THEN,
-                    value: finishDate.toISOString().slice(0,-1)
+                    value: finishDate.toISOString().slice(0, -1)
                 }
             ]
         }
@@ -86,60 +86,48 @@ export const searchBetweenDatesEvent = (startDate?: Date, finishDate?: Date,) =>
 
 export const searchEventFormCriteria = (searchEventFormCriteria: SearchEventFormCriteriaOptions) => {
 
-    const searchCriteriaList : SearchCriteria[] = [];
+    const searchCriteriaList: SearchCriteria[] = [];
 
-    if (searchEventFormCriteria.content){
+    if (searchEventFormCriteria.content) {
         searchCriteriaList.push({
-            filterKey: "title",
-            operation: SearchOperation.CONTAINS,
-            value: searchEventFormCriteria.content
-        });
-
-        searchCriteriaList.push({
-            filterKey: "smallDescription",
-            operation: SearchOperation.CONTAINS,
-            value: searchEventFormCriteria.content
-        });
-        
-        searchCriteriaList.push({
-            filterKey: "largeDescription",
+            filterKey: "content",
             operation: SearchOperation.CONTAINS,
             value: searchEventFormCriteria.content
         });
     }
 
-    if (searchEventFormCriteria.startDate){
+    if (searchEventFormCriteria.startDate) {
         searchCriteriaList.push({
             filterKey: "startDate",
             operation: SearchOperation.GREATER_THAN,
-            value: searchEventFormCriteria.startDate.toISOString().slice(0,-1)
+            value: searchEventFormCriteria.startDate.toISOString().slice(0, -1)
         },);
     }
 
-    if (searchEventFormCriteria.distanceBounds){
+    if (searchEventFormCriteria.distanceBounds) {
         searchCriteriaList.push({
             filterKey: "latitude",
             operation: SearchOperation.GREATER_THAN,
             value: searchEventFormCriteria.distanceBounds.latMin
         },
-        {
-            filterKey: "latitude",
-            operation: SearchOperation.LESS_THEN,
-            value: searchEventFormCriteria.distanceBounds.latMax
-        },
-        {
-            filterKey: "longitude",
-            operation: SearchOperation.GREATER_THAN,
-            value: searchEventFormCriteria.distanceBounds.longMin
-        },
-        {
-            filterKey: "longitude",
-            operation: SearchOperation.LESS_THEN,
-            value: searchEventFormCriteria.distanceBounds.longMax
-        });
+            {
+                filterKey: "latitude",
+                operation: SearchOperation.LESS_THEN,
+                value: searchEventFormCriteria.distanceBounds.latMax
+            },
+            {
+                filterKey: "longitude",
+                operation: SearchOperation.GREATER_THAN,
+                value: searchEventFormCriteria.distanceBounds.longMin
+            },
+            {
+                filterKey: "longitude",
+                operation: SearchOperation.LESS_THEN,
+                value: searchEventFormCriteria.distanceBounds.longMax
+            });
     }
 
-    
+
     return {
         pageNumber: 0,
         pageSize: 10,

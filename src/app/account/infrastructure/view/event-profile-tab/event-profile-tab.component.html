@@ -1,5 +1,18 @@
 <div class="card">
     <p-tabView styleClass="tabview-custom">
+        @if (dataLoaded && todayEvents.length > 0) {
+        <p-tabPanel>
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center gap-2">
+                    <span class="font-bold white-space-nowrap m-0">
+                        Today events
+                    </span>
+                </div>
+            </ng-template>
+
+            <app-event-list [isUserEvent]="true" [events]="todayEvents"></app-event-list>
+        </p-tabPanel>
+        }
 
         <p-tabPanel>
             <ng-template pTemplate="header">
@@ -10,11 +23,11 @@
                 </div>
             </ng-template>
             @if (dataLoaded && userEvents.length > 0) {
-            <app-event-list [events]="userEvents"></app-event-list>
+            <app-event-list [isUserEvent]="true" [events]="userEvents"></app-event-list>
             }
             @if(dataLoaded && userEvents.length == 0){
 
-                <h3>You have not created events, create one</h3>
+            <h3>You have not created events, create one</h3>
             <a [routerLink]="creatEventRoute">CREATE A NEW EVENT</a>
             }
         </p-tabPanel>

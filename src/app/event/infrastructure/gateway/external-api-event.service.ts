@@ -76,7 +76,7 @@ export class ExternalApiEventService {
 
 
     let url = `${EVENT_CONSTANTS.API.BASE_URL}${EVENT_CONSTANTS.API.ENDPOINTS.ADD_USER}`;
-    const body = JSON.stringify({ eventId: eventId, userId: userId });
+    const body = { eventId: eventId, userId: userId };
 
     return lastValueFrom(this.httpClient.post<ApiResponse>(url, JSON.stringify(body)));
   };
@@ -84,7 +84,7 @@ export class ExternalApiEventService {
   removeUserFromEvent(eventId: string, userId: string): Promise<ApiResponse | undefined> {
 
     let url = `${EVENT_CONSTANTS.API.BASE_URL}${EVENT_CONSTANTS.API.ENDPOINTS.REMOVE_USER}`;
-    const body = JSON.stringify({ eventId: eventId, userId: userId });
+    const body = { eventId: eventId, userId: userId };
 
     return lastValueFrom(this.httpClient.post<ApiResponse>(url, JSON.stringify(body)));
   };

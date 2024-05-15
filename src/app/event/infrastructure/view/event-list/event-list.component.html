@@ -6,7 +6,7 @@
         <div class="grid grid-nogutter">
             @for (event of events; track event.id) {
             <div class="col-4 gap-4 py-5">
-                <app-custom-card-event [event]="event"></app-custom-card-event>
+                <app-custom-card-event [isUserEvent]="isUserEvent" [event]="event"></app-custom-card-event>
             </div>
             }
         </div>

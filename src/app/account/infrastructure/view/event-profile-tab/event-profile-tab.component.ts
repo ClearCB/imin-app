@@ -19,6 +19,7 @@ export class EventProfileTabComponent implements OnInit {
 
   dataLoaded: boolean = false;
   activeEvents: EventModel[] = [];
+  todayEvents: EventModel[] = [];
   pastEvents: EventModel[] = [];
   userEvents: EventModel[] = [];
   userData?: UserData;
@@ -52,13 +53,30 @@ export class EventProfileTabComponent implements OnInit {
       }
 
       if (userAttendance){
-        this.activeEvents = userAttendance.filter(e => e.finishDate <= new Date());
-        this.pastEvents = userAttendance.filter(e => e.finishDate > new Date());
+        this.activeEvents = this.getActiveUserEvents();
+        this.todayEvents = this.getTodayUserEvents();
+        this.pastEvents = this.getPastUserEvents();
       }
     }
 
     this.dataLoaded = true;
   }
+
+  private getActiveUserEvents(){
+    const today = new Date();
+    return this.userEvents.filter(e => e.startDate <= today && e.finishDate >= today);
+  }
+
+  private getPastUserEvents(){
+    const today = new Date();
+    return this.userEvents.filter(e => e.finishDate < today);
+  }
+
+  private getTodayUserEvents(){
+    const today = new Date();
+    return this.userEvents.filter(e => e.startDate <= today && e.finishDate >= today && e.startDate.getDate() === today.getDate());
+  }
+
 
 
 

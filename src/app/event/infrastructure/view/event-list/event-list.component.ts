@@ -43,6 +43,9 @@ export class EventListComponent implements OnInit {
 
   @Input()
   events: EventModel[] = [];
+  
+  @Input()
+  isUserEvent: boolean = false;
 
   public dataSearched: boolean = false;
   public dataLoaded: boolean = false;

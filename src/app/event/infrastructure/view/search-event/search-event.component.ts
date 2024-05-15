@@ -69,7 +69,7 @@ export class SearchEventComponent implements OnInit {
  
   searchForm = this.formBuilder.group({
     content: [""],
-    startDate: [new Date()],
+    startDate: [null],
     distance: [25],
   });
 
@@ -125,8 +125,7 @@ export class SearchEventComponent implements OnInit {
 
       const eventSearchFormOptions = this.searchForm.value as SearchEventFormCriteriaOptions;
 
-      let userSelectedDistancesLatLang;
-      if (this.userLatLang){
+      if (this.userLatLang && eventSearchFormOptions.distance !== 0){
         eventSearchFormOptions.distanceBounds = this.calculateBounds(this.userLatLang.lat, this.userLatLang.lang, eventSearchFormOptions.distance); 
       }
 

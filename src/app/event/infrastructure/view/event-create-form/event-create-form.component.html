@@ -10,6 +10,12 @@
                     <div class="col-12 flex flex-row justify-content-around">
                         <h3>EVENT</h3>
                         <!-- <a [routerLink]="eventDetailUrl">Ir a evento</a> -->
+                        @if (imageSrc) {
+                            <p-image [src]="imageSrc" height="150" alt="Image" />
+                        }
+                        @if (event && event.id) {
+                            <app-custom-file (uploadedFile)="handleUploadedFile()" [eventId]="event.id" ></app-custom-file>
+                        }
                     </div>
 
 
@@ -18,11 +24,12 @@
                             <div class="col-4">
                                 <label for="username">Title</label>
                                 <input formControlName="title" pInputText type="text" class="form-control"
-                                    aria-describedby="usernameHelp" [disabled]="true">
+                                    aria-describedby="usernameHelp">
                             </div>
                             <div class="col-8 p-">
                                 <label class="form-label">Small description</label>
-                                <input formControlName="smallDescription" pInputText type="text" class="form-control" [disabled]="true">
+                                <input formControlName="smallDescription" pInputText type="text" class="form-control"
+                                    >
                             </div>
                         </div>
                     </div>
@@ -38,9 +45,9 @@
                     <div class="col-12">
                         <div class="flex flex-row justify-content-around">
                             <label>Start date</label>
-                            <p-calendar formControlName="startDate" />
+                            <p-calendar formControlName="startDate" [touchUI]="true"  [showTime]="true" [hourFormat]="'24'" />
                             <label>Finish date</label>
-                            <p-calendar formControlName="finishDate" />
+                            <p-calendar formControlName="finishDate" [touchUI]="true"  [showTime]="true" [hourFormat]="'24'" />
                         </div>
                     </div>
 
@@ -62,10 +69,13 @@
                         </div>
                     </div>
 
+                    <div class="col-12 flex flex-column gap-2">
+                        <label for="category">Category</label>
+                        <p-dropdown optionLabel="name" [options]="categories" formControlName="category"
+                            placeholder="Select a City" />
+                    </div>
+
                 </div>
-
-
-                @if(event && events.length == 1){
 
                 <div class="card col-12">
 
@@ -74,11 +84,12 @@
                     <input pInputText formControlName="locationName" type="text" class="form-control mb-6" />
 
                     <div class=" side-map-container">
-                        <app-custom-map [events]="events" [style]="{height:'50vh'}"></app-custom-map>
+                        <app-custom-map [category]="category.value" [events]="events" [isCreateFormEvent]="isCreateFormEvent" (mapClickedEmiter)="handleMapClicked($event)"
+                            [style]="{height:'50vh'}"></app-custom-map>
                     </div>
 
                 </div>
-                }
+
 
             </div>
         </form>
@@ -86,21 +97,9 @@
 
     </div>
 
-    <div class="card col-12">
-
-        <h1>Location</h1>
-        <label class="form-label">Name</label>
-        <input pInputText formControlName="locationName" type="text" class="form-control mb-6" />
-
-        <div class=" side-map-container">
-            <app-custom-map (mapClickedEmiiter)="handleMapClicked($event)" [style]="{height:'50vh'}"></app-custom-map>
-        </div>
-
-    </div>
 
     <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
-        <button type="submit" pButton pRipple (click)="handleSubmit()"
-            class="p-button-primary">Submit</button>
+        <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary">Submit</button>
     </div>
-    
+
 </div>
