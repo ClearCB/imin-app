@@ -172,13 +172,14 @@ export class EventService {
         this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
         return;
       }
-
+      
+      this.notificationService.showSuccess(EVENT_CONSTANTS.MESSAGES.EVENT_ADDED_USER);
       return userAddedToEvent;
-
+      
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
       return;
     }
   }
@@ -188,34 +189,34 @@ export class EventService {
     try {
 
       const userRemovedFromEvent = await removeUserFromEvent(this.eventGatewayPort, event, userData);
+      this.notificationService.showSuccess(EVENT_CONSTANTS.MESSAGES.EVENT_REMOVED_USER);
       return userRemovedFromEvent;
 
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_REMOVE_USER);
       return;
     }
   }
-
 
   async getEventAttendance(event: EventModel): Promise<User[] | undefined> {
 
     try {
 
-      const userAddedToEvent = await getEventAttendance(this.eventGatewayPort, event.id);
+      const eventAttendance = await getEventAttendance(this.eventGatewayPort, event.id);
 
-      if (!userAddedToEvent) {
-        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
+      if (!eventAttendance) {
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_ATTENDANCE_ERROR);
         return;
       }
 
-      return userAddedToEvent;
+      return eventAttendance;
 
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_ATTENDANCE_ERROR);
       return;
     }
   }
@@ -227,7 +228,7 @@ export class EventService {
       const userAddedToEvent = await getUserAttendance(this.eventGatewayPort, userData.id);
 
       if (!userAddedToEvent) {
-        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.USER_ATTENDANCE_ERROR);
         return;
       }
 
@@ -236,7 +237,7 @@ export class EventService {
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.USER_ATTENDANCE_ERROR);
       return;
     }
   }
@@ -247,7 +248,7 @@ export class EventService {
       const userAddedToEvent = await getUsersEvents(this.eventGatewayPort, userData.id);
 
       if (!userAddedToEvent) {
-        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.USERS_EVENT_ERROR);
         return;
       }
 
@@ -256,15 +257,16 @@ export class EventService {
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.USERS_EVENT_ERROR);
       return;
     }
   }
 
-  public goToEventDetail(event:EventModel){
+  public opentEventDetail(event:EventModel){
+
     this.ref = this.dialogService.open(EventDetailComponent, {
       data: event,
-      header: 'Select a Product',
+      header: 'Event detail',
       width: '85vw',
       modal: true,
       breakpoints: {
@@ -275,23 +277,16 @@ export class EventService {
       maximizable: true
     });
 
-    // this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${event.id}`);
+  }
+
+  
+  public goToEventDetail(event:EventModel){
+
+    this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${event.id}`);
 
   }
 
   public goToEventEditForm(event:EventModel){
-    // this.ref = this.dialogService.open(EventDetailComponent, {
-    //   // data: event,
-    //   header: 'Select a Product',
-    //   width: '85vw',
-    //   modal: true,
-    //   breakpoints: {
-    //     '960px': '75vw',
-    //     '640px': '90vw'
-    //   },
-    //   baseZIndex: 10000,
-    //   maximizable: true
-    // });
 
     this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.UPDATE}/${event.id}`);
 

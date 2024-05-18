@@ -12,6 +12,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   const authService = inject(AuthService);
   const router = inject(Router);
+  const notificationService = inject(NotificationService);
 
   const tokenData = localStorage.getItem(AUTH_CONSTANTS.LOCAL_STORAGE_KEYS.ACTIVE_USER_DATA);
   let cloneRequest;
@@ -34,6 +35,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
         if (error.status === 401 && authService.currentUserLoginIn.value) { // User logged in already, session invalid.
 
           authService.logout();
+          notificationService.showWarn(AUTH_CONSTANTS.MESSAGES.NOT_VALID_SESSION)
           router.navigate([`/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`]);
 
           return next(cloneRequest);

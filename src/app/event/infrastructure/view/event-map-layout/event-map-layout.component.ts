@@ -23,6 +23,7 @@ export class EventMapLayoutComponent implements OnInit {
   public latLangMarkers: LatLng[] = [];
   public markers: Marker[] = [];
 
+  activeDistance: number | null = null;
 
   eventSelected: EventModel | null = null;
 
@@ -58,6 +59,17 @@ export class EventMapLayoutComponent implements OnInit {
 
   }
 
+  handleDistanceEmitter(distance: number | null) {
+
+    if (distance) {
+      this.activeDistance = distance;
+    } else {
+      this.activeDistance = 0;
+    }
+
+
+  }
+
   async ngOnInit(): Promise<void> {
 
     await this.getEvents();
@@ -80,6 +92,6 @@ export class EventMapLayoutComponent implements OnInit {
   }
 
   handleMarkerClick(event: any) {
-    this.eventService.goToEventDetail(event);
+    this.eventService.opentEventDetail(event);
   }
 }

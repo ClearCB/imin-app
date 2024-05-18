@@ -35,9 +35,9 @@ export class CustomListItemEventComponent implements OnInit {
     } 
   }
 
-  goToEventDetail(event: EventModel) {
+  opentEventDetail(event: EventModel) {
 
-    this.eventService.goToEventDetail(event);
+    this.eventService.opentEventDetail(event);
 
     // this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/${eventId}`);
   }

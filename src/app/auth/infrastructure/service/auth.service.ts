@@ -73,7 +73,7 @@ export class AuthService {
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(e.error.message);
+      this.notificationService.showError(AUTH_CONSTANTS.MESSAGES.INVALID_LOGIN_REQUEST);
       return;
     }
 

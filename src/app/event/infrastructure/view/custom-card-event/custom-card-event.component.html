@@ -21,16 +21,52 @@
     </p>
     }
     @if (event) {
-    <p-card [header]="event.title" class="card-hover" [style]="{ width: '340px', height:'380px' }"
-        (click)="goToEventDetail(event.id)">
+    <p-card [header]="event.title" class="shadow-3 card-hover" [style]="{ maxWidth: '340px',
+         maxHeight:'380px', minWidth: '340px', 
+         minHeight:'380px', 
+ }" (click)="opentEventDetail(event.id)">
         <ng-template pTemplate="header">
             <div class="custom-card-image-container">
-                <p-image [src]="imageSrc" height="150" alt="Image" />
+                <p-image [src]="imageSrc" height="120" alt="Image" />
             </div>
         </ng-template>
-        <p>
-            {{event.smallDescription}}
-        </p>
+        <ng-template pTemplate="title">
+            <div>
+                {{event.title }}
+            </div>
+        </ng-template>
+        <ng-template pTemplate="content">
+            <div class="col-12 p-0 d-flex flex-column justify-content-between">
+                <div class="row">
+                    <div class="col-12" [style]="{maxHeight:'75px', overflowY:'hidden'}">
+                        {{event.smallDescription }}
+                    </div>
+                </div>
+                <div class="row">
+                    @if (event && event.startDate) {
+                    <div class="col-6 py-1">
+                        <div class="font-bold">
+                            Start date
+                        </div>
+                        <div>
+                            {{event.startDate.toLocaleString().slice(0,-3)}}
+                        </div>
+                    </div>
+                    }
+                    @if (event && event.finishDate) {
+                    <div class="col-6 py-1">
+                        <div class="font-bold">
+                            Finish date
+                        </div>
+                        <div>
+                            {{event.finishDate.toLocaleString().slice(0,-3)}}
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </ng-template>
+
         <ng-template pTemplate="footer">
             <div class="grid">
                 @for (category of event.categories; track $index) {

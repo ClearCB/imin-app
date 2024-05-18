@@ -6,20 +6,27 @@
                     <div class="col-12 flex flex-column gap-2">
                         <label for="contentSearchForm">Content</label>
                         <input formControlName="content" pInputText type="text" class="form-control"
-                        aria-describedby="contentSearchForm">
+                            aria-describedby="contentSearchForm">
+                    </div>
+                    <div class=" col-12 flex flex-column gap-2">
+                        <label for="username">Distance (KM) : {{dis.value}}</label>
+                        <p-slider step="25" formControlName="distance" />
                     </div>
                     <div class="col-12 flex flex-column gap-2">
-                        <label for="startDateSearchForm">Minimum start date </label>
-                        <p-calendar  [touchUI]="true"  formControlName="startDate" />
+                        <div class="col-12 p-0">
+                            <label for="startDateSearchForm">Start date </label>
+                        </div>
+                        <div class="col-12 p-0 flex flex-row">
+                            <p-calendar class="col-10 p-0" [touchUI]="true" formControlName="startDate" />
+                            <button pButton pRipple class="pi pi-times col-1 col-offset-1 p-0 p-button-danger border-round-md"
+                                (click)="removeDate()"></button>
+                        </div>
                     </div>
                     <!-- <div class="col-12 flex flex-column gap-2">
                         <label for="category">Category</label>
                         <p-dropdown optionLabel="name" formControlName="category" placeholder="Select a City" />
                     </div> -->
-                    <div class=" col-12 flex flex-column gap-2">
-                        <label for="username">Distance (KM) : {{dis.value}}</label>
-                        <p-slider step="25" formControlName="distance"/>
-                    </div>
+
                     <!-- <div class="col-12 flex flex-column gap-2">
                         <label for="username">Tags</label>
                         <p-multiSelect placeholder="Select Cities" optionLabel="name" display="chip"
@@ -27,7 +34,7 @@
                     </div> -->
                     <div class="col-12 flex flex-column justify-content-center p-3">
                         <button type="submit" pButton pRipple (click)="searchEvent()"
-                            class="p-button-primary text-center flex justify-content-center">Submit</button>
+                            class="p-button-primary text-center flex justify-content-center border-round-md">Search</button>
                     </div>
                 </div>
             </form>

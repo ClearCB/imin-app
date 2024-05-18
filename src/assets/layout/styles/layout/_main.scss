@@ -23,6 +23,11 @@ a {
     color: var(--primary-color);
 }
 
+a:hover {
+    text-decoration: none;
+    color: var(--text-color-secondary);
+}
+
 .layout-wrapper {
     min-height: 100vh;
 }

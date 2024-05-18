@@ -23,29 +23,35 @@ export class CustomCardEventComponent implements OnInit {
 
   @Input()
   event: EventModel | null = null;
-  
+
   @Input()
   isUserEvent: boolean = false;
+
+  @Input()
+  isPreviewEvent: boolean = false;
 
   constructor(private router: Router, private fileService: FileService, private eventService: EventService) { }
   async ngOnInit() {
 
     if (this.event) {
       this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);
-      
-      if(!this.imageSrc){
+
+      if (!this.imageSrc) {
         this.imageSrc = "assets/images/generic.jpg"
       }
-    } 
+    }
   }
 
-  goToEventDetail(eventId: string) {
+  opentEventDetail(eventId: string) {
 
-    if (this.event && !this.isUserEvent){
-      this.eventService.goToEventDetail(this.event);
-    } else if(this.event && this.isUserEvent) {
-      this.eventService.goToEventEditForm(this.event);
+    if (!this.isPreviewEvent) {
+
+      if (this.event && !this.isUserEvent) {
+        this.eventService.opentEventDetail(this.event);
+      } else if (this.event && this.isUserEvent) {
+        this.eventService.goToEventEditForm(this.event);
+      }
+
     }
-
   }
 }

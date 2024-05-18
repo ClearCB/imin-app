@@ -97,10 +97,13 @@ export const searchEventFormCriteria = (searchEventFormCriteria: SearchEventForm
     }
 
     if (searchEventFormCriteria.startDate) {
+        const startDate = searchEventFormCriteria.startDate;
+        startDate.setHours(startDate.getHours() + 2);
+
         searchCriteriaList.push({
             filterKey: "startDate",
-            operation: SearchOperation.GREATER_THAN,
-            value: searchEventFormCriteria.startDate.toISOString().slice(0, -1)
+            operation: SearchOperation.EQUAL,
+            value: startDate.toISOString().slice(0,-1   )
         },);
     }
 

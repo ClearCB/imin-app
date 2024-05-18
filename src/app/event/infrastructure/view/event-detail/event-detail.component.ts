@@ -54,28 +54,14 @@ export class EventDetailComponent {
 
   event?: EventModel;
 
+  eventParamId?: string | null;
+  eventDataId?: string;
+
   usersLoaded: boolean = false;
   usersAttendance: User[] = [];
 
+  loginRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`;
   eventDetailUrl: string = `/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/${this.event?.id}`;
-
-
-  // Forms
-  eventForm = this.formBuilder.group({
-
-    title: ["", [Validators.required]],
-    smallDescription: ["", Validators.required],
-    largeDescription: ["", Validators.required],
-    locationName: ["", [Validators.required]],
-    latitude: [0, [Validators.required]],
-    longitude: [0, [Validators.required]],
-    startDate: new FormControl<Date | null>(null),
-    finishDate: new FormControl<Date | null>(null),
-    categoryId: [{ id: 0, name: "", icon: "" }, [Validators.required]],
-    // tagsId: [0, [Validators.required]],
-    isOnline: [true, [Validators.required]],
-
-  });
 
   categories: Category[] | undefined = [];
 
@@ -90,16 +76,18 @@ export class EventDetailComponent {
 
   async ngOnInit(): Promise<void> {
 
-    const eventParamId = this.route.snapshot.paramMap.get('eventId');
+    this.eventParamId = this.route.snapshot.paramMap.get('eventId');
 
-    if (eventParamId) {
-      await this.getEvent(eventParamId);
+    if (this.eventParamId) {
+      this.eventDataId = this.eventParamId;
+      await this.getEvent(this.eventDataId);
     }
     else if (this.dialogConfig.data) {
       this.event = this.dialogConfig.data;
+      this.eventDataId = this.dialogConfig.data.id;
 
-      if (this.event) {
-        await this.getEvent(this.event.id);
+      if (this.eventDataId) {
+        await this.getEvent(this.eventDataId);
       }
     }
 
@@ -111,30 +99,20 @@ export class EventDetailComponent {
 
   private async getEvent(eventId: string) {
 
+    this.events.length = 0;
     this.event = await this.eventService.getEvent(eventId) as EventModel;
-
 
     let category: Category | null = null;
     if (this.event.categories && this.event.categories.length > 0) {
       category = this.event.categories[0];
     }
 
-    const initValue = {
-      // id: this.event.id,
-      title: this.event.title,
-      smallDescription: this.event.smallDescription,
-      largeDescription: this.event.largeDescription,
-      locationName: this.event.locationName,
-      isOnline: this.event.isOnline ? this.event.isOnline : false,
-      latitude: this.event.latitude,
-      longitude: this.event.longitude,
-      startDate: new Date(this.event.startDate),
-      finishDate: new Date(this.event.finishDate),
-      categoryId: category,
-    }
-
     if (this.event?.id) {
       this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);
+
+      if (!this.imageSrc) {
+        this.imageSrc = "assets/images/generic.jpg"
+      }
     }
 
     if (this.event) {
@@ -148,77 +126,34 @@ export class EventDetailComponent {
     }
 
     this.usersLoaded = true
-
-    this.eventForm.setValue(initValue)
-    // this.initFormValues(this.event);
-  }
-
-  private initFormValues(event: EventModel) {
-
-    if (this.event) {
-      this.eventForm.controls.title.setValue(this.event?.title);
-      this.eventForm.controls.smallDescription.setValue(this.event?.smallDescription);
-      this.eventForm.controls.largeDescription.setValue(this.event?.largeDescription);
-      this.eventForm.controls.latitude.setValue(this.event?.latitude);
-      this.eventForm.controls.locationName.setValue(this.event?.locationName);
-      this.eventForm.controls.startDate.setValue(this.event?.startDate);
-      this.eventForm.controls.finishDate.setValue(this.event?.finishDate);
-      this.eventForm.controls.isOnline.setValue(this.event?.isOnline);
-    }
-  }
-  async handleSubmit() {
-
-    if (this.eventForm.valid) {
-
-      const event = this.eventForm.value as EventModel;
-
-      event.categories = this.eventForm.controls.categoryId.value
-        ? [this.eventForm.controls.categoryId.value]
-        : [];
-
-      const eventCreated = await this.eventService.updateEvent(this.eventId, event);
-
-      if (eventCreated) {
-        this.eventForm.reset();
-      }
-
-    } else {
-
-      this.eventForm.markAllAsTouched();
-    }
-
   }
 
   async handleAttendProcess() {
 
-    if (this.event && this.userInfo?.userData) {
-      await this.eventService.addUserToEvent(this.event, this.userInfo.userData);
-      await this.getEvent(this.event.id);
-    }
+      if (this.event && this.userInfo?.userData && this.eventDataId) {
+        await this.eventService.addUserToEvent(this.event, this.userInfo.userData);
+        await this.getEvent(this.eventDataId);
+      }
 
   }
 
   async handleDisAttendProcess() {
 
-    if (this.event && this.userInfo?.userData) {
+    if (this.event && this.userInfo?.userData && this.eventDataId) {
       await this.eventService.removeUserFromEvent(this.event, this.userInfo.userData);
-      await this.getEvent(this.event.id);
+      await this.getEvent(this.eventDataId);
     }
 
   }
 
-
   async deleteEvent() {
 
-    if (this.event?.id) {
-      await this.eventService.deleteEvent(this.event.id);
+    if (this.eventDataId) {
+      await this.eventService.deleteEvent(this.eventDataId);
       this.deleteEventEmiter.emit();
     }
 
   }
 
-  handleMapClicked(latLang: { lat: number, lang: number }) {
-    this.eventForm.controls.longitude.setValue(latLang.lang);
-    this.eventForm.controls.latitude.setValue(latLang.lat);
-  }
+
 }

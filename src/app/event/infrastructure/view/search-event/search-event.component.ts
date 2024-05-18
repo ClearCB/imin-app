@@ -61,6 +61,7 @@ import { SearchEventFormCriteriaOptions } from './search-event-criteria-form';
 export class SearchEventComponent implements OnInit {
 
   @Output() searchEventEmiter: EventEmitter<Promise<EventModel[] | undefined>> = new EventEmitter<Promise<EventModel[] | undefined>>();
+  @Output() distanceEventEmiter: EventEmitter<number | null> = new EventEmitter<number| null>();
 
   private userLatLang: { lat: number, lang: number } = { lat: 39, lang: 2.96666 };
 
@@ -69,8 +70,8 @@ export class SearchEventComponent implements OnInit {
  
   searchForm = this.formBuilder.group({
     content: [""],
-    startDate: [null],
-    distance: [25],
+    startDate: [new Date()],
+    distance: [0],
   });
 
   constructor(private eventService: EventService, private formBuilder: FormBuilder, private fileService: FileService) {
@@ -86,8 +87,8 @@ export class SearchEventComponent implements OnInit {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
 
-        // this.userLatLang.lat = position.coords.latitude;
-        // this.userLatLang.lang = position.coords.longitude;
+        this.userLatLang.lat = position.coords.latitude;
+        this.userLatLang.lang = position.coords.longitude;
 
       }, function (error) {
         console.error("Error getting user location:", error);
@@ -135,10 +136,14 @@ export class SearchEventComponent implements OnInit {
 
       if (eventsResponse) {
         this.searchEventEmiter.emit(eventsResponse);
+        this.distanceEventEmiter.emit(this.searchForm.controls.distance.value);
       }
 
     }
 
   }
 
+  removeDate(){
+    this.searchForm.controls.startDate.setValue(null);
+  }
 }

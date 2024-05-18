@@ -23,6 +23,9 @@ import { CommonService } from '../../../../shared/infrastructure/service/common.
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { FileService } from '../../../../shared/infrastructure/service/file-service.service';
 import { ImageModule } from 'primeng/image';
+import { CustomCardEventComponent } from '../custom-card-event/custom-card-event.component';
+import { EventListComponent } from '../event-list/event-list.component';
+import { CustomListItemEventComponent } from '../custom-list-item-event/custom-list-item-event.component';
 
 @Component({
   selector: 'app-event-create-form',
@@ -32,7 +35,8 @@ import { ImageModule } from 'primeng/image';
     ButtonModule, ChipModule, FormsModule, RippleModule,
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
     FloatLabelModule, InputTextareaModule, MultiSelectModule,
-    CustomFileComponent, CalendarModule, StepperModule, DropdownModule, CustomMapComponent, ImageModule
+    CustomFileComponent, CalendarModule, StepperModule, DropdownModule, CustomMapComponent,
+    ImageModule, CustomCardEventComponent, CustomListItemEventComponent
   ],
   templateUrl: './event-create-form.component.html',
   styleUrl: './event-create-form.component.scss'
@@ -42,6 +46,7 @@ export class EventCreateFormComponent implements OnInit {
   // Forms
   eventForm = this.formBuilder.group({
 
+    id: [""],
     title: ["", [Validators.required]],
     smallDescription: ["", Validators.required],
     largeDescription: ["", Validators.required],
@@ -59,6 +64,7 @@ export class EventCreateFormComponent implements OnInit {
   events: EventModel[] = [];
   categories: Category[] | undefined = [];
 
+  eventPreviewReady: boolean = false;
   isCreateFormEvent: boolean = true;
 
   eventParamId?: any;
@@ -73,7 +79,9 @@ export class EventCreateFormComponent implements OnInit {
     private commonService: CommonService,
     private route: ActivatedRoute,
     private fileService: FileService
-  ) { }
+  ) {
+
+  }
 
   async ngOnInit() {
 
@@ -83,13 +91,19 @@ export class EventCreateFormComponent implements OnInit {
 
     if (this.eventParamId) {
       await this.getEvent(this.eventParamId);
+    } else {
+      this.event = this.eventForm.value as EventModel;
     }
 
+    this.eventForm.valueChanges.subscribe(value => this.event = this.setEventValue(value))
+
+    this.eventPreviewReady = true;
   }
 
 
   private async getEvent(eventId: string) {
 
+    this.eventPreviewReady = false;
     this.event = await this.eventService.getEvent(eventId) as EventModel;
 
     if (!this.event) {
@@ -110,7 +124,7 @@ export class EventCreateFormComponent implements OnInit {
     }
 
     const initValue = {
-      // id: this.event.id,
+      id: this.event.id,
       title: this.event.title,
       smallDescription: this.event.smallDescription,
       largeDescription: this.event.largeDescription,
@@ -124,6 +138,18 @@ export class EventCreateFormComponent implements OnInit {
     }
 
     this.eventForm.setValue(initValue)
+    this.eventPreviewReady = true;
+  }
+
+  private setEventValue(formValue: any) {
+
+    const v = formValue as EventModel;
+
+    v.categories = this.eventForm.controls.category.value
+      ? [this.eventForm.controls.category.value]
+      : [];
+
+    return v;
   }
 
   async handleSubmit() {
@@ -145,8 +171,8 @@ export class EventCreateFormComponent implements OnInit {
 
       if (eventCreated && !this.eventParamId) {
         this.eventForm.reset();
+        this.eventService.goToEventEditForm(eventCreated);
       } else if (this.eventParamId) {
-
         await this.getEvent(this.eventParamId);
       }
 
@@ -163,9 +189,9 @@ export class EventCreateFormComponent implements OnInit {
     this.eventForm.controls.latitude.setValue(latLang.lat);
   }
 
-  handleUploadedFile() {
-    if (this.event){
-      this.getEvent(this.event.id);
+  async handleUploadedFile() {
+    if (this.event) {
+      await this.getEvent(this.event.id);
     }
   }
 }

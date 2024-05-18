@@ -1,26 +1,26 @@
-<p-dataView #dv [value]="events" [paginator]="true" [rows]="9" filterBy="name" layout="grid">
-    <ng-template let-events pTemplate="grid">
-        <div class="flex flex-column md:flex-row md:justify-content-end pt-5 pr-5 gap-2">
-            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-        </div>
-        <div class="grid grid-nogutter">
-            @for (event of events; track event.id) {
-            <div class="col-4 gap-4 py-5">
-                <app-custom-card-event [isUserEvent]="isUserEvent" [event]="event"></app-custom-card-event>
-            </div>
-            }
-        </div>
-    </ng-template>
-    <ng-template let-events pTemplate="list">
-        <div class="flex flex-column md:flex-row md:justify-content-end  pt-5 pr-5 gap-2">
-            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-        </div>
-        <div class="grid grid-nogutter">
-            @for (event of events; track event.id) {
-            <div class="col-10 col-offset-1 py-5">
-                <app-custom-list-item-event [event]="event"></app-custom-list-item-event>
-            </div>
-            }
-        </div>
-    </ng-template>
-</p-dataView>
+        <p-dataView #dv [value]="events" [paginator]="true" [rows]="9" filterBy="name" layout="grid">
+            <ng-template let-events pTemplate="grid">
+                <div class="flex flex-column md:flex-row md:justify-content-end pt-5 pr-5 gap-2">
+                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                </div>
+                <div class="grid grid-nogutter">
+                    @for (event of events; track event.id) {
+                    <div class="col-4 gap-4 py-5">
+                        <app-custom-card-event [isUserEvent]="isUserEvent" [event]="event"></app-custom-card-event>
+                    </div>
+                    }
+                </div>
+            </ng-template>
+            <ng-template let-events pTemplate="list">
+                <div class="flex flex-column md:flex-row md:justify-content-end  pt-5 pr-5 gap-2">
+                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                </div>
+                <div class="grid grid-nogutter">
+                    @for (event of events; track event.id) {
+                    <div class="col-10 col-offset-1 py-5">
+                        <app-custom-list-item-event [event]="event"></app-custom-list-item-event>
+                    </div>
+                    }
+                </div>
+            </ng-template>
+        </p-dataView>

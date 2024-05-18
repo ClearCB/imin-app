@@ -11,7 +11,7 @@ export const AUTH_CONSTANTS = {
         GENERIC_LOGOUT_ERROR: "An error has ocurred while loggin out.",
         OK_LOGIN: "Login succeed.",
         SESSION_EXPIRED: "Session expired.",
-        NOT_VALID_SESSION: "Not valid active session.",
+        NOT_VALID_SESSION: "Not valid active session. Please login to continue.",
     },
     LOCAL_STORAGE_KEYS: {
         ACTIVE_USER_DATA: "imin-user-data",

@@ -3,14 +3,14 @@
         @if (isDataLoaded) {
         <div class="side-map-container">
             <app-custom-map (markerMouseOn)="handleMouseOnMarker($event)" [style]="{height:'72vh'}"
-                (markerMouseOut)="handleMouseOutMarker()" (markerClick)="handleMarkerClick($event)" [events]="events"></app-custom-map>
+                (markerMouseOut)="handleMouseOutMarker()" [distance]="activeDistance"  (markerClick)="handleMarkerClick($event)" [events]="events"></app-custom-map>
         </div>
         }
     </div>
-    <div class="col-3 flex flex-column justify-content-center align-items-center">
+    <div class="col-3 flex flex-column justify-content-center align-items-center p-0">
         @if(!eventSelected){
         <div class="side-map-container side-map-right-container">
-            <app-search-event (searchEventEmiter)="handleEventSearch($event)"></app-search-event>
+            <app-search-event (searchEventEmiter)="handleEventSearch($event)" (distanceEventEmiter)="handleDistanceEmitter($event)"></app-search-event>
         </div>
         }
         @if(eventSelected){

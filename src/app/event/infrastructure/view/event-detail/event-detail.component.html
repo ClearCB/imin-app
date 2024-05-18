@@ -1,103 +1,140 @@
-<div class="grid  p-fluid">
+<div class="grid">
+    <div class="card col-10 col-offset-1 p-3 my-4">
 
-    <div class="card col-12">
-        <form [formGroup]="eventForm">
+        <div class="grid">
 
-            <div class="grid">
+            <div class="col-12">
 
-                <div class="col-12">
-
-                    <div class="col-12 flex flex-row justify-content-around">
-                        <h3>EVENT</h3>
-                        <!-- <a [routerLink]="eventDetailUrl">Ir a evento</a> -->
-                        @if (imageSrc) {
-                            <p-image [src]="imageSrc" height="150" alt="Image" />
-                        }
-                    </div>
-
-                    <div class="col-12">
-                        <div class="grid ">
-                            <div class="col-4">
-                                <label for="username">Title</label>
-                                <input formControlName="title" pInputText type="text" class="form-control"
-                                    aria-describedby="usernameHelp">
-                            </div>
-                            <div class="col-8 p-">
-                                <label class="form-label">Small description</label>
-                                <input formControlName="smallDescription" pInputText type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <label for="float-input">Summary</label>
-                        <textarea id="float-input" rows="5" cols="30" formControlName="largeDescription" pInputTextarea
-                            [autoResize]="true">
-                        </textarea>
-                    </div>
-
-
-                    <div class="col-12">
-                        <div class="flex flex-row justify-content-around">
-                            <label>Start date</label>
-                            <p-calendar formControlName="startDate"  [disabled]="true" />
-                            <label>Finish date</label>
-                            <p-calendar formControlName="finishDate" [disabled]="true"  />
-                        </div>
-                    </div>
-
-
-                    <div class="col-12">
-
-                        <div class="grid">
-                            @for (category of event?.categories; track $index) {
-                            <p-chip class="col-6" [label]="category.name"></p-chip>
-                            }
-                        </div>
-
-                    </div>
-
-                    <div class="col-12">
-                        <div class="flex flex-column gap-2">
-                            <label class="form-label">Is online</label>
-                            <p-checkbox formControlName="isOnline" [binary]="true" inputId="ny"></p-checkbox>
-                        </div>
-                    </div>
-
+                <div class="col-12 flex flex-column justify-content-center align-items-center">
+                    <h3>EVENT</h3>
+                    <!-- <a [routerLink]="eventDetailUrl">Ir a evento</a> -->
+                    @if (imageSrc) {
+                    <p-image [src]="imageSrc" height="150" alt="Image" />
+                    }
                 </div>
 
+                <div class="col-12 flex flex-column justify-content-center">
+                    <div class="row d-flex flex-column justify-content-center align-items-center">
+                        <h3 class="col-12">Content</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="font-bold" for="username">Title</label>
+                            <div>
+                                {{ event?.title}}
+                            </div>
+                        </div>
+                        <div class="col-8 ">
+                            <label class="font-bold">Small description</label>
+                            <div>
+                                {{ event?.smallDescription}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="font-bold" for="username">Summary</label>
+                            <div>
+                                {{ event?.largeDescription}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 flex flex-column justify-content-center">
+                    <div class="row d-flex flex-column justify-content-center align-items-center">
+                        <h3 class="col-12">Date</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="font-bold" for="username">Start date</label>
+                            <div>
+                                {{ event?.startDate?.toLocaleString()}}
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <label class="font-bold" for="username">Finish date</label>
+                            <div>
+                                {{ event?.finishDate?.toLocaleString()}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 flex flex-column justify-content-center">
+                    <div class="row d-flex flex-column justify-content-center align-items-center">
+                        <h3 class="col-12">Categories</h3>
+                    </div>
+                    <div class="row">
+                        @for (category of event?.categories; track $index) {
+                        <p-chip class="col-6" [label]="category.name"></p-chip>
+                        }
+                    </div>
+                </div>
 
                 @if(event && events.length == 1){
 
-                <div class="card col-12">
-
-                    <h1>Location</h1>
-                    <label class="form-label">Name</label>
-                    <input pInputText formControlName="locationName" type="text" class="form-control mb-6" />
-
-                    <div class=" side-map-container">
-                        <app-custom-map-detail [events]="events" [style]="{height:'50vh'}"></app-custom-map-detail>
+                <div class="col-12 flex flex-column justify-content-center">
+                    <div class="row d-flex flex-column justify-content-center align-items-center">
+                        <h3 class="col-12">Location</h3>
                     </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="font-bold" for="username">Location name</label>
+                            <div>
+                                {{ event.locationName}}
+                            </div>
+                        </div>
 
+                        <div class="col-6">
+                            <label class="font-bold" for="username">Is online</label>
+                            <div>
+                                <p-checkbox [binary]="true" inputId="ny" [disabled]="true"></p-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class=" side-map-container">
+                                <app-custom-map-detail [events]="events"
+                                    [style]="{height:'50vh'}"></app-custom-map-detail>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 }
 
+                <div class="col-12 flex flex-column justify-content-center">
+                    <div class="row d-flex flex-column justify-content-center align-items-center">
+                        <h3 class="col-12">User attendance</h3>
+                    </div>
+                    <div class="row">
+                        <div class=" col-10 col-offset-1  row-gap-3 p-5">
+                            <app-compact-user-list [users]="usersAttendance"></app-compact-user-list>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
-    </div>
+        </div>
 
-    @if(usersLoaded){
-    <div class="col-12 row-gap-3 p-5">
-        <app-compact-user-list [users]="usersAttendance"></app-compact-user-list>
-    </div>
-    }
+        <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
+            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)"
+                [routerLink]="loginRoute">
+                Login to
+                attend to event
+            </a>
+        </div>
 
+        <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
+            <button type="submit" pButton pRipple (click)="handleAttendProcess()"
+                class="p-button-primary">Attend</button>
+        </div>
 
-    <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
-        <button type="submit" pButton pRipple (click)="handleAttendProcess()" class="p-button-primary">Attend</button>
-    </div>
-    
-    <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
-        <button type="submit" pButton pRipple (click)="handleDisAttendProcess()" class="p-button-primary">DisAttend</button>
+        <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
+            <button type="submit" pButton pRipple (click)="handleDisAttendProcess()"
+                class="p-button-primary">DisAttend</button>
+        </div>
     </div>
 </div>
