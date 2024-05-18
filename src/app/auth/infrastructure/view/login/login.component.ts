@@ -10,6 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { PasswordModule } from 'primeng/password';
 import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-login',
@@ -42,7 +43,12 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private routeService: Router,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private dialogService: DialogService) {
+
+    this.dialogService.dialogComponentRefMap.forEach(dialog => {
+      dialog.destroy();
+    });
   }
 
   async login() {

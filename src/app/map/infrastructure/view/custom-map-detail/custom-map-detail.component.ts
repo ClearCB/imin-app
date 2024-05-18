@@ -68,8 +68,13 @@ export class CustomMapDetailComponent implements AfterViewInit, OnChanges {
       this.markerToCreate = L.layerGroup();
 
       navigator.geolocation.getCurrentPosition((position) => {
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
+        // latitude = position.coords.latitude;
+        // longitude = position.coords.longitude;
+
+        if (this.events && this.events.length > 0){
+          latitude = this.events[0].latitude;
+          longitude = this.events[0].longitude;
+        }
 
         this.map = L.map('mapDetail', {
           center: new LatLng(latitude, longitude),

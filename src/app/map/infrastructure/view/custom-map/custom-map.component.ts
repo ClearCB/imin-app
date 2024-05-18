@@ -229,10 +229,16 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
       // this.map.setView(new L.LatLng(40.737, -73.923), 8);
 
     });
+
+    marker.on('mouseout', (e: any) => {
+      popup
+        .close();
+    });
   }
 
 
   async handleClickMarker(event: any) {
+    this.map.setView(new L.LatLng(event.latitude, event.longitude), 8, {animation: true});
     this.markerClick.emit(event);
   }
 
