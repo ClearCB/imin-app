@@ -28,7 +28,7 @@ export class CustomMapDetailComponent implements AfterViewInit, OnChanges {
 
   markers: any;
 
-  activeUserLocation: { lat: number, lng: number } = { lat: 39.22222, lng: 2.96666 };
+  activeUserLocation: { lat: number, lng: number } | undefined;
 
   @Input()
   distance: number | null = null;
@@ -143,43 +143,44 @@ export class CustomMapDetailComponent implements AfterViewInit, OnChanges {
 
 
 
-    const marker = L.marker([this.activeUserLocation.lat, this.activeUserLocation.lng], { icon: markerIcon, zIndexOffset: 1000 },).addTo(this.markers);
+    if (this.activeUserLocation) {
+      const marker = L.marker([this.activeUserLocation.lat, this.activeUserLocation.lng], { icon: markerIcon, zIndexOffset: 1000 },).addTo(this.markers);
 
 
 
-    const popup = L.popup();
+      const popup = L.popup();
 
 
 
-    marker.on('mouseover', (e: any) => {
+      marker.on('mouseover', (e: any) => {
 
-      popup
+        popup
 
-        .setLatLng(e.latlng)
+          .setLatLng(e.latlng)
 
-        .setContent("¡This is your active location!")
+          .setContent("¡This is your active location!")
 
-        .openOn(this.map);
-
-
-
-      // this.map.panTo(new L.LatLng(40.737, -73.923));
-
-      // this.map.setView(new L.LatLng(40.737, -73.923), 8);
+          .openOn(this.map);
 
 
 
-    });
+        // this.map.panTo(new L.LatLng(40.737, -73.923));
+
+        // this.map.setView(new L.LatLng(40.737, -73.923), 8);
 
 
 
-    marker.on('mouseout', (e: any) => {
+      });
 
-      popup
+      marker.on('mouseout', (e: any) => {
 
-        .close();
+        popup
 
-    });
+          .close();
+
+      });
+
+    }
 
   }
 

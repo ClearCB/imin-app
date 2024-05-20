@@ -274,7 +274,7 @@ export class EventService {
         '640px': '90vw'
       },
       baseZIndex: 10000,
-      maximizable: true
+      draggable:true,
     });
 
   }

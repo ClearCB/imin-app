@@ -29,9 +29,9 @@ export class RegisterComponent {
 
   // Forms
   registerForm = this.formBuilder.group({
-    username: ["admin", Validators.required],
-    password: ["admin", Validators.required],
-    confirmationPassword: ["admin", Validators.required]
+    username: ["", Validators.required],
+    password: ["", Validators.required],
+    confirmationPassword: ["", Validators.required]
   }, {
     validators: this.matchValidator('password', 'confirmationPassword'),
     updateOn: 'blur'

@@ -1,4 +1,3 @@
-
 <div class="grid">
     <div class="col-10 col-offset-1 card">
         <p-tabView styleClass="tabview-custom">
@@ -24,7 +23,12 @@
                     </div>
                 </ng-template>
                 @if (dataLoaded && userEvents.length > 0) {
-                <app-event-list [isUserEvent]="true" [events]="userEvents"></app-event-list>
+                <!-- <div class="row">
+                    <app-search-event class="col-12" [isHorizontalLayout]="true"></app-search-event>
+                </div> -->
+                <div class="row">
+                    <app-event-list class="col-12" [isUserEvent]="true" [events]="userEvents"></app-event-list>
+                </div>
                 }
                 @if(dataLoaded && userEvents.length == 0){
                 <div class="grid">

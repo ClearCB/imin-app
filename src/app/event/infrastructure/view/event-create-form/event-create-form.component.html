@@ -11,7 +11,7 @@
                         @if (imageSrc) {
                         <p-image [src]="imageSrc" height="150" alt="Image" />
                         }
-                     
+
                     </div>
 
                     <div class="col-12 flex flex-column justify-content-center">
@@ -23,10 +23,27 @@
                                 <label class="font-bold" for="username">Title</label>
                                 <input formControlName="title" pInputText type="text" class="form-control"
                                     aria-describedby="usernameHelp">
+                                @if (eventForm.controls.title.invalid && (eventForm.controls.title.dirty ||
+                                eventForm.controls.title.touched)) {
+                                @if(eventForm.controls.title.errors?.['required']){
+                                <div class="block text-red-500 mt-2 ml-3">
+                                    Title required
+                                </div>
+                                }
+                                }
                             </div>
                             <div class="col-8 ">
-                                <label class="font-bold">Small description</label>
+                                <label class="font-bold">Short description</label>
                                 <input formControlName="smallDescription" pInputText type="text" class="form-control">
+                                @if (eventForm.controls.smallDescription.invalid &&
+                                (eventForm.controls.smallDescription.dirty ||
+                                eventForm.controls.smallDescription.touched)) {
+                                @if(eventForm.controls.smallDescription.errors?.['required']){
+                                <div class="block text-red-500 mt-2 ml-3">
+                                    Short description required
+                                </div>
+                                }
+                                }
                             </div>
                         </div>
                         <div class="row">
@@ -48,28 +65,45 @@
                                 <label class="font-bold" for="username">Start date</label>
                                 <p-calendar formControlName="startDate" [touchUI]="true" [showTime]="true"
                                     [hourFormat]="'24'" />
+                                @if (eventForm.controls.startDate.invalid && (eventForm.controls.startDate.dirty ||
+                                eventForm.controls.startDate.touched)) {
+                                @if(eventForm.controls.startDate.errors?.['required']){
+                                <div class="block text-red-500 mt-2 ml-3">
+                                    Start date required
+                                </div>
+                                }
+                                }
                             </div>
 
                             <div class="col-6 d-flex flex-column">
                                 <label class="font-bold" for="username">Finish date</label>
                                 <p-calendar formControlName="finishDate" [touchUI]="true" [showTime]="true"
                                     [hourFormat]="'24'" />
+                                @if (eventForm.controls.finishDate.invalid && (eventForm.controls.finishDate.dirty ||
+                                eventForm.controls.finishDate.touched)) {
+                                @if(eventForm.controls.finishDate.errors?.['required']){
+                                <div class="block text-red-500 mt-2 ml-3">
+                                    Finish date required
+                                </div>
+                                }
+                                }
                             </div>
                         </div>
                     </div>
 
+                    @if (event && event.id) {
                     <div class="col-12 flex flex-column justify-content-center">
                         <div class="row d-flex flex-column justify-content-center align-items-center">
                             <h3 class="col-12">Image</h3>
                         </div>
                         <div class="row">
                             <div class="col-12 d-flex flex-column">
-                                @if (event && event.id) {
-                                    <app-custom-file (uploadedFile)="handleUploadedFile()" [eventId]="event.id"></app-custom-file>
-                                    }
+                                <app-custom-file (uploadedFile)="handleUploadedFile()"
+                                    [eventId]="event.id"></app-custom-file>
                             </div>
                         </div>
                     </div>
+                    }
 
                     <div class="col-12 flex flex-column justify-content-center">
                         <div class="row d-flex flex-column justify-content-center align-items-center">
@@ -80,6 +114,14 @@
                                 <label class="font-bold" for="username">Location name</label>
                                 <input pInputText formControlName="locationName" type="text"
                                     class="form-control mb-6" />
+                                @if (eventForm.controls.locationName.invalid && (eventForm.controls.locationName.dirty
+                                || eventForm.controls.locationName.touched)) {
+                                @if(eventForm.controls.locationName.errors?.['required']){
+                                <div class="block text-red-500 mt-2 ml-3">
+                                    Location name required
+                                </div>
+                                }
+                                }
                             </div>
 
                             <div class="col-6 d-flex flex-column">
@@ -110,15 +152,39 @@
                         </div>
                     </div>
 
+
+                    @if (event && event.id) {
+                    <div class="col-12 flex flex-column justify-content-center">
+                        <div class="row d-flex flex-column justify-content-center align-items-center">
+                            <h3 class="col-12">Preview</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                <p-selectButton [options]="stateOptions" (onChange)="handleChangeTogglePreview()"
+                                optionLabel="label" optionValue="value" />
+                            </div>
+                        </div>
+                        @if(!showCardPreview){
+                        <div class="row">
+                            <app-custom-list-item-event class="col-12" [event]="event"></app-custom-list-item-event>
+                        </div>
+                        }
+                        @if(showCardPreview){
+                        <div class="row">
+                            <app-custom-card-event class="col-12" [event]="event"></app-custom-card-event>
+                        </div>
+                        }
+                    </div>
+                    }
+
                 </div>
             </div>
         </form>
-
     </div>
 
-    @if (eventPreviewReady && event) {
+    <!-- @if (eventPreviewReady && event) {
     <app-custom-card-event class="card-example" [event]="event" [isPreviewEvent]="true"></app-custom-card-event>
-    }
+    } -->
 
     <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
         <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary">Submit</button>

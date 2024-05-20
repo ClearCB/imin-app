@@ -7,11 +7,12 @@ import { AuthService } from '../../../../auth/infrastructure/service/auth.servic
 import { UserData } from '../../../../auth/domain/model/user-token-data';
 import { RouterLink } from '@angular/router';
 import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
+import { SearchEventComponent } from '../../../../event/infrastructure/view/search-event/search-event.component';
 
 @Component({
   selector: 'app-event-profile-tab',
   standalone: true,
-  imports: [TabViewModule, EventListComponent, RouterLink],
+  imports: [TabViewModule, EventListComponent, RouterLink, SearchEventComponent],
   templateUrl: './event-profile-tab.component.html',
   styleUrl: './event-profile-tab.component.scss'
 })

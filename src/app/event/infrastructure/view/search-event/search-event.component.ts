@@ -1,5 +1,5 @@
 import { CommonModule, NgStyle } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
@@ -65,6 +65,8 @@ export class SearchEventComponent implements OnInit {
 
   private userLatLang: { lat: number, lang: number } = { lat: 39, lang: 2.96666 };
 
+  @Input()
+  isHorizontalLayout: boolean = false;
 
   get dis() { return this.searchForm.controls.distance }
  

@@ -53,6 +53,8 @@ export class EventDetailComponent {
 
   events: EventModel[] = [];
 
+  twitterUrl: string | undefined;
+
   userInfo?: LoginResponse | null;
 
   event?: EventModel;
@@ -61,6 +63,7 @@ export class EventDetailComponent {
   eventDataId?: string;
 
   loaded: boolean = false;
+  userIsPresent: boolean = false;
   usersAttendance: User[] = [];
 
   loginRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`;
@@ -101,6 +104,7 @@ export class EventDetailComponent {
       next: (userData) => this.userInfo = userData
     })
 
+    this.userIsPresent = this.usersAttendance.findIndex(u => u.username === this.userInfo?.userData.username) != -1;
     this.loaded = true
   }
 
@@ -128,8 +132,13 @@ export class EventDetailComponent {
 
       if (usersResponse) {
         this.usersAttendance = usersResponse;
+
+        if (this.userInfo) {
+          this.userIsPresent = usersResponse.findIndex(u => u.username === this.userInfo?.userData.username) != -1;
+        }
       }
 
+      this.twitterUrl = `https://twitter.com/intent/tweet?text=Join me at this event%20${this.event.title}%20http://localhost:4200/event/${this.event.id}`
       this.events.push(this.event);
     }
 
@@ -141,12 +150,14 @@ export class EventDetailComponent {
     this.loaded = false
 
     if (this.event && this.userInfo?.userData && this.eventDataId) {
-      await this.eventService.addUserToEvent(this.event, this.userInfo.userData);
-      await this.emailService.sendEmail("abelcasasccb@gmail.com", attendanceTemplate("abelcasasccb@gmail.com", "acasas", this.event), "Evento nuevo", "acasasgarcia@cifpfbmoll.eu");
-      await this.getEvent(this.eventDataId);
-    }
+      const userAdded = await this.eventService.addUserToEvent(this.event, this.userInfo.userData);
 
-    this.loaded = true
+      if (userAdded) {
+        await this.getEvent(this.eventDataId);
+        this.loaded = true
+        await this.emailService.sendEmail("abelcasasccb@gmail.com", attendanceTemplate("abelcasasccb@gmail.com", "acasas", this.event), "Evento nuevo", "acasasgarcia@cifpfbmoll.eu");
+      }
+    }
 
 
   }
@@ -167,7 +178,7 @@ export class EventDetailComponent {
   async deleteEvent() {
 
     this.loaded = false
-    
+
     if (this.eventDataId) {
       await this.eventService.deleteEvent(this.eventDataId);
       this.deleteEventEmiter.emit();

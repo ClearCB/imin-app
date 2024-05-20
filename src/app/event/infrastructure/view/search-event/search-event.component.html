@@ -1,3 +1,4 @@
+@if(!isHorizontalLayout){
 <div class="grid">
     <div class="col-12">
         <div class="card">
@@ -18,7 +19,8 @@
                         </div>
                         <div class="col-12 p-0 flex flex-row">
                             <p-calendar class="col-10 p-0" [touchUI]="true" formControlName="startDate" />
-                            <button pButton pRipple class="pi pi-times col-1 col-offset-1 p-0 p-button-danger border-round-md"
+                            <button pButton pRipple
+                                class="pi pi-times col-1 col-offset-1 p-0 p-button-danger border-round-md"
                                 (click)="removeDate()"></button>
                         </div>
                     </div>
@@ -41,3 +43,54 @@
         </div>
     </div>
 </div>
+}
+
+
+@if(isHorizontalLayout){
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <form [formGroup]="searchForm">
+                <div class="row">
+                    <div class="col-6 flex flex-column gap-2">
+                        <label for="contentSearchForm">Content</label>
+                        <input formControlName="content" pInputText type="text" class="form-control"
+                            aria-describedby="contentSearchForm">
+                    </div>
+                    <div class=" col-6 flex flex-column gap-2">
+                        <label for="username">Distance (KM) : {{dis.value}}</label>
+                        <p-slider step="25" formControlName="distance" />
+                    </div>
+                </div>
+                <div class="row d-flex flex-column align-items-center">
+                    <div class="col-6 flex flex-column gap-2">
+                        <div class="col-12 p-0">
+                            <label for="startDateSearchForm">Start date </label>
+                        </div>
+                        <div class="col-12 p-0 flex flex-row">
+                            <p-calendar class="col-10 p-0" [touchUI]="true" formControlName="startDate" />
+                            <button pButton pRipple
+                                class="pi pi-times col-1 col-offset-1 p-0 p-button-danger border-round-md"
+                                (click)="removeDate()"></button>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-12 flex flex-column gap-2">
+                        <label for="category">Category</label>
+                        <p-dropdown optionLabel="name" formControlName="category" placeholder="Select a City" />
+                    </div> -->
+
+                <!-- <div class="col-12 flex flex-column gap-2">
+                        <label for="username">Tags</label>
+                        <p-multiSelect placeholder="Select Cities" optionLabel="name" display="chip"
+                            [showClear]="true" />
+                    </div> -->
+                <div class="col-12 flex flex-column justify-content-center p-3">
+                    <button type="submit" pButton pRipple (click)="searchEvent()"
+                        class="p-button-primary text-center flex justify-content-center border-round-md">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+}

@@ -26,6 +26,7 @@ import { ImageModule } from 'primeng/image';
 import { CustomCardEventComponent } from '../custom-card-event/custom-card-event.component';
 import { EventListComponent } from '../event-list/event-list.component';
 import { CustomListItemEventComponent } from '../custom-list-item-event/custom-list-item-event.component';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @Component({
   selector: 'app-event-create-form',
@@ -36,12 +37,15 @@ import { CustomListItemEventComponent } from '../custom-list-item-event/custom-l
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
     FloatLabelModule, InputTextareaModule, MultiSelectModule,
     CustomFileComponent, CalendarModule, StepperModule, DropdownModule, CustomMapComponent,
-    ImageModule, CustomCardEventComponent, CustomListItemEventComponent
+    ImageModule, CustomCardEventComponent, CustomListItemEventComponent, EventListComponent, SelectButtonModule
   ],
   templateUrl: './event-create-form.component.html',
   styleUrl: './event-create-form.component.scss'
 })
 export class EventCreateFormComponent implements OnInit {
+
+  stateOptions: any[] = [{ label: 'One-Way', value: true }, { label: 'Return', value: false }];
+  showCardPreview: boolean = false;
 
   // Forms
   eventForm = this.formBuilder.group({
@@ -49,14 +53,14 @@ export class EventCreateFormComponent implements OnInit {
     id: [""],
     title: ["", [Validators.required]],
     smallDescription: ["", Validators.required],
-    largeDescription: ["", Validators.required],
+    largeDescription: [""],
     locationName: ["", [Validators.required]],
-    latitude: [0, [Validators.required]],
-    longitude: [0, [Validators.required]],
-    startDate: new FormControl<Date | null>(null),
-    finishDate: new FormControl<Date | null>(null),
-    category: [{ id: 0, name: "", icon: "" }, [Validators.required]],
-    isOnline: [true, [Validators.required]],
+    latitude: [0],
+    longitude: [0],
+    startDate: [new Date(), [Validators.required]],
+    finishDate: [new Date(), [Validators.required]],
+    category: [{ id: 7, name: "Unknown", icon: "unknown" }, [Validators.required]],
+    isOnline: [false, [Validators.required]],
 
   });
 
@@ -95,9 +99,17 @@ export class EventCreateFormComponent implements OnInit {
       this.event = this.eventForm.value as EventModel;
     }
 
-    this.eventForm.valueChanges.subscribe(value => this.event = this.setEventValue(value))
+    this.eventForm.valueChanges.subscribe(value => {
+      this.event = this.setEventValue(value)
+    })
 
     this.eventPreviewReady = true;
+  }
+
+  handleChangeTogglePreview(){
+
+    this.showCardPreview = !this.showCardPreview;
+    
   }
 
 
@@ -110,8 +122,6 @@ export class EventCreateFormComponent implements OnInit {
       return;
     }
 
-    this.events.length = 0;
-    this.events.push(this.event);
 
     if (this.event?.id) {
       this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);

@@ -37,7 +37,7 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
 
   markerToCreate: any;
 
-  activeUserLocation: { lat: number, lng: number } = { lat: 39.22222, lng: 2.96666 };
+  activeUserLocation: { lat: number, lng: number } | undefined;
 
   @Input()
   distance: number | null = null;
@@ -156,7 +156,10 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
 
     this.markers.clearLayers()
     this.addActiveUserLocation();
-    this.drawActiveUserDistanceCircle(this.activeUserLocation.lat, this.activeUserLocation.lng);
+
+    if (this.activeUserLocation) {
+      this.drawActiveUserDistanceCircle(this.activeUserLocation.lat, this.activeUserLocation.lng);
+    }
 
     this.events.forEach((event) => {
 
@@ -213,25 +216,28 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
       iconSize: [30, 30],
     });
 
-    const marker = L.marker([this.activeUserLocation.lat, this.activeUserLocation.lng], { icon: markerIcon, zIndexOffset: 1000 },).addTo(this.markers);
+    if (this.activeUserLocation) {
+      const marker = L.marker([this.activeUserLocation.lat, this.activeUserLocation.lng], { icon: markerIcon, zIndexOffset: 1000 },).addTo(this.markers);
 
-    const popup = L.popup();
+      const popup = L.popup();
 
-    marker.on('mouseover', (e: any) => {
-      popup
-        .setLatLng(e.latlng)
-        .setContent("¡This is your active location!")
-        .openOn(this.map);
+      marker.on('mouseover', (e: any) => {
+        popup
+          .setLatLng(e.latlng)
+          .setContent("¡This is your active location!")
+          .openOn(this.map);
 
-      // this.map.panTo(new L.LatLng(40.737, -73.923));
-      // this.map.setView(new L.LatLng(40.737, -73.923), 8);
+        // this.map.panTo(new L.LatLng(40.737, -73.923));
+        // this.map.setView(new L.LatLng(40.737, -73.923), 8);
 
-    });
+      });
 
-    marker.on('mouseout', (e: any) => {
-      popup
-        .close();
-    });
+      marker.on('mouseout', (e: any) => {
+        popup
+          .close();
+      });
+    }
+
   }
 
 
@@ -264,7 +270,7 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
 
       const markerIcon = L.icon({
         iconUrl: `assets/markers/${iconUrl}`,
-        iconSize: [20, 20],
+        iconSize: [30, 30],
       });
 
       const marker = L.marker([latLang.lat, latLang.lng], { icon: markerIcon }).addTo(this.markerToCreate);

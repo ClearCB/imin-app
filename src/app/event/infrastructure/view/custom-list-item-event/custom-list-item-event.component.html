@@ -1,19 +1,74 @@
-<div class="card" (click)="opentEventDetail(event!)">
+@if(!event){
+
+<div class="card">
     <div class="flex flex-column md:flex-row align-items-around p-3 w-full">
-        <img [src]="imageSrc" [alt]="event?.title" class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5" />
+        <img [src]="imageSrc" alt="generic-photo-event" class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5" />
         <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
-            <div class="font-bold text-2xl">{{event?.title}}</div>
-            <div class="mb-2">{{event?.largeDescription}}</div>
-            <p-rating [readonly]="true" [cancel]="false" styleClass="mb-2"></p-rating>
-            <div class="flex align-items-center mt-2">
-                @for (category of event?.categories; track $index) {
-                <i class="pi pi-tag mr-2"></i>
-                <span class="font-semibold">{{category.name}}</span>
-                }
+            <div class="font-bold text-2xl">
+                NO CONTENT
             </div>
-        </div>
-        <div
-            class="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0">
         </div>
     </div>
 </div>
+
+}
+
+@if(event){
+
+<div class="card" (click)="opentEventDetail(event.id)">
+    <div class="row d-flex flex-row justify-content-center align-items-center">
+        <div class="col-2">
+            <img [src]="imageSrc" [alt]="event.title" class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5" />
+        </div>
+        <!-- <div class="flex flex-column md:flex-row align-items-around p-3 w-full"> -->
+        <div class="col-7 col-offset-1">
+            <div class="row">
+                <div class="col-12">
+                    <h4>{{event.title}}</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p>{{event.smallDescription}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p>{{event.largeDescription.slice(0,200)}}
+                    </p>
+                </div>
+            </div>
+            <!-- <p-rating [readonly]="true" [cancel]="false" styleClass="mb-2"></p-rating> -->
+            <div class="row">
+                @if (event && event.startDate) {
+                <div class="col-6 py-1">
+                    <div class="font-bold">
+                        Start date
+                    </div>
+                    <div>
+                        {{event.startDate.toLocaleString().slice(0,-3)}}
+                    </div>
+                </div>
+                }
+                @if (event && event.finishDate) {
+                <div class="col-6 py-1">
+                    <div class="font-bold">
+                        Finish date
+                    </div>
+                    <div>
+                        {{event.finishDate.toLocaleString().slice(0,-3)}}
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        <div class="col-1">
+            @for (category of event.categories; track $index) {
+            <div class="row">
+                <p-chip class="col-12" [label]="category.name"></p-chip>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+}
