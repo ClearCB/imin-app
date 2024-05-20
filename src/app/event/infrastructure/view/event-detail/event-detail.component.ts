@@ -23,6 +23,9 @@ import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
 import { CalendarModule } from 'primeng/calendar';
 import { CustomMapDetailComponent } from '../../../../map/infrastructure/view/custom-map-detail/custom-map-detail.component';
 import { ImageModule } from 'primeng/image';
+import { EmailService } from '../../../../mail/infrastructure/service/email.service';
+import { attendanceTemplate } from '../../../../mail/infrastructure/templates/attendance';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-event-detail',
@@ -33,7 +36,7 @@ import { ImageModule } from 'primeng/image';
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
     CompactUserListComponent, CustomMapDetailComponent,
     DropdownModule, InputTextareaModule, CalendarModule, CheckboxModule,
-    ChipModule, ImageModule
+    ChipModule, ImageModule, ProgressSpinnerModule
   ],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss'
@@ -57,7 +60,7 @@ export class EventDetailComponent {
   eventParamId?: string | null;
   eventDataId?: string;
 
-  usersLoaded: boolean = false;
+  loaded: boolean = false;
   usersAttendance: User[] = [];
 
   loginRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`;
@@ -71,10 +74,13 @@ export class EventDetailComponent {
     private eventService: EventService,
     private dialogConfig: DynamicDialogConfig,
     private authService: AuthService,
+    private emailService: EmailService,
     private route: ActivatedRoute) { }
 
 
   async ngOnInit(): Promise<void> {
+    this.loaded = false;
+
 
     this.eventParamId = this.route.snapshot.paramMap.get('eventId');
 
@@ -95,9 +101,11 @@ export class EventDetailComponent {
       next: (userData) => this.userInfo = userData
     })
 
+    this.loaded = true
   }
 
   private async getEvent(eventId: string) {
+
 
     this.events.length = 0;
     this.event = await this.eventService.getEvent(eventId) as EventModel;
@@ -125,34 +133,47 @@ export class EventDetailComponent {
       this.events.push(this.event);
     }
 
-    this.usersLoaded = true
+
   }
 
   async handleAttendProcess() {
 
-      if (this.event && this.userInfo?.userData && this.eventDataId) {
-        await this.eventService.addUserToEvent(this.event, this.userInfo.userData);
-        await this.getEvent(this.eventDataId);
-      }
+    this.loaded = false
+
+    if (this.event && this.userInfo?.userData && this.eventDataId) {
+      await this.eventService.addUserToEvent(this.event, this.userInfo.userData);
+      await this.emailService.sendEmail("abelcasasccb@gmail.com", attendanceTemplate("abelcasasccb@gmail.com", "acasas", this.event), "Evento nuevo", "acasasgarcia@cifpfbmoll.eu");
+      await this.getEvent(this.eventDataId);
+    }
+
+    this.loaded = true
+
 
   }
 
   async handleDisAttendProcess() {
+
+    this.loaded = false
 
     if (this.event && this.userInfo?.userData && this.eventDataId) {
       await this.eventService.removeUserFromEvent(this.event, this.userInfo.userData);
       await this.getEvent(this.eventDataId);
     }
 
+    this.loaded = true
+
   }
 
   async deleteEvent() {
 
+    this.loaded = false
+    
     if (this.eventDataId) {
       await this.eventService.deleteEvent(this.eventDataId);
       this.deleteEventEmiter.emit();
     }
 
+    this.loaded = true
   }
 
 

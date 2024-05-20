@@ -49,12 +49,18 @@ export class EventMapLayoutComponent implements OnInit {
       .then((events) => {
         if (events) {
           this.events = events;
+          
+
+          if (this.events.length == 0){
+            this.notificationService.showInfo("Not events found! Create a new event to be the first!");
+          }
         }
       })
       .catch((e) => {
         this.notificationService.showError(e.error.message);
       })
       .finally(() => this.isDataLoaded = true)
+
 
 
   }

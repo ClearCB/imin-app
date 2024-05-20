@@ -1,4 +1,12 @@
 <div class="grid">
+
+    DETAIL 
+
+    @if(!loaded){
+    <p-progressSpinner ariaLabel="loading" />
+    }
+
+    @if (loaded) {
     <div class="card col-10 col-offset-1 p-3 my-4">
 
         <div class="grid">
@@ -106,6 +114,7 @@
 
                 }
 
+                @if ( usersAttendance.length > 0) {
                 <div class="col-12 flex flex-column justify-content-center">
                     <div class="row d-flex flex-column justify-content-center align-items-center">
                         <h3 class="col-12">User attendance</h3>
@@ -116,6 +125,8 @@
                         </div>
                     </div>
                 </div>
+                }
+
             </div>
         </div>
 
@@ -137,4 +148,5 @@
                 class="p-button-primary">DisAttend</button>
         </div>
     </div>
+    }
 </div>

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
-import L, {LatLng, } from "leaflet";
+import L, { LatLng, } from "leaflet";
 import { EventModel } from "../../../../event/domain/model/event-model";
 import { Category, categoryIcon } from "../../../../shared/domain/model/category";
 
@@ -28,6 +28,11 @@ export class CustomMapDetailComponent implements AfterViewInit, OnChanges {
 
   markers: any;
 
+  activeUserLocation: { lat: number, lng: number } = { lat: 39.22222, lng: 2.96666 };
+
+  @Input()
+  distance: number | null = null;
+
   @Input()
   category: Category | null = null;
 
@@ -45,7 +50,18 @@ export class CustomMapDetailComponent implements AfterViewInit, OnChanges {
       this.prepareEventMarkers();
     }
 
-   
+  }
+
+  private fitBoundsMarkers() {
+    if (this.markers) {
+
+      if (this.markers && this.markers.getLayers()) {
+
+        const featureGroup = L.featureGroup(this.markers.getLayers());
+        this.map.fitBounds(featureGroup.getBounds(), { padding: [50, 50], maxZoom: 17 });
+
+      }
+    }
   }
 
   private removeMarkers() {
@@ -68,10 +84,12 @@ export class CustomMapDetailComponent implements AfterViewInit, OnChanges {
       this.markerToCreate = L.layerGroup();
 
       navigator.geolocation.getCurrentPosition((position) => {
-        // latitude = position.coords.latitude;
-        // longitude = position.coords.longitude;
 
-        if (this.events && this.events.length > 0){
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        this.activeUserLocation = { lat: latitude, lng: longitude };
+
+        if (this.events && this.events.length > 0) {
           latitude = this.events[0].latitude;
           longitude = this.events[0].longitude;
         }
@@ -94,7 +112,7 @@ export class CustomMapDetailComponent implements AfterViewInit, OnChanges {
 
         this.initMap()
       });
-    } else if (this.map){
+    } else if (this.map) {
 
       this.prepareEventMarkers();
     }
@@ -112,9 +130,64 @@ export class CustomMapDetailComponent implements AfterViewInit, OnChanges {
 
   }
 
+
+  private addActiveUserLocation() {
+
+    const markerIcon = L.icon({
+
+      iconUrl: `assets/markers/location-pin.png`,
+
+      iconSize: [30, 30],
+
+    });
+
+
+
+    const marker = L.marker([this.activeUserLocation.lat, this.activeUserLocation.lng], { icon: markerIcon, zIndexOffset: 1000 },).addTo(this.markers);
+
+
+
+    const popup = L.popup();
+
+
+
+    marker.on('mouseover', (e: any) => {
+
+      popup
+
+        .setLatLng(e.latlng)
+
+        .setContent("¡This is your active location!")
+
+        .openOn(this.map);
+
+
+
+      // this.map.panTo(new L.LatLng(40.737, -73.923));
+
+      // this.map.setView(new L.LatLng(40.737, -73.923), 8);
+
+
+
+    });
+
+
+
+    marker.on('mouseout', (e: any) => {
+
+      popup
+
+        .close();
+
+    });
+
+  }
+
+
   private prepareEventMarkers() {
 
     this.markers.clearLayers()
+    this.addActiveUserLocation();
 
     this.events.forEach((event) => {
 
@@ -126,12 +199,15 @@ export class CustomMapDetailComponent implements AfterViewInit, OnChanges {
 
       const markerIcon = L.icon({
         iconUrl: `assets/markers/${iconUrl}`,
-        iconSize: [20, 20],
+        iconSize: [30, 30],
       });
 
       const marker = L.marker([event.latitude, event.longitude], { icon: markerIcon }).addTo(this.markers);
 
     })
+
+    this.fitBoundsMarkers();
+
 
   }
 

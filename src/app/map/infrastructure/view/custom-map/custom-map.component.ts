@@ -52,13 +52,9 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
       this.removeMarkers();
       this.prepareEventMarkers();
     }
+  }
 
-    if (this.distance) {
-      const distanceBounds = this.distance * 1500
-      var bounds = L.latLng(this.activeUserLocation.lat, this.activeUserLocation.lng).toBounds(distanceBounds);
-      this.map.fitBounds(bounds, { animation: true });
-    }
-
+  private fitBoundsMarkers() {
     if (this.markers) {
 
       if (this.markers && this.markers.getLayers()) {
@@ -146,9 +142,9 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
       const distance = this.distance * 1000;
 
       var circle = L.circle([lat, lng], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
+        color: 'white',
+        fillColor: '#fff',
+        fillOpacity: 0.4,
         radius: distance
       }).addTo(this.circles);
 
@@ -190,6 +186,8 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
       });
 
     })
+
+    this.fitBoundsMarkers();
 
   }
 
@@ -238,7 +236,7 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
 
 
   async handleClickMarker(event: any) {
-    this.map.setView(new L.LatLng(event.latitude, event.longitude), 8, {animation: true});
+    // this.map.setView(new L.LatLng(event.latitude, event.longitude), 8, { animation: true });
     this.markerClick.emit(event);
   }
 
