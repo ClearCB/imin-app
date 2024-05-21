@@ -54,7 +54,7 @@ export class EventProfileTabComponent implements OnInit {
       }
 
       if (userAttendance){
-        this.activeEvents = this.getActiveUserEvents();
+        this.activeEvents = this.getActiveUserEvents(userAttendance);
         this.todayEvents = this.getTodayUserEvents();
         this.pastEvents = this.getPastUserEvents();
       }
@@ -63,9 +63,9 @@ export class EventProfileTabComponent implements OnInit {
     this.dataLoaded = true;
   }
 
-  private getActiveUserEvents(){
+  private getActiveUserEvents(userAttendance: EventModel[]){
     const today = new Date();
-    return this.userEvents.filter(e => e.startDate <= today && e.finishDate >= today);
+    return userAttendance.filter(e => e.finishDate >= today);
   }
 
   private getPastUserEvents(){

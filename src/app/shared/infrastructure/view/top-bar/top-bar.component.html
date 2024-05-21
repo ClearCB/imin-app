@@ -24,7 +24,11 @@
             </a>
             }
         </div> -->
-
+        <div class="profile-link">
+            <a class="border-round-md" [routerLink]="userProfileRoute">
+                Welcome, {{userInfo?.userData?.username}}
+            </a>
+        </div>
         @if (!userLoggedIn) {
         <button class="p-link layout-topbar-button" pTooltip="Sign in" tooltipPosition="bottom"
             [routerLink]="loginRoute">

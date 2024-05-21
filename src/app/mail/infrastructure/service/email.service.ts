@@ -33,7 +33,6 @@ export class EmailService {
         return;
       }
       
-      this.notificationService.showSuccess(MAIL_CONSTANTS.MESSAGES.EMAIL_SENT);
       return mailSent;
 
     } catch (e: any) {

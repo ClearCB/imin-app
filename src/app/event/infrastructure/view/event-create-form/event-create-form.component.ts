@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { Validators, FormBuilder, FormsModule, ReactiveFormsModule, FormControl, NgModel } from '@angular/forms';
 import { EventModel } from '../../../domain/model/event-model';
 import { EventService } from '../../service/event.service';
 import { NgStyle } from '@angular/common';
@@ -27,25 +27,34 @@ import { CustomCardEventComponent } from '../custom-card-event/custom-card-event
 import { EventListComponent } from '../event-list/event-list.component';
 import { CustomListItemEventComponent } from '../custom-list-item-event/custom-list-item-event.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { User } from '../../../../auth/domain/model/user';
+import { CompactUserListComponent } from '../compact-user-list/compact-user-list.component';
+import { attendanceTemplate, attendanceUpdatedTemplate } from '../../../../mail/infrastructure/templates/attendance';
+import { EmailService } from '../../../../mail/infrastructure/service/email.service';
+import { EditorModule } from 'primeng/editor';
+import { MAIL_CONSTANTS } from '../../../../mail/mail-constants';
+import { NotificationService } from '../../../../shared/infrastructure/service/notification.service';
 
 @Component({
   selector: 'app-event-create-form',
   standalone: true,
   imports: [
     ReactiveFormsModule, EventDetailComponent,
-    ButtonModule, ChipModule, FormsModule, RippleModule,
-    NgStyle, MenuModule, InputTextModule, CheckboxModule,
+    ButtonModule, ChipModule, FormsModule, RippleModule, EditorModule,
+    NgStyle, MenuModule, InputTextModule, CheckboxModule, FormsModule,
     FloatLabelModule, InputTextareaModule, MultiSelectModule,
     CustomFileComponent, CalendarModule, StepperModule, DropdownModule, CustomMapComponent,
-    ImageModule, CustomCardEventComponent, CustomListItemEventComponent, EventListComponent, SelectButtonModule
+    ImageModule, CustomCardEventComponent, CustomListItemEventComponent, EventListComponent, SelectButtonModule, CompactUserListComponent
   ],
   templateUrl: './event-create-form.component.html',
   styleUrl: './event-create-form.component.scss'
 })
 export class EventCreateFormComponent implements OnInit {
 
-  stateOptions: any[] = [{ label: 'One-Way', value: true }, { label: 'Return', value: false }];
+  stateOptions: any[] = [{ label: 'Card', value: true }, { label: 'List item', value: false }];
   showCardPreview: boolean = false;
+
+  usersAttendance: User[] = [];
 
   // Forms
   eventForm = this.formBuilder.group({
@@ -53,7 +62,7 @@ export class EventCreateFormComponent implements OnInit {
     id: [""],
     title: ["", [Validators.required]],
     smallDescription: ["", Validators.required],
-    largeDescription: [""],
+    largeDescription: ["EDSAAAAAAAAAAAAAAAAAAA"],
     locationName: ["", [Validators.required]],
     latitude: [0],
     longitude: [0],
@@ -81,8 +90,9 @@ export class EventCreateFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private eventService: EventService,
     private commonService: CommonService,
-    private route: ActivatedRoute,
-    private fileService: FileService
+    private route: ActivatedRoute, private notificationService: NotificationService,
+    private fileService: FileService,
+    private emailService: EmailService
   ) {
 
   }
@@ -106,10 +116,10 @@ export class EventCreateFormComponent implements OnInit {
     this.eventPreviewReady = true;
   }
 
-  handleChangeTogglePreview(){
+  handleChangeTogglePreview() {
 
     this.showCardPreview = !this.showCardPreview;
-    
+
   }
 
 
@@ -147,7 +157,15 @@ export class EventCreateFormComponent implements OnInit {
       category: category,
     }
 
+    const usersResponse = await this.eventService.getEventAttendance(this.event);
+
+    if (usersResponse) {
+      this.usersAttendance = usersResponse;
+    }
+
     this.eventForm.setValue(initValue)
+    this.events.length = 0;
+    this.events.push(this.eventForm.value as EventModel);
     this.eventPreviewReady = true;
   }
 
@@ -159,6 +177,8 @@ export class EventCreateFormComponent implements OnInit {
       ? [this.eventForm.controls.category.value]
       : [];
 
+    this.events.length = 0;
+    this.events.push(v);
     return v;
   }
 
@@ -175,6 +195,25 @@ export class EventCreateFormComponent implements OnInit {
       let eventCreated;
       if (this.eventParamId) {
         eventCreated = await this.eventService.updateEvent(this.eventParamId, event);
+
+        const emailPromises = [];
+
+        for (const user of this.usersAttendance) {
+          if (eventCreated) {
+            const emailPromise = this.emailService.sendEmail(
+              user.email,
+              attendanceUpdatedTemplate(user.email, user.username, eventCreated),
+              "Updated event '" + this.event?.title + "'",
+              "acasasgarcia@cifpfbmoll.eu"
+            );
+            emailPromises.push(emailPromise);
+          }
+        }
+        
+        Promise.all(emailPromises)
+        .then(()=> {
+          this.notificationService.showSuccess(MAIL_CONSTANTS.MESSAGES.EMAIL_SENT_USERS);
+        });
       } else {
         eventCreated = await this.eventService.createEvent(event);
       }

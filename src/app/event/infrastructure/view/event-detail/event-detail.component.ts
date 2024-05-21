@@ -26,6 +26,8 @@ import { ImageModule } from 'primeng/image';
 import { EmailService } from '../../../../mail/infrastructure/service/email.service';
 import { attendanceTemplate } from '../../../../mail/infrastructure/templates/attendance';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { NotificationService } from '../../../../shared/infrastructure/service/notification.service';
+import { MAIL_CONSTANTS } from '../../../../mail/mail-constants';
 
 @Component({
   selector: 'app-event-detail',
@@ -78,6 +80,7 @@ export class EventDetailComponent {
     private dialogConfig: DynamicDialogConfig,
     private authService: AuthService,
     private emailService: EmailService,
+    private notificationService:NotificationService,
     private route: ActivatedRoute) { }
 
 
@@ -155,7 +158,10 @@ export class EventDetailComponent {
       if (userAdded) {
         await this.getEvent(this.eventDataId);
         this.loaded = true
-        await this.emailService.sendEmail("abelcasasccb@gmail.com", attendanceTemplate("abelcasasccb@gmail.com", "acasas", this.event), "Evento nuevo", "acasasgarcia@cifpfbmoll.eu");
+        await this.emailService.sendEmail(this.userInfo.userData.email, attendanceTemplate(this.userInfo.userData.email, this.userInfo.userData.username, this.event), "New event attendance", "acasasgarcia@cifpfbmoll.eu");
+        this.notificationService.showSuccess(MAIL_CONSTANTS.MESSAGES.EMAIL_SENT);
+
+
       }
     }
 

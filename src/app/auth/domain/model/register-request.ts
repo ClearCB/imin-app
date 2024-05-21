@@ -5,6 +5,7 @@ export interface RegisterRequest {
     username: string;
     password: string;
     confirmationPassword: string;
+    email: string;
 
 }
 
@@ -14,11 +15,18 @@ export function ensureRegisterRequestIsValid(registerRequest: RegisterRequest): 
     if (!isValidRegisterUsername(registerRequest.username)) {
         throw RegisterUsernameNotValidError(registerRequest.username);
     }
+    if (!isValidRegisterEmail(registerRequest.email)) {
+        throw RegisterUsernameNotValidError(registerRequest.email);
+    }
 
 }
 
 export function isValidRegisterUsername(username: string): boolean {
     return username != null && username != undefined && username != '';
+}
+
+export function isValidRegisterEmail(email: string): boolean {
+    return email != null && email != undefined && email != '';
 }
 
 export function RegisterUsernameNotValidError(username: string): Error {

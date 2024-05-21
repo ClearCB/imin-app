@@ -10,9 +10,24 @@
                         </span>
                     </div>
                 </ng-template>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit...
-                </p>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="font-bold">Username</label>
+                                <div>
+                                    {{ userInfo?.userData?.username}}
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label class="font-bold">Email</label>
+                                <div>
+                                    {{ userInfo?.userData?.email}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </p-tabPanel>
             <p-tabPanel header="Header II">
                 <ng-template pTemplate="header">

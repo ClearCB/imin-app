@@ -52,6 +52,7 @@
                                 <textarea id="float-input" rows="5" cols="30" formControlName="largeDescription"
                                     pInputTextarea [autoResize]="true">
                             </textarea>
+                                <!-- <p-editor formControlName="largeDescription" [style]="{ height: '320px' }" /> -->
                             </div>
                         </div>
                     </div>
@@ -100,6 +101,19 @@
                             <div class="col-12 d-flex flex-column">
                                 <app-custom-file (uploadedFile)="handleUploadedFile()"
                                     [eventId]="event.id"></app-custom-file>
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                    @if ( usersAttendance.length > 0) {
+                    <div class="col-12 flex flex-column justify-content-center">
+                        <div class="row d-flex flex-column justify-content-center align-items-center">
+                            <h3 class="col-12">User attendance</h3>
+                        </div>
+                        <div class="row">
+                            <div class=" col-10 col-offset-1  row-gap-3 p-5">
+                                <app-compact-user-list [users]="usersAttendance"></app-compact-user-list>
                             </div>
                         </div>
                     </div>
@@ -161,7 +175,7 @@
                         <div class="row">
                             <div class="col-12 d-flex flex-column justify-content-center align-items-center">
                                 <p-selectButton [options]="stateOptions" (onChange)="handleChangeTogglePreview()"
-                                optionLabel="label" optionValue="value" />
+                                    optionLabel="label" optionValue="value" />
                             </div>
                         </div>
                         @if(!showCardPreview){
@@ -181,11 +195,6 @@
             </div>
         </form>
     </div>
-
-    <!-- @if (eventPreviewReady && event) {
-    <app-custom-card-event class="card-example" [event]="event" [isPreviewEvent]="true"></app-custom-card-event>
-    } -->
-
     <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
         <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary">Submit</button>
     </div>

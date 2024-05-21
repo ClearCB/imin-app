@@ -31,6 +31,7 @@ export class RegisterComponent {
   registerForm = this.formBuilder.group({
     username: ["", Validators.required],
     password: ["", Validators.required],
+    email: ["", [Validators.required, Validators.email]],
     confirmationPassword: ["", Validators.required]
   }, {
     validators: this.matchValidator('password', 'confirmationPassword'),
@@ -40,6 +41,7 @@ export class RegisterComponent {
   // Getters 
   get username() { return this.registerForm.controls.username }
   get password() { return this.registerForm.controls.password }
+  get email() { return this.registerForm.controls.email }
   get confirmationPassword() { return this.registerForm.controls.confirmationPassword }
 
   constructor(
