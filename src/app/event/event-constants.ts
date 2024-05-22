@@ -2,6 +2,8 @@ export const EVENT_CONSTANTS = {
     MESSAGES: {
         EVENT_CANT_BE_NULL: "Event cannot be null",
         EVENT_TITLE_CANT_BE_NULL: "Event title cannot be null",
+        EVENT_LOCATION_CANT_BE_NULL: "Event location cannot be null",
+        EVENT_DATE_INVALID: "Event start date MUST be greater than finish date",
         EVENT_NOT_FOUND: "Event not found",
         EVENT_ATTENDANCE_ERROR: "An error has occurred while retrieving the event attendance",
         USER_ATTENDANCE_ERROR: "An error has occurred while retrieving users attendance",

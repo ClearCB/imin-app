@@ -174,46 +174,51 @@ INSERT INTO "dbo".community (id, name) VALUES
 
 -- Inserting events
 INSERT INTO "dbo"."event" (id, user_id ,title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd','Lluc a peu en GRUPO', '¿Quieres hacer Lluc a Peu pero no sabes con quién?, ¡Apúntate!', 'Placá guell, Calle Aragón, Mallorca, Illes Balears', '2024-08-15 22:00:00', '2024-08-16 6:00:00 ',39.57862311391987, 2.6628275075655496, '<p>¡Lluc a Peu en Grupo: Una Caminata Inolvidable Compartiendo Experiencias!
-¿Sientes el llamado de la aventura pero no quieres embarcarte en ella solo? ¡Entonces el evento "Lluc a Peu en Grupo" es perfecto para ti! Únete a esta caminata nocturna llena de compañerismo y disfruta de la magia de recorrer juntos uno de los senderos más emblemáticos de Mallorca.
+VALUES ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd','Lluc a peu en GRUPO', '¿Quieres hacer Lluc a Peu pero no sabes con quién?, ¡Apúntate!', 'Placá guell, Calle Aragón, Mallorca, Illes Balears', '2024-08-15 22:00:00', '2024-08-16 6:00:00 ',39.57862311391987, 2.6628275075655496, '¡Lluc a Peu en Grupo: Una Caminata Inolvidable Compartiendo Experiencias!<br/>
 
-¿Por qué unirte a Lluc a Peu en Grupo?
+¿Sientes el llamado de la aventura pero no quieres embarcarte en ella solo? ¡Entonces el evento "Lluc a Peu en Grupo" es perfecto para ti! Únete a esta caminata nocturna llena de compañerismo y disfruta de la magia de recorrer juntos uno de los senderos más emblemáticos de Mallorca.<br/>
+
+¿Por qué unirte a Lluc a Peu en Grupo?<br/>
 
 Experiencia compartida: Recorre el camino con un grupo de personas que comparten tu pasión por la aventura y la naturaleza. Crea nuevas amistades y disfruta de la camaradería mientras disfrutas del paisaje.
 Seguridad en grupo: La caminata en grupo te brinda mayor seguridad, especialmente durante la noche. Contarás con el apoyo y la asistencia de otros participantes en caso de cualquier imprevisto.
 Motivación mutua: Caminar en grupo te motiva a seguir adelante, especialmente cuando el cansancio comienza a aparecer. El apoyo y la energía del grupo te impulsarán a alcanzar la meta.
-Descubrimientos compartidos: Comparte tus experiencias y conocimientos con otros participantes. Intercambia historias, consejos y anécdotas que enriquezcan aún más la travesía.
-Plan de la caminata:
+Descubrimientos compartidos: Comparte tus experiencias y conocimientos con otros participantes. Intercambia historias, consejos y anécdotas que enriquezcan aún más la travesía.<br/>
+Plan de la caminata:<br/>
 
-Fecha: 15 al 16 de agosto de 2024
-Hora de inicio: 22:00 horas del 15 de agosto
-Hora de finalización: 6:00 horas del 16 de agosto
-Punto de partida: Plaça Güell, Palma de Mallorca
-Distancia: 39,5 km
-Dificultad: Media-alta
-Tipo de ruta: Circular
-Recomendaciones:
+Fecha: 15 al 16 de agosto de 2024<br/>
+Hora de inicio: 22:00 horas del 15 de agosto<br/>
+Hora de finalización: 6:00 horas del 16 de agosto<br/>
+Punto de partida: Plaça Güell, Palma de Mallorca<br/>
+Distancia: 39,5 km<br/>
+Dificultad: Media-alta<br/>
+Tipo de ruta: Circular<br/>
+Recomendaciones:<br/>
 
-Calzado adecuado: Lleva calzado cómodo y resistente para senderismo nocturno.
-Ropa: Usa ropa ligera y transpirable que se adapte a las diferentes temperaturas nocturnas.
-Iluminación: Lleva una linterna frontal o una luz potente para alumbrar el camino.
-Agua y comida: Lleva suficiente agua y comida para toda la caminata.
-Actitud positiva: ¡Mantén una actitud positiva y disfruta de la experiencia!
-Cosas que te pueden interesar:
+Calzado adecuado: Lleva calzado cómodo y resistente para senderismo nocturno.<br/>
+Ropa: Usa ropa ligera y transpirable que se adapte a las diferentes temperaturas nocturnas.<br/>
+Iluminación: Lleva una linterna frontal o una luz potente para alumbrar el camino.<br/>
+Agua y comida: Lleva suficiente agua y comida para toda la caminata.<br/>
+Actitud positiva: ¡Mantén una actitud positiva y disfruta de la experiencia!<br/>
+Cosas que te pueden interesar:<br/>
 
-Alojamiento: Si vienes de fuera de Palma, puedes reservar alojamiento en la zona cercana al punto de partida.
-Transporte: Puedes llegar al punto de partida en autobús o en coche. Hay aparcamiento disponible en la zona.
-Permisos: No se requiere ningún permiso especial para realizar la caminata.
-Seguro: Se recomienda tener un seguro de accidentes deportivos.
+Alojamiento: Si vienes de fuera de Palma, puedes reservar alojamiento en la zona cercana al punto de partida.<br/>
+Transporte: Puedes llegar al punto de partida en autobús o en coche. Hay aparcamiento disponible en la zona.<br/>
+Permisos: No se requiere ningún permiso especial para realizar la caminata.<br/>
+Seguro: Se recomienda tener un seguro de accidentes deportivos.<br/>
 ¡No te pierdas esta oportunidad única de vivir una experiencia inolvidable en Lluc a Peu! Apúntate al evento "Lluc a Peu en Grupo" y prepárate para compartir una aventura llena de compañerismo, naturaleza y diversión.
+<br/>
+Recuerda:<br/>
 
-Recuerda:
-
-Fecha límite de inscripción: 10 de agosto de 2024
-Cupo limitado: Asegúrate de reservar tu plaza con anticipación.
-¡Te esperamos!</p>', FALSE);
+Fecha límite de inscripción: 10 de agosto de 2024<br/>
+Cupo limitado: Asegúrate de reservar tu plaza con anticipación.<br/>
+¡Te esperamos!', FALSE);
 INSERT INTO "dbo"."event" (id,  user_id ,title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd','¡Torneo de Voley Playa en Mallorca!', '¿Te gusta el voleibol y el sol? ¡Entonces no te pierdas nuestro Torneo de Voley Playa en Mallorca! ', 'Playa Can Pere Antoni zona Oeste. Al lado de las cabañas.', '2024-06-10 16:00', '2024-06-10 23:59', 39.56141700045343, 2.6651472995903767, '<p>¿Te gusta el voleibol y el sol? ¡Entonces no te pierdas nuestro Torneo de Voley Playa en Mallorca! Un evento para divertirte bajo el sol y disfrutar de la compañía de otros amantes del voleibol.
+VALUES ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd','¡Torneo de Voley Playa en Mallorca!', '¿Te gusta el voleibol y el sol? ¡Entonces no te pierdas nuestro Torneo de Voley Playa en Mallorca! ', 'Playa Can Pere Antoni zona Oeste. Al lado de las cabañas.', '2024-06-10 16:00', '2024-06-10 23:59', 39.56141700045343, 2.6651472995903767, '¿Te gusta el voleibol y el sol?
+
+¡Entonces no te pierdas nuestro Torneo de Voley Playa en Mallorca! 
+
+Un evento para divertirte bajo el sol y disfrutar de la compañía de otros amantes del voleibol.
 
 ¿Cuándo? Del 5 al 7 de mayo de 2024.
 
@@ -227,13 +232,31 @@ VALUES ('6ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f16
 
 ¡No te quedes sin tu plaza! El cupo es limitado.
 
-¡Te esperamos!</p>', FALSE);
+¡Te esperamos!', FALSE);
 INSERT INTO "dbo"."event" (id, user_id ,title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('7ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd', 'Torneo de Ajedrez', '¡Jaque mate en el local de juegos de mesa!', 'Calle Eusebi Estada, Local Gamers, Mallorca, Illes Balears', '2024-06-5 16:00', '2024-06-5 20:00', 39.580795132383635, 2.6590304346935065, '<p>Participa en nuestro emocionante Torneo de Ajedrez. Disfruta de un ambiente familiar y desafía a tus oponentes en un entorno ideal para este juego de estrategia. ¡Habrá premios para los ganadores!</p>', TRUE);
+VALUES ('7ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd', 'Torneo de Ajedrez', '¡Jaque mate en el local de juegos de mesa!', 'Calle Eusebi Estada, Local Gamers, Mallorca, Illes Balears', '2024-06-5 16:00', '2024-06-5 20:00', 39.580795132383635, 2.6590304346935065, '
+Participa en nuestro emocionante Torneo de Ajedrez. 
+
+Disfruta de un ambiente familiar y desafía a tus oponentes en un entorno ideal para este juego de estrategia. 
+
+¡Habrá premios para los ganadores!', TRUE);
 INSERT INTO "dbo"."event" (id, user_id ,title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('8ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd', 'Grupo de Estudio', 'Estudia con otros en el Café Arabay', 'Café Arabay, Calle Sinidacto, Mallorca, Illes Balears', '2024-07-15 15:00', '2024-07-15 20:00', 39.57105276688043, 2.6525420213350244, '<p>¿Te cuesta concentrarte para estudiar solo? Únete a nuestro grupo de estudio en el Café Arabay. Disfruta de un ambiente tranquilo y motivante para potenciar tu aprendizaje. ¡Ideal para todas las materias!</p>', FALSE);
+VALUES ('8ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd', 'Grupo de Estudio', 'Estudia con otros en el Café Arabay', 'Café Arabay, Calle Sinidacto, Mallorca, Illes Balears', '2024-07-15 15:00', '2024-07-15 20:00', 39.57105276688043, 2.6525420213350244, '¿Te cuesta concentrarte para estudiar solo?
+
+ Únete a nuestro grupo de estudio en el Café Arabay. 
+ 
+ Disfruta de un ambiente tranquilo y motivante para potenciar tu aprendizaje. 
+ 
+ ¡Ideal para todas las materias!', FALSE);
 INSERT INTO "dbo"."event" (id, user_id ,title, small_description, location_name, start_date, finish_date, latitude, longitude, large_description, is_online)
-VALUES ('9ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd', 'Intercambio de Idiomas', 'Practica idiomas con otros en Granier', 'Granier, Calle Sindicato, Mallorca, Illes Balears', '2024-08-20 10:00', '2024-08-22 23:59', 39.57247720301741, 2.656071145733692, '<p>¿Quieres mejorar tu nivel de conversación en otro idioma? ¡Únete a nuestro intercambio de idiomas en Granier! Conoce gente nueva y practica tus habilidades de comunicación en un ambiente relajado e informal. ¡Abierto a todos los niveles!<p>', FALSE);
+VALUES ('9ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '1fa34d17-6d33-4b16-a75b-d2b6f165bdfd', 'Intercambio de Idiomas', 'Practica idiomas con otros en Granier', 'Granier, Calle Sindicato, Mallorca, Illes Balears', '2024-08-20 10:00', '2024-08-22 23:59', 39.57247720301741, 2.656071145733692, '
+¿Quieres mejorar tu nivel de conversación en otro idioma? 
+
+¡Únete a nuestro intercambio de idiomas en Granier!
+
+ Conoce gente nueva y practica tus habilidades de comunicación en un ambiente relajado e informal.
+
+¡Abierto a todos los niveles!', FALSE);
 
 INSERT INTO "dbo".event_communities (event_id, community_id) VALUES
   ('5ae70aa2-2f09-4c0f-8940-f8ad514cfb4e', '3ae70aa2-2f09-4c0f-8940-f8ad514cfb4e'),

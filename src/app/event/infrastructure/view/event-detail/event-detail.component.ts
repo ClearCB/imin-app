@@ -28,6 +28,7 @@ import { attendanceTemplate } from '../../../../mail/infrastructure/templates/at
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { NotificationService } from '../../../../shared/infrastructure/service/notification.service';
 import { MAIL_CONSTANTS } from '../../../../mail/mail-constants';
+import { QrGeneratorComponent } from '../../../../config/qr-generator/qr-generator.component';
 
 @Component({
   selector: 'app-event-detail',
@@ -38,7 +39,7 @@ import { MAIL_CONSTANTS } from '../../../../mail/mail-constants';
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
     CompactUserListComponent, CustomMapDetailComponent,
     DropdownModule, InputTextareaModule, CalendarModule, CheckboxModule,
-    ChipModule, ImageModule, ProgressSpinnerModule
+    ChipModule, ImageModule, ProgressSpinnerModule, QrGeneratorComponent
   ],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss'
@@ -80,7 +81,7 @@ export class EventDetailComponent {
     private dialogConfig: DynamicDialogConfig,
     private authService: AuthService,
     private emailService: EmailService,
-    private notificationService:NotificationService,
+    private notificationService: NotificationService,
     private route: ActivatedRoute) { }
 
 
@@ -141,7 +142,6 @@ export class EventDetailComponent {
         }
       }
 
-      this.twitterUrl = `https://twitter.com/intent/tweet?text=Join me at this event%20${this.event.title}%20http://localhost:4200/event/${this.event.id}`
       this.events.push(this.event);
     }
 
@@ -179,6 +179,13 @@ export class EventDetailComponent {
 
     this.loaded = true
 
+  }
+
+  handleShareButton() {
+
+    if (this.event) {
+      this.eventService.openShareModal(this.event);
+    }
   }
 
   async deleteEvent() {

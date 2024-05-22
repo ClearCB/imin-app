@@ -23,6 +23,7 @@ import { getUsersEvents } from '../../application/get-users-events/get-users-eve
 import { EventMapperService } from '../mapper/event-mapper.service';
 import { AuthService } from '../../../auth/infrastructure/service/auth.service';
 import { removeUserFromEvent } from '../../application/remove-user-to-event/remove-event-use-case';
+import { ShareDetailComponent } from '../view/share-detail/share-detail.component';
 
 @Injectable({
   providedIn: 'root',
@@ -78,7 +79,7 @@ export class EventService {
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_UPDATE_KO);
+      this.notificationService.showError(`${EVENT_CONSTANTS.MESSAGES.EVENT_UPDATE_KO}: ${e.message}`);
       return;
     }
 
@@ -172,10 +173,10 @@ export class EventService {
         this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
         return;
       }
-      
+
       this.notificationService.showSuccess(EVENT_CONSTANTS.MESSAGES.EVENT_ADDED_USER);
       return userAddedToEvent;
-      
+
     } catch (e: any) {
 
       console.error(e.message);
@@ -262,7 +263,7 @@ export class EventService {
     }
   }
 
-  public opentEventDetail(event:EventModel){
+  public opentEventDetail(event: EventModel) {
 
     this.ref = this.dialogService.open(EventDetailComponent, {
       data: event,
@@ -274,19 +275,36 @@ export class EventService {
         '640px': '90vw'
       },
       baseZIndex: 10000,
-      draggable:true,
+      draggable: true,
     });
 
   }
 
-  
-  public goToEventDetail(event:EventModel){
+  public openShareModal(event: EventModel) {
+
+    this.ref = this.dialogService.open(ShareDetailComponent, {
+      data: event,
+      header: 'Share detail',
+      width: '40vw',
+      modal: true,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      },
+      baseZIndex: 10000,
+      draggable: true,
+    });
+
+  }
+
+
+  public goToEventDetail(event: EventModel) {
 
     this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${event.id}`);
 
   }
 
-  public goToEventEditForm(event:EventModel){
+  public goToEventEditForm(event: EventModel) {
 
     this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.UPDATE}/${event.id}`);
 

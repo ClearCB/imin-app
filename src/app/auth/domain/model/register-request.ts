@@ -32,3 +32,7 @@ export function isValidRegisterEmail(email: string): boolean {
 export function RegisterUsernameNotValidError(username: string): Error {
     return new Error(`${AUTH_CONSTANTS.MESSAGES.VALIDATION.INVALID_USERNAME}: ${username}`)
 }
+
+export function RegisterEmailNotValidError(email: string): Error {
+    return new Error(`${AUTH_CONSTANTS.MESSAGES.VALIDATION.INVALID_EMAIL}: ${email}`)
+}

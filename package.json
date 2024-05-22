@@ -31,6 +31,7 @@
     "@popperjs/core": "^2.11.8",
     "@types/geojson": "^7946.0.14",
     "@types/leaflet": "^1.9.12",
+    "angularx-qrcode": "^17.0.1",
     "bootstrap": "4.6",
     "leaflet": "^1.9.4",
     "primeflex": "^3.3.1",

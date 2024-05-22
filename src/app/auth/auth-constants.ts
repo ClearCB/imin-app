@@ -2,6 +2,7 @@ export const AUTH_CONSTANTS = {
     MESSAGES: {
         VALIDATION: {
             INVALID_USERNAME: "Invalid username ",
+            INVALID_EMAIL: "Invalid email ",
         },
         INVALID_REGISTER_REQUEST: "Invalid register request.",
         INVALID_LOGIN_REQUEST: "Invalid login request.",

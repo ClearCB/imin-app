@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormsModule, ReactiveFormsModule, FormControl, NgModel } from '@angular/forms';
+import { Validators, FormBuilder, FormsModule, ReactiveFormsModule, FormControl, NgModel, AbstractControl, FormGroup } from '@angular/forms';
 import { EventModel } from '../../../domain/model/event-model';
 import { EventService } from '../../service/event.service';
 import { NgStyle } from '@angular/common';
@@ -34,6 +34,7 @@ import { EmailService } from '../../../../mail/infrastructure/service/email.serv
 import { EditorModule } from 'primeng/editor';
 import { MAIL_CONSTANTS } from '../../../../mail/mail-constants';
 import { NotificationService } from '../../../../shared/infrastructure/service/notification.service';
+import { AutoFocusInvalidDirective } from '../../../../config/auto-focus-invalid.directive';
 
 @Component({
   selector: 'app-event-create-form',
@@ -42,7 +43,7 @@ import { NotificationService } from '../../../../shared/infrastructure/service/n
     ReactiveFormsModule, EventDetailComponent,
     ButtonModule, ChipModule, FormsModule, RippleModule, EditorModule,
     NgStyle, MenuModule, InputTextModule, CheckboxModule, FormsModule,
-    FloatLabelModule, InputTextareaModule, MultiSelectModule,
+    FloatLabelModule, InputTextareaModule, MultiSelectModule, AutoFocusInvalidDirective,
     CustomFileComponent, CalendarModule, StepperModule, DropdownModule, CustomMapComponent,
     ImageModule, CustomCardEventComponent, CustomListItemEventComponent, EventListComponent, SelectButtonModule, CompactUserListComponent
   ],
@@ -196,24 +197,25 @@ export class EventCreateFormComponent implements OnInit {
       if (this.eventParamId) {
         eventCreated = await this.eventService.updateEvent(this.eventParamId, event);
 
-        const emailPromises = [];
-
-        for (const user of this.usersAttendance) {
-          if (eventCreated) {
-            const emailPromise = this.emailService.sendEmail(
-              user.email,
-              attendanceUpdatedTemplate(user.email, user.username, eventCreated),
-              "Updated event '" + this.event?.title + "'",
-              "acasasgarcia@cifpfbmoll.eu"
-            );
-            emailPromises.push(emailPromise);
+        if (eventCreated && this.usersAttendance.length > 0) {
+          const emailPromises = [];
+          for (const user of this.usersAttendance) {
+            if (eventCreated) {
+              const emailPromise = this.emailService.sendEmail(
+                user.email,
+                attendanceUpdatedTemplate(user.email, user.username, eventCreated),
+                "Updated event '" + this.event?.title + "'",
+                "acasasgarcia@cifpfbmoll.eu"
+              );
+              emailPromises.push(emailPromise);
+            }
           }
+
+          Promise.all(emailPromises)
+            .then(() => {
+              this.notificationService.showSuccess(MAIL_CONSTANTS.MESSAGES.EMAIL_SENT_USERS);
+            });
         }
-        
-        Promise.all(emailPromises)
-        .then(()=> {
-          this.notificationService.showSuccess(MAIL_CONSTANTS.MESSAGES.EMAIL_SENT_USERS);
-        });
       } else {
         eventCreated = await this.eventService.createEvent(event);
       }
@@ -228,8 +230,29 @@ export class EventCreateFormComponent implements OnInit {
     } else {
 
       this.eventForm.markAllAsTouched();
+      this.notificationService.showError("Invalid event data. Check the form validation.");
     }
 
+  }
+
+
+  private findFirstInvalidControl(control: AbstractControl): AbstractControl | null {
+    if (control.invalid) {
+      return control;
+    }
+
+    if (control instanceof FormGroup) {
+      for (const name in control.controls) {
+        if (control.controls[name]) {
+          const childControl = this.findFirstInvalidControl(control.controls[name]);
+          if (childControl) {
+            return childControl;
+          }
+        }
+      }
+    }
+
+    return null;
   }
 
 
