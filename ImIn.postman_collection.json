@@ -181,7 +181,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://iminapp.es/auth/register",
+							"raw": "https://iminapp.es/auth/register",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1040,7 +1040,7 @@
 	"variable": [
 		{
 			"key": "API_BUSINESS_URL",
-			"value": "http://iminapp.es/api/v1/",
+			"value": "https://iminapp.es/api/v1/",
 			"type": "string"
 		},
 		{
@@ -1080,12 +1080,12 @@
 		},
 		{
 			"key": "API_AUTH_URL",
-			"value": "http://iminapp.es/auth/",
+			"value": "https://iminapp.es/auth/",
 			"type": "string"
 		},
 		{
 			"key": "API_AUTH_LOGIN_ENPOINT",
-			"value": "http://iminapp.es/auth/login",
+			"value": "https://iminapp.es/auth/login",
 			"type": "string"
 		},
 		{
