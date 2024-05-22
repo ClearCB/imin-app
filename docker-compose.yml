@@ -16,7 +16,7 @@ services:
       - ${INIT_SCRIPT_DB_PATH}:/docker-entrypoint-initdb.d/init.sql
 
   api-business:
-    image: clearcb/imin-api-business:latest
+    image: imin-api-business
     ports:
       - "8080:8080"
     depends_on:
