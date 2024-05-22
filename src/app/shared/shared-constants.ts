@@ -3,7 +3,7 @@ export const SHARED_CONSTANTS = {
     },
     API: {
         IMAGE: {
-            BASE_URL: "http://localhost:8080/api/v1/image/",
+            BASE_URL: "http://iminapp.es/api/v1/image/",
             ENDPOINTS: {
                 UPLOAD: "upload",
                 DELETE: "delete",
@@ -11,7 +11,7 @@ export const SHARED_CONSTANTS = {
             }
         },
         CONFIGURATION: {
-            BASE_URL: "http://localhost:8080/api/v1/configuration/",
+            BASE_URL: "http://iminapp.es/api/v1/configuration/",
             ENDPOINTS: {
                 GET: "get/",
             }

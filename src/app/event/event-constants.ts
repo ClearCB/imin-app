@@ -22,7 +22,7 @@ export const EVENT_CONSTANTS = {
         EVENT_DATABASE_GENERIC_ERROR: "An error has occurred"
     },
     API: {
-        BASE_URL: "http://localhost:8080/api/v1/event/",
+        BASE_URL: "http://iminapp.es/api/v1/event/",
         ENDPOINTS: {
             GET_EVENT_BY_ID: "get",
             GET_ALL_EVENTS: "get-all",

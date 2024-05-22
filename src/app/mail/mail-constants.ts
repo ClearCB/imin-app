@@ -5,7 +5,7 @@ export const MAIL_CONSTANTS = {
         EMAIL_SENT_KO: "Error while sending notification to your email",
     },
     API: {
-        BASE_URL: "http://localhost:8080/api/v1/email/",
+        BASE_URL: "http://iminapp.es/api/v1/email/",
         ENDPOINTS: {
             SEND_EMAIL: "send-email",
         }
