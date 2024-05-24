@@ -12,12 +12,12 @@ import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { EmailService } from '../../../../mail/infrastructure/service/email.service';
 import { UserData } from '../../../domain/model/user-token-data';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @Component({
   selector: 'app-verication-code',
   standalone: true,
   imports: [
-    ReactiveFormsModule, RouterLink,
+    ReactiveFormsModule, RouterLink, ProgressSpinnerModule,
     CheckboxModule, ButtonModule,
     RippleModule, InputTextModule,
     PasswordModule, FormsModule
@@ -28,8 +28,11 @@ import { UserData } from '../../../domain/model/user-token-data';
 export class VericationCodeComponent implements OnInit {
 
   public userData: string | undefined;
+
+  public loading: boolean = false;
   constructor(
     private emailService: EmailService,
+    private route: Router,
     private authService: AuthService) {
   }
   ngOnInit(): void {
@@ -41,9 +44,18 @@ export class VericationCodeComponent implements OnInit {
   }
 
   public resendEmailVerification(username: string | undefined) {
+    this.loading = true;
     if (username) {
-      this.emailService.sendEmailVerification(username);
+      this.emailService.sendEmailVerification(username)
+        .then(() => {
+          this.loading = false;
+          this.route.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`);
+        });
     }
+  }
+
+  public navigateToLogin() {
+    this.route.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`);
   }
 
 }

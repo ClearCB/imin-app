@@ -12,8 +12,16 @@
                     <h5>
                         Please verify your account to continue!
                     </h5>
+                    @if(!loading){
                     <button (click)="resendEmailVerification(userData)">
                         Resend email verification
+                    </button>
+                    }
+                    @if(loading){
+                    <p-progressSpinner ariaLabel="loading" />
+                    }
+                    <button (click)="navigateToLogin()">
+                        I have already verified! Go to login.
                     </button>
                 </span>
             </div>

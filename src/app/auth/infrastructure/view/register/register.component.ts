@@ -61,7 +61,7 @@ export class RegisterComponent {
 
       if (loginResponse && loginResponse.result) {
         this.registerForm.reset();
-        this.routeService.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.HOME}`);
+        this.routeService.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.VERIFICATION}`);
       }
 
     } else {
