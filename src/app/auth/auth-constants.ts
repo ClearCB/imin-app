@@ -19,12 +19,13 @@ export const AUTH_CONSTANTS = {
         ACTIVE_USER_CONFIG: "imin-user-config",
     },
     API: {
-        BASE_URL: "https://iminapp.es/api/v1/auth/authentication",
+        BASE_URL: "http://localhost:8080/api/v1/auth/authentication",
         ENDPOINTS: {
             LOGIN: "/login",
             REGISTER: "/register",
             VALIDATE_TOKEN: "/validate-token",
             REFRESH_TOKEN: "/register",
+            SEND_EMAIL_VERIFICATION: "send-verification",
         }
     }
 

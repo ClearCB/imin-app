@@ -15,7 +15,7 @@ export class QrGeneratorComponent implements OnInit {
   urlAttend: string | undefined;
 
   ngOnInit(): void {
-    this.urlAttend = 'https://www.google.es'
+    this.urlAttend = 'http://localhost:8080/event/'+ this.eventId;
   }
 
 }

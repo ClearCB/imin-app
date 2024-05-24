@@ -17,13 +17,13 @@
             <p-inputSwitch [(ngModel)]="selected" (onChange)="toggleTheme()"></p-inputSwitch>
             <i class="pi pi-moon"></i>
         </div>
-        <!-- <div class="language-selector">
+        <div class="language-selector">
             @for (locale of localesList; track $index) {
             <a href="/{{locale.code}}/">
                 {{locale.label}}
             </a>
             }
-        </div> -->
+        </div>
         @if (userLoggedIn) {
         <div class="profile-link">
             <a class="border-round-md" [routerLink]="userProfileRoute">

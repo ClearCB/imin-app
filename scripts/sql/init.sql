@@ -48,6 +48,8 @@ CREATE TABLE "auth"."user" (
     username VARCHAR(55) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    verification_code VARCHAR(64) NULL,
+    enabled boolean DEFAULT false,
     role VARCHAR(40) check (role in ('ADMIN','USER'))
 );
 

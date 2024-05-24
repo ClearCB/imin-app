@@ -284,7 +284,7 @@ export class EventService {
 
     this.ref = this.dialogService.open(ShareDetailComponent, {
       data: event,
-      header: 'Share detail',
+      header: 'Share event!',
       width: '40vw',
       modal: true,
       breakpoints: {

@@ -16,11 +16,13 @@ import { EventMapLayoutComponent } from './event/infrastructure/view/event-map-l
 import { EventListLayoutComponent } from './event/infrastructure/view/event-list-layout/event-list-layout.component';
 import { EventProfileTabComponent } from './account/infrastructure/view/event-profile-tab/event-profile-tab.component';
 import { isEventAdminGuard } from './event/infrastructure/guard/is-event-admin.guard';
+import { VericationCodeComponent } from './auth/infrastructure/view/verication-code/verication-code.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' }, // Empty route => home
     { path: SHARED_CONSTANTS.ENDPOINTS.LOGIN, component: LoginComponent },
     { path: SHARED_CONSTANTS.ENDPOINTS.REGISTER, component: RegisterComponent },
+    { path: SHARED_CONSTANTS.ENDPOINTS.VERIFICATION, component: VericationCodeComponent },
     { path: SHARED_CONSTANTS.ENDPOINTS.USER.CHILDREN.PROFILE, component: ProfileComponent, canActivate: [authGuard] },
     {
         path: '', component: LayoutComponent,

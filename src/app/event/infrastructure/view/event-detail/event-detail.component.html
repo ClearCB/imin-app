@@ -11,18 +11,20 @@
 
             <div class="col-12">
 
-                <div class="col-12 flex flex-column justify-content-center align-items-center">
+                <div class="col-12 flex flex-column justify-content-center align-items-center overflow-hidden">
                     <h3>EVENT</h3>
-                    <!-- <a [routerLink]="eventDetailUrl">Ir a evento</a> -->
-                    @if (imageSrc) {
-                    <p-image [src]="imageSrc" height="150" alt="Image" />
-                    }
-                    
-                </div>
-                <!-- <div class="row">
+                    @if (event && event.id) {
                     <button type="submit" pButton pRipple (click)="handleShareButton()"
-                    class="p-button-primary">Share</button>
-                </div> -->
+                        class="p-button-primary">Share</button>
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-12 flex flex-column justify-content-center align-items-center overflow-hidden">
+                        @if (imageSrc) {
+                            <p-image [src]="imageSrc" [preview]="true" height="150" alt="Image" />
+                        }
+                    </div>
+                </div>
 
                 <div class="col-12 flex flex-column justify-content-center">
                     <div class="row d-flex flex-column justify-content-center align-items-center">

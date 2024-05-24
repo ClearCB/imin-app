@@ -57,7 +57,7 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
   private fitBoundsMarkers() {
     if (this.markers) {
 
-      if (this.markers && this.markers.getLayers()) {
+      if (this.markers && this.markers.getLayers() && this.markers.getLayers().length > 1) {
         const featureGroup = L.featureGroup(this.markers.getLayers());
         this.map.fitBounds(featureGroup.getBounds(), { padding: [50, 50], maxZoom: 17 });
       }

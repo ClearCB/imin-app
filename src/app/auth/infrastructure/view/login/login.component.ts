@@ -31,8 +31,8 @@ export class LoginComponent {
 
   // Forms
   loginForm = this.formBuilder.group({
-    username: ["admin", [Validators.required]],
-    password: ["password", Validators.required]
+    username: ["", [Validators.required]],
+    password: ["", Validators.required]
   },
     { updateOn: 'blur' })
 
@@ -59,8 +59,13 @@ export class LoginComponent {
       const loginResponse = await this.authService.login(loginRequest);
 
       if (loginResponse) {
-        this.loginForm.reset();
-        this.routeService.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.HOME}`);
+
+        if (!loginResponse.userData.token && loginResponse.message === "Not enabled user") {
+          this.routeService.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.VERIFICATION}`);
+        } else if (loginResponse.userData && loginResponse.userData) {
+          this.routeService.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.HOME}`);
+        }
+
       }
 
     } else {

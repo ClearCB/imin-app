@@ -4,5 +4,6 @@ export interface UserData {
     username: string;
     token: string;
     email: string;
+    enabled: boolean;
 
 }

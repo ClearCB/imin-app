@@ -23,6 +23,7 @@ export class AuthService {
   }
 
   currentUserLoginIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  currentUsername: string | undefined;
 
   get userLoggedIn(): Observable<boolean> {
     return this.currentUserLoginIn.asObservable();
@@ -72,9 +73,14 @@ export class AuthService {
 
     } catch (e: any) {
 
+
+      if (e.error && e.error.userData && e.error.userData.username) {
+        this.currentUsername = e.error.userData.username;
+      }
+
       console.error(e.message);
       this.notificationService.showError(AUTH_CONSTANTS.MESSAGES.INVALID_LOGIN_REQUEST);
-      return;
+      return e.error;
     }
 
   }
