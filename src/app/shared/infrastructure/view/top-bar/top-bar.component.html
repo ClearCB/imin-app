@@ -4,7 +4,7 @@
     </button>
     <a class="layout-topbar-logo" [routerLink]="homeRoute">
         <img src="assets/icon.png" alt="logo">
-        <span>IM IN</span>
+        <span >IM IN</span>
     </a>
     <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
         (click)="layoutService.showProfileSidebar()">
@@ -26,7 +26,7 @@
         </div>
         @if (userLoggedIn) {
         <div class="profile-link">
-            <a class="border-round-md" [routerLink]="userProfileRoute">
+            <a class="border-round-md" [routerLink]="userProfileRoute" i18n>
                 Welcome, {{userInfo?.userData?.username}}
             </a>
         </div>
@@ -35,14 +35,14 @@
         <button class="p-link layout-topbar-button" pTooltip="Sign in" tooltipPosition="bottom"
             [routerLink]="loginRoute">
             <i class="pi pi-sign-in"></i>
-            <span>Signin</span>
+            <span i18n>Signin</span>
         </button>
         }
 
         @if (userLoggedIn) {
         <button class="p-link layout-topbar-button" pTooltip="Sign out" tooltipPosition="bottom" (click)="singOut()">
             <i class="pi pi-sign-out"></i>
-            <span>Signout</span>
+            <span i18n>Signout</span>
         </button>
         }
     </div>

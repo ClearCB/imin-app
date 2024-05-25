@@ -12,10 +12,10 @@
             <div class="col-12">
 
                 <div class="col-12 flex flex-column justify-content-center align-items-center overflow-hidden">
-                    <h3>EVENT</h3>
+                    <h3 i18n>EVENT</h3>
                     @if (event && event.id) {
                     <button type="submit" pButton pRipple (click)="handleShareButton()"
-                        class="p-button-primary">Share</button>
+                        class="p-button-primary" i18n>Share</button>
                     }
                 </div>
                 <div class="row">
@@ -28,17 +28,17 @@
 
                 <div class="col-12 flex flex-column justify-content-center">
                     <div class="row d-flex flex-column justify-content-center align-items-center">
-                        <h3 class="col-12">Content</h3>
+                        <h3 class="col-12" i18n>Content</h3>
                     </div>
                     <div class="row">
                         <div class="col-4">
-                            <label class="font-bold" for="username">Title</label>
+                            <label class="font-bold" for="username" i18n>Title</label>
                             <div>
                                 {{ event?.title}}
                             </div>
                         </div>
                         <div class="col-8 ">
-                            <label class="font-bold">Small description</label>
+                            <label class="font-bold" i18n>Small description</label>
                             <div>
                                 {{ event?.smallDescription}}
                             </div>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <label class="font-bold" for="username">Summary</label>
+                            <label class="font-bold" for="username" i18n>Summary</label>
                             <div [innerHTML]="event?.largeDescription">
                             </div>
                         </div>
@@ -55,18 +55,18 @@
 
                 <div class="col-12 flex flex-column justify-content-center">
                     <div class="row d-flex flex-column justify-content-center align-items-center">
-                        <h3 class="col-12">Date</h3>
+                        <h3 class="col-12" i18n>Date</h3>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <label class="font-bold" for="username">Start date</label>
+                            <label class="font-bold" for="username" i18n>Start date</label>
                             <div>
                                 {{ event?.startDate?.toLocaleString()}}
                             </div>
                         </div>
 
                         <div class="col-6">
-                            <label class="font-bold" for="username">Finish date</label>
+                            <label class="font-bold" for="username" i18n>Finish date</label>
                             <div>
                                 {{ event?.finishDate?.toLocaleString()}}
                             </div>
@@ -76,7 +76,7 @@
 
                 <div class="col-12 flex flex-column justify-content-center">
                     <div class="row d-flex flex-column justify-content-center align-items-center">
-                        <h3 class="col-12">Categories</h3>
+                        <h3 class="col-12" i18n> Categories</h3>
                     </div>
                     <div class="row">
                         @for (category of event?.categories; track $index) {
@@ -93,14 +93,14 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <label class="font-bold" for="username">Location name</label>
+                            <label class="font-bold" for="username" i18n>Location name</label>
                             <div>
                                 {{ event.locationName}}
                             </div>
                         </div>
 
                         <div class="col-6">
-                            <label class="font-bold" for="username">Is online</label>
+                            <label class="font-bold" for="username" i18n>Is online</label>
                             <div>
                                 <p-checkbox [binary]="true" inputId="ny" [disabled]="true"></p-checkbox>
                             </div>
@@ -121,7 +121,7 @@
                 @if ( usersAttendance.length > 0) {
                 <div class="col-12 flex flex-column justify-content-center">
                     <div class="row d-flex flex-column justify-content-center align-items-center">
-                        <h3 class="col-12">User attendance</h3>
+                        <h3 class="col-12" i18n>User attendance</h3>
                     </div>
                     <div class="row">
                         <div class=" col-10 col-offset-1  row-gap-3 p-5">
@@ -137,7 +137,7 @@
         @if(!userInfo){
         <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
             <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)"
-                [routerLink]="loginRoute">
+                [routerLink]="loginRoute" i18n>
                 Login to attend to event
             </a>
         </div>
@@ -146,13 +146,13 @@
         @if(!userIsPresent && userInfo){
         <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
             <button type="submit" pButton pRipple (click)="handleAttendProcess()"
-                class="p-button-primary">Attend</button>
+                class="p-button-primary" i18n>Attend</button>
         </div>
         }
         @if(userIsPresent && userInfo){
         <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
             <button type="submit" pButton pRipple (click)="handleDisAttendProcess()"
-                class="p-button-primary">DisAttend</button>
+                class="p-button-primary" i18n>DisAttend</button>
         </div>}
     </div>
     }

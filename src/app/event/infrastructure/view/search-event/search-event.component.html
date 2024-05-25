@@ -10,12 +10,12 @@
                             aria-describedby="contentSearchForm">
                     </div>
                     <div class=" col-12 flex flex-column gap-2">
-                        <label for="username">Distance (KM) : {{dis.value}}</label>
+                        <label for="username" i18n>Distance (KM) : {{dis.value}}</label>
                         <p-slider step="25" formControlName="distance" />
                     </div>
                     <div class="col-12 flex flex-column gap-2">
                         <div class="col-12 p-0">
-                            <label for="startDateSearchForm">Start date </label>
+                            <label for="startDateSearchForm" i18n> Start date </label>
                         </div>
                         <div class="col-12 p-0 flex flex-row">
                             <p-calendar class="col-10 p-0" [touchUI]="true" formControlName="startDate" />

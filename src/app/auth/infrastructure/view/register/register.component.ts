@@ -34,7 +34,7 @@ export class RegisterComponent {
     email: ["", [Validators.required, Validators.email]],
     confirmationPassword: ["", Validators.required]
   }, {
-    validators: this.matchValidator('password', 'confirmationPassword'),
+    validators: [this.validationRegexPassword('password'), this.matchValidator('password', 'confirmationPassword')],
     updateOn: 'blur'
   })
 
@@ -91,6 +91,30 @@ export class RegisterComponent {
         return null;
       }
     }
+  }
+
+  validationRegexPassword(controlName: string): ValidatorFn {
+    return (abstractControl: AbstractControl) => {
+      const control = abstractControl.get(controlName);
+      if (!control) {
+        return null;
+      }
+
+      const password = control.value;
+      const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+      if (!passwordRegex.test(password)) {
+        const error = { invalidPassword: 'Password must be at least 8 characters long and include at least one uppercase letter and one number.' };
+        control.setErrors(error);
+        this.registerError =  error.invalidPassword;
+        return { invalidPassword: true };
+      } else {
+        this.registerError = null;
+        control.setErrors(null);
+        return null;
+      }
+    };
+
   }
 
 }

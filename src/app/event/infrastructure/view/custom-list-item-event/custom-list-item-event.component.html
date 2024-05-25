@@ -4,7 +4,7 @@
     <div class="flex flex-column md:flex-row align-items-around p-3 w-full">
         <img [src]="imageSrc" alt="generic-photo-event" class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5" />
         <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
-            <div class="font-bold text-2xl">
+            <div class="font-bold text-2xl" i18n>
                 NO CONTENT
             </div>
         </div>
@@ -42,7 +42,7 @@
             <div class="row">
                 @if (event && event.startDate) {
                 <div class="col-6 py-1">
-                    <div class="font-bold">
+                    <div class="font-bold" i18n>
                         Start date
                     </div>
                     <div>
@@ -52,7 +52,7 @@
                 }
                 @if (event && event.finishDate) {
                 <div class="col-6 py-1">
-                    <div class="font-bold">
+                    <div class="font-bold" i18n>
                         Finish date
                     </div>
                     <div>

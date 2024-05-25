@@ -1,21 +1,23 @@
 <div class="grid">
-    <div class="col-9">
-        @if (isDataLoaded) {
-        <div class="side-map-container">
-            <app-custom-map (markerMouseOn)="handleMouseOnMarker($event)" [style]="{height:'72vh'}"
-                (markerMouseOut)="handleMouseOutMarker()" [distance]="activeDistance"  (markerClick)="handleMarkerClick($event)" [events]="events"></app-custom-map>
-        </div>
-        }
-    </div>
-    <div class="col-3 flex flex-column justify-content-center align-items-center p-0">
+    <div class="col-12 xl:col-3 flex flex-column justify-content-center align-items-center p-0">
         @if(!eventSelected){
         <div class="side-map-container side-map-right-container">
-            <app-search-event (searchEventEmiter)="handleEventSearch($event)" (distanceEventEmiter)="handleDistanceEmitter($event)"></app-search-event>
+            <app-search-event (searchEventEmiter)="handleEventSearch($event)"
+                (distanceEventEmiter)="handleDistanceEmitter($event)"></app-search-event>
         </div>
         }
         @if(eventSelected){
         <div class="side-map-container side-map-right-container">
             <app-custom-card-event [event]="eventSelected"></app-custom-card-event>
+        </div>
+        }
+    </div>
+    <div class="col-12 xl:col-9">
+        @if (isDataLoaded) {
+        <div class="side-map-container">
+            <app-custom-map (markerMouseOn)="handleMouseOnMarker($event)" [style]="{height:'72vh'}"
+                (markerMouseOut)="handleMouseOutMarker()" [distance]="activeDistance"
+                (markerClick)="handleMarkerClick($event)" [events]="events"></app-custom-map>
         </div>
         }
     </div>

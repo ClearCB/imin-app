@@ -74,22 +74,22 @@ export class DashboardComponent implements OnInit {
         }
       })
 
-    this.responsiveOptions = [
-      {
-        breakpoint: '1199px',
-        numVisible: 1,
-        numScroll: 1
-      },
-      {
-        breakpoint: '991px',
-        numVisible: 2,
-        numScroll: 1
-      },
-      {
-        breakpoint: '767px',
-        numVisible: 1,
-        numScroll: 1
-      }
+      this.responsiveOptions = [
+        {
+            breakpoint: '1400px',
+            numVisible: 3,
+            numScroll: 3
+        },
+        {
+            breakpoint: '1220px',
+            numVisible: 2,
+            numScroll: 2
+        },
+        {
+            breakpoint: '1100px',
+            numVisible: 1,
+            numScroll: 1
+        }
     ];
     this.items = [
       { label: 'Add New', icon: 'pi pi-fw pi-plus' },
