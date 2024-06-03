@@ -38,7 +38,7 @@ export class ShareDetailComponent implements OnInit {
     }
 
     if (this.event) {
-      this.twitterUrl = `https://twitter.com/intent/tweet?text=Join me at this event%20${this.event.title}%20http://localhost:4200/event/${this.event.id}`
+      this.twitterUrl = `https://twitter.com/intent/tweet?text=Join me at this event%20${this.event.title}%20https://iminapp.es/event/${this.event.id}`
     }
   }
 }
