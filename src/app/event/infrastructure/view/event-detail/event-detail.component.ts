@@ -155,7 +155,7 @@ export class EventDetailComponent {
       if (userAdded) {
         await this.getEvent(this.eventDataId);
         this.loaded = true
-        await this.emailService.sendEmail("abelcasasccb@gmail.com", attendanceTemplate("abelcasasccb@gmail.com", "acasas", this.event), "Evento nuevo", "acasasgarcia@cifpfbmoll.eu");
+        await this.emailService.sendEmail("acasasdev@gmail.com", attendanceTemplate("acasasdev@gmail.com", "acasas", this.event), "Evento nuevo", "acasasgarcia@cifpfbmoll.eu");
       }
     }
 
