@@ -4,7 +4,7 @@
     <div class="flex flex-column md:flex-row align-items-around p-3 w-full">
         <img [src]="imageSrc" alt="generic-photo-event" class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5" />
         <div class="flex-1 flex flex-column align-items-center text-center md:text-left">
-            <div class="font-bold text-2xl">
+            <div class="font-bold text-2xl" i18n>
                 NO CONTENT
             </div>
         </div>
@@ -16,12 +16,12 @@
 @if(event){
 
 <div class="card" (click)="opentEventDetail(event.id)">
-    <div class="row d-flex flex-row justify-content-center align-items-center">
-        <div class="col-2">
-            <img [src]="imageSrc" [alt]="event.title" class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5" />
+    <div class="row d-flex flex-column xl:flex-row justify-content-center align-items-center">
+
+        <div class="col-4">
+            <img [src]="imageSrc" [alt]="event.title" class="my-4 w-9 w-10rem md:w-10rem shadow-2 mr-5" />
         </div>
-        <!-- <div class="flex flex-column md:flex-row align-items-around p-3 w-full"> -->
-        <div class="col-7 col-offset-1">
+        <div class="col-7">
             <div class="row">
                 <div class="col-12">
                     <h4>{{event.title}}</h4>
@@ -42,7 +42,7 @@
             <div class="row">
                 @if (event && event.startDate) {
                 <div class="col-6 py-1">
-                    <div class="font-bold">
+                    <div class="font-bold" i18n>
                         Start date
                     </div>
                     <div>
@@ -52,7 +52,7 @@
                 }
                 @if (event && event.finishDate) {
                 <div class="col-6 py-1">
-                    <div class="font-bold">
+                    <div class="font-bold" i18n>
                         Finish date
                     </div>
                     <div>
@@ -72,3 +72,58 @@
     </div>
 </div>
 }
+
+<!-- <div class="card" (click)="opentEventDetail(event.id)">
+    <div class="row d-flex flex-column xl:flex-row justify-content-center align-items-center">
+        <div class="col-2">
+            <img [src]="imageSrc" [alt]="event.title" class="my-4 w-9 w-10rem md:w-10rem shadow-2 mr-5" />
+        </div>
+        <div class="col-7 col-offset-1">
+            <div class="row">
+                <div class="col-12">
+                    <h4>{{event.title}}</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p>{{event.smallDescription}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p>{{event.largeDescription.slice(0,200)}}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                @if (event && event.startDate) {
+                <div class="col-6 py-1">
+                    <div class="font-bold" i18n>
+                        Start date
+                    </div>
+                    <div>
+                        {{event.startDate.toLocaleString().slice(0,-3)}}
+                    </div>
+                </div>
+                }
+                @if (event && event.finishDate) {
+                <div class="col-6 py-1">
+                    <div class="font-bold" i18n>
+                        Finish date
+                    </div>
+                    <div>
+                        {{event.finishDate.toLocaleString().slice(0,-3)}}
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        <div class="col-1">
+            @for (category of event.categories; track $index) {
+            <div class="row">
+                <p-chip class="col-12" [label]="category.name"></p-chip>
+            </div>
+            }
+        </div>
+    </div>
+</div> -->

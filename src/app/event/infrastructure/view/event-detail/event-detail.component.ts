@@ -26,6 +26,9 @@ import { ImageModule } from 'primeng/image';
 import { EmailService } from '../../../../mail/infrastructure/service/email.service';
 import { attendanceTemplate } from '../../../../mail/infrastructure/templates/attendance';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { NotificationService } from '../../../../shared/infrastructure/service/notification.service';
+import { MAIL_CONSTANTS } from '../../../../mail/mail-constants';
+import { QrGeneratorComponent } from '../../../../config/qr-generator/qr-generator.component';
 
 @Component({
   selector: 'app-event-detail',
@@ -36,7 +39,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
     CompactUserListComponent, CustomMapDetailComponent,
     DropdownModule, InputTextareaModule, CalendarModule, CheckboxModule,
-    ChipModule, ImageModule, ProgressSpinnerModule
+    ChipModule, ImageModule, ProgressSpinnerModule, QrGeneratorComponent
   ],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss'
@@ -78,6 +81,7 @@ export class EventDetailComponent {
     private dialogConfig: DynamicDialogConfig,
     private authService: AuthService,
     private emailService: EmailService,
+    private notificationService: NotificationService,
     private route: ActivatedRoute) { }
 
 
@@ -138,7 +142,6 @@ export class EventDetailComponent {
         }
       }
 
-      this.twitterUrl = `https://twitter.com/intent/tweet?text=Join me at this event%20${this.event.title}%20http://localhost:4200/event/${this.event.id}`
       this.events.push(this.event);
     }
 
@@ -155,7 +158,10 @@ export class EventDetailComponent {
       if (userAdded) {
         await this.getEvent(this.eventDataId);
         this.loaded = true
-        await this.emailService.sendEmail("acasasdev@gmail.com", attendanceTemplate("acasasdev@gmail.com", "acasas", this.event), "Evento nuevo", "acasasgarcia@cifpfbmoll.eu");
+        await this.emailService.sendEmail(this.userInfo.userData.email, attendanceTemplate(this.userInfo.userData.email, this.userInfo.userData.username, this.event), "New event attendance", "acasasgarcia@cifpfbmoll.eu");
+        this.notificationService.showSuccess(MAIL_CONSTANTS.MESSAGES.EMAIL_SENT);
+
+
       }
     }
 
@@ -173,6 +179,13 @@ export class EventDetailComponent {
 
     this.loaded = true
 
+  }
+
+  handleShareButton() {
+
+    if (this.event) {
+      this.eventService.openShareModal(this.event);
+    }
   }
 
   async deleteEvent() {

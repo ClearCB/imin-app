@@ -2,6 +2,7 @@ export const AUTH_CONSTANTS = {
     MESSAGES: {
         VALIDATION: {
             INVALID_USERNAME: "Invalid username ",
+            INVALID_EMAIL: "Invalid email ",
         },
         INVALID_REGISTER_REQUEST: "Invalid register request.",
         INVALID_LOGIN_REQUEST: "Invalid login request.",
@@ -18,12 +19,14 @@ export const AUTH_CONSTANTS = {
         ACTIVE_USER_CONFIG: "imin-user-config",
     },
     API: {
-        BASE_URL: "http://localhost:8080/",
+        // BASE_URL: "https:/iminapp.acgarcia.es/api/v1/auth/authentication",
+        BASE_URL: "http://localhost:8080/api/v1/auth/authentication",
         ENDPOINTS: {
-            LOGIN: "auth/login",
-            REGISTER: "auth/register",
-            VALIDATE_TOKEN: "auth/validate-token",
-            REFRESH_TOKEN: "auth/register",
+            LOGIN: "/login",
+            REGISTER: "/register",
+            VALIDATE_TOKEN: "/validate-token",
+            REFRESH_TOKEN: "/register",
+            SEND_EMAIL_VERIFICATION: "send-verification",
         }
     }
 

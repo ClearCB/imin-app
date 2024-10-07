@@ -72,7 +72,7 @@ export class SearchEventComponent implements OnInit {
  
   searchForm = this.formBuilder.group({
     content: [""],
-    startDate: [new Date()],
+    startDate: [null],
     distance: [0],
   });
 

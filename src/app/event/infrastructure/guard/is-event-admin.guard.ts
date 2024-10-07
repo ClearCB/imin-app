@@ -11,8 +11,6 @@ export const isEventAdminGuard: CanActivateFn = async (route, state) => {
   const router = inject(Router);
   const routerActivated = inject(ActivatedRoute);
 
-  console.log(route);
-
   
   let eventParamId;
   if (route && route.params && route.params['eventId']){

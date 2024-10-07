@@ -2,7 +2,7 @@ import { Category } from "../../../shared/domain/model/category";
 import { Tag } from "../../../shared/domain/model/tag";
 import { EVENT_CONSTANTS } from "../../event-constants";
 
-export interface  EventModel {
+export interface EventModel {
 
     id: string;
     title: string;
@@ -15,7 +15,7 @@ export interface  EventModel {
     startDate: Date;
     finishDate: Date;
     categories: Category[];
-    tags?: Tag[]; 
+    tags?: Tag[];
     isOnline: boolean;
 
 }
@@ -26,6 +26,14 @@ export function ensureEventIsValid(event: EventModel): void {
         throw EventTitleNotValidError(event.title);
     }
 
+    if (!isValidModelDate(event)) {
+        throw EventDateNotValidError();
+    }
+
+    if (!isValidModelLocation(event.locationName)) {
+        throw EventLocationNotValidError();
+    }
+
 }
 
 export function isValidModelTitle(title: string): boolean {
@@ -34,4 +42,20 @@ export function isValidModelTitle(title: string): boolean {
 
 export function EventTitleNotValidError(title: string): Error {
     return new Error(`${EVENT_CONSTANTS.MESSAGES.EVENT_CANT_BE_NULL}: ${title}`)
+}
+
+export function isValidModelDate(event: EventModel): boolean {
+    return event.startDate <= event.finishDate;
+}
+
+export function EventDateNotValidError(): Error {
+    return new Error(`${EVENT_CONSTANTS.MESSAGES.EVENT_DATE_INVALID}`)
+}
+
+export function isValidModelLocation(eventLocation: string): boolean {
+    return eventLocation != null && eventLocation != undefined && eventLocation != '';
+}
+
+export function EventLocationNotValidError(): Error {
+    return new Error(`${EVENT_CONSTANTS.MESSAGES.EVENT_LOCATION_CANT_BE_NULL}`)
 }

@@ -13,7 +13,7 @@ import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../../service/app.layout.service';
 import { CarouselModule } from 'primeng/carousel';
 import { SearchEventComponent } from '../../../../event/infrastructure/view/search-event/search-event.component';
-import { searchBetweenDatesEvent, searchOnlineEvent } from '../../../../event/application/search-event/search-event-precon-searchs';
+import { searchBetweenDatesEvent, searchOnlineEvent, searchStartDateEvent } from '../../../../event/application/search-event/search-event-precon-searchs';
 import { EventService } from '../../../../event/infrastructure/service/event.service';
 import { CustomCardEventComponent } from '../../../../event/infrastructure/view/custom-card-event/custom-card-event.component';
 import { SHARED_CONSTANTS } from '../../../shared-constants';
@@ -63,9 +63,8 @@ export class DashboardComponent implements OnInit {
 
     // const eOptions = searchOnlineEvent(false);
 
-    const startDate = new Date('2023-05-05');
-    const finishDate = new Date('2025-05-01');
-    const eOptions = searchBetweenDatesEvent(startDate, finishDate);
+    const startDate = new Date();
+    const eOptions = searchStartDateEvent(startDate);
 
     this.eventService.searchEvents(eOptions)
       .then((events) => {
@@ -75,22 +74,22 @@ export class DashboardComponent implements OnInit {
         }
       })
 
-    this.responsiveOptions = [
-      {
-        breakpoint: '1199px',
-        numVisible: 1,
-        numScroll: 1
-      },
-      {
-        breakpoint: '991px',
-        numVisible: 2,
-        numScroll: 1
-      },
-      {
-        breakpoint: '767px',
-        numVisible: 1,
-        numScroll: 1
-      }
+      this.responsiveOptions = [
+        {
+            breakpoint: '1400px',
+            numVisible: 3,
+            numScroll: 3
+        },
+        {
+            breakpoint: '1220px',
+            numVisible: 2,
+            numScroll: 2
+        },
+        {
+            breakpoint: '1100px',
+            numVisible: 1,
+            numScroll: 1
+        }
     ];
     this.items = [
       { label: 'Add New', icon: 'pi pi-fw pi-plus' },

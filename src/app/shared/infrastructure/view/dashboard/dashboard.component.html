@@ -6,20 +6,20 @@
 
             <a class="col-12 lg:col-6 xl:col-6" [routerLink]="mapEventRoute">
                 <div class="card flex flex-column justify-content-center align-items-center">
-                    <p class="text-3xl">MAP</p>
+                    <p class="text-3xl" i18n>MAP</p>
                 </div>
             </a>
             <a class="col-12 lg:col-6 xl:col-6" [routerLink]="listEventRoute">
                 <div class="card flex flex-column justify-content-center align-items-center">
-                    <p class="text-3xl">LIST</p>
+                    <p class="text-3xl" i18n>LIST</p>
                 </div>
             </a>
         </div>
 
         @if (dataLoaded) {
 
-        <div class="card">
-            <h2>Events close</h2>
+        <div class="card col-12">
+            <h2 i18n>Events close</h2>
             <p-carousel [value]="products" [numVisible]="3" [numScroll]="3" [circular]="true"
                 [responsiveOptions]="responsiveOptions" autoplayInterval="10000">
                 <ng-template let-event pTemplate="item">

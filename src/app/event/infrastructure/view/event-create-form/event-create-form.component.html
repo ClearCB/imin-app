@@ -6,7 +6,7 @@
                 <div class="col-12">
 
                     <div class="col-12 flex flex-column justify-content-center align-items-center">
-                        <h3>EVENT</h3>
+                        <h3 i18n>EVENT</h3>
                         <!-- <a [routerLink]="eventDetailUrl">Ir a evento</a> -->
                         @if (imageSrc) {
                         <p-image [src]="imageSrc" height="150" alt="Image" />
@@ -16,7 +16,7 @@
 
                     <div class="col-12 flex flex-column justify-content-center">
                         <div class="row d-flex flex-column justify-content-center align-items-center">
-                            <h3 class="col-12">Content</h3>
+                            <h3 class="col-12" i18n>Content</h3>
                         </div>
                         <div class="row">
                             <div class="col-4">
@@ -26,7 +26,7 @@
                                 @if (eventForm.controls.title.invalid && (eventForm.controls.title.dirty ||
                                 eventForm.controls.title.touched)) {
                                 @if(eventForm.controls.title.errors?.['required']){
-                                <div class="block text-red-500 mt-2 ml-3">
+                                <div class="block text-red-500 mt-2 ml-3" i18n>
                                     Title required
                                 </div>
                                 }
@@ -39,7 +39,7 @@
                                 (eventForm.controls.smallDescription.dirty ||
                                 eventForm.controls.smallDescription.touched)) {
                                 @if(eventForm.controls.smallDescription.errors?.['required']){
-                                <div class="block text-red-500 mt-2 ml-3">
+                                <div class="block text-red-500 mt-2 ml-3" i18n>
                                     Short description required
                                 </div>
                                 }
@@ -48,27 +48,28 @@
                         </div>
                         <div class="row">
                             <div class="col-12 d-flex flex-column">
-                                <label class="font-bold" for="username">Summary</label>
+                                <label class="font-bold" for="username" i18n>Summary</label>
                                 <textarea id="float-input" rows="5" cols="30" formControlName="largeDescription"
                                     pInputTextarea [autoResize]="true">
                             </textarea>
+                                <!-- <p-editor formControlName="largeDescription" [style]="{ height: '320px' }" /> -->
                             </div>
                         </div>
                     </div>
 
                     <div class="col-12 flex flex-column justify-content-center">
                         <div class="row d-flex flex-column justify-content-center align-items-center">
-                            <h3 class="col-12">Date</h3>
+                            <h3 class="col-12" i18n>Date</h3>
                         </div>
                         <div class="row">
                             <div class="col-6 d-flex flex-column">
-                                <label class="font-bold" for="username">Start date</label>
+                                <label class="font-bold" for="username" i18n>Start date</label>
                                 <p-calendar formControlName="startDate" [touchUI]="true" [showTime]="true"
                                     [hourFormat]="'24'" />
                                 @if (eventForm.controls.startDate.invalid && (eventForm.controls.startDate.dirty ||
                                 eventForm.controls.startDate.touched)) {
                                 @if(eventForm.controls.startDate.errors?.['required']){
-                                <div class="block text-red-500 mt-2 ml-3">
+                                <div class="block text-red-500 mt-2 ml-3" i18n>
                                     Start date required
                                 </div>
                                 }
@@ -76,13 +77,13 @@
                             </div>
 
                             <div class="col-6 d-flex flex-column">
-                                <label class="font-bold" for="username">Finish date</label>
+                                <label class="font-bold" for="username" i18n>Finish date</label>
                                 <p-calendar formControlName="finishDate" [touchUI]="true" [showTime]="true"
                                     [hourFormat]="'24'" />
                                 @if (eventForm.controls.finishDate.invalid && (eventForm.controls.finishDate.dirty ||
                                 eventForm.controls.finishDate.touched)) {
                                 @if(eventForm.controls.finishDate.errors?.['required']){
-                                <div class="block text-red-500 mt-2 ml-3">
+                                <div class="block text-red-500 mt-2 ml-3" i18n>
                                     Finish date required
                                 </div>
                                 }
@@ -94,7 +95,7 @@
                     @if (event && event.id) {
                     <div class="col-12 flex flex-column justify-content-center">
                         <div class="row d-flex flex-column justify-content-center align-items-center">
-                            <h3 class="col-12">Image</h3>
+                            <h3 class="col-12" i18n>Image</h3>
                         </div>
                         <div class="row">
                             <div class="col-12 d-flex flex-column">
@@ -105,19 +106,32 @@
                     </div>
                     }
 
+                    @if ( usersAttendance.length > 0) {
                     <div class="col-12 flex flex-column justify-content-center">
                         <div class="row d-flex flex-column justify-content-center align-items-center">
-                            <h3 class="col-12">Location</h3>
+                            <h3 class="col-12" i18n>User attendance</h3>
+                        </div>
+                        <div class="row">
+                            <div class=" col-10 col-offset-1  row-gap-3 p-5">
+                                <app-compact-user-list [users]="usersAttendance"></app-compact-user-list>
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                    <div class="col-12 flex flex-column justify-content-center">
+                        <div class="row d-flex flex-column justify-content-center align-items-center">
+                            <h3 class="col-12" i18n>Location</h3>
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <label class="font-bold" for="username">Location name</label>
+                                <label class="font-bold" for="username" i18n>Location name</label>
                                 <input pInputText formControlName="locationName" type="text"
                                     class="form-control mb-6" />
                                 @if (eventForm.controls.locationName.invalid && (eventForm.controls.locationName.dirty
                                 || eventForm.controls.locationName.touched)) {
                                 @if(eventForm.controls.locationName.errors?.['required']){
-                                <div class="block text-red-500 mt-2 ml-3">
+                                <div class="block text-red-500 mt-2 ml-3" i18n>
                                     Location name required
                                 </div>
                                 }
@@ -125,7 +139,7 @@
                             </div>
 
                             <div class="col-6 d-flex flex-column">
-                                <label class="font-bold" for="username">Is online</label>
+                                <label class="font-bold" for="username" i18n >Is online</label>
                                 <div>
                                     <p-checkbox formControlName="isOnline" [binary]="true" inputId="ny"></p-checkbox>
                                 </div>
@@ -133,7 +147,7 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <label for="category" class="font-bold">Category</label>
+                                <label for="category" class="font-bold"i18n>Category</label>
                             </div>
                         </div>
                         <div class="row">
@@ -156,12 +170,12 @@
                     @if (event && event.id) {
                     <div class="col-12 flex flex-column justify-content-center">
                         <div class="row d-flex flex-column justify-content-center align-items-center">
-                            <h3 class="col-12">Preview</h3>
+                            <h3 class="col-12" i18n >Preview</h3>
                         </div>
                         <div class="row">
                             <div class="col-12 d-flex flex-column justify-content-center align-items-center">
                                 <p-selectButton [options]="stateOptions" (onChange)="handleChangeTogglePreview()"
-                                optionLabel="label" optionValue="value" />
+                                    optionLabel="label" optionValue="value" />
                             </div>
                         </div>
                         @if(!showCardPreview){
@@ -181,13 +195,8 @@
             </div>
         </form>
     </div>
-
-    <!-- @if (eventPreviewReady && event) {
-    <app-custom-card-event class="card-example" [event]="event" [isPreviewEvent]="true"></app-custom-card-event>
-    } -->
-
     <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
-        <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary">Submit</button>
+        <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary" i18n>Submit</button>
     </div>
 
 </div>

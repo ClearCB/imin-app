@@ -11,36 +11,34 @@
 
             <div class="col-12">
 
-                <div class="col-12 flex flex-column justify-content-center align-items-center">
-                    <h3>EVENT</h3>
-                    <!-- <a [routerLink]="eventDetailUrl">Ir a evento</a> -->
-                    @if (imageSrc) {
-                    <p-image [src]="imageSrc" height="150" alt="Image" />
+                <div class="col-12 flex flex-column justify-content-center align-items-center overflow-hidden">
+                    <h3 i18n>EVENT</h3>
+                    @if (event && event.id) {
+                    <button type="submit" pButton pRipple (click)="handleShareButton()"
+                        class="p-button-primary" i18n>Share</button>
                     }
-                    <!-- @if(twitterUrl){
-                    <a [href]="twitterUrl" class="btn btn-primary btn-sm" target="_blank">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-twitter" viewBox="0 0 16 16">
-                            <path
-                                d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334q.002-.211-.006-.422A6.7 6.7 0 0 0 16 3.542a6.7 6.7 0 0 1-1.889.518 3.3 3.3 0 0 0 1.447-1.817 6.5 6.5 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.32 9.32 0 0 1-6.767-3.429 3.29 3.29 0 0 0 1.018 4.382A3.3 3.3 0 0 1 .64 6.575v.045a3.29 3.29 0 0 0 2.632 3.218 3.2 3.2 0 0 1-.865.115 3 3 0 0 1-.614-.057 3.28 3.28 0 0 0 3.067 2.277A6.6 6.6 0 0 1 .78 13.58a6 6 0 0 1-.78-.045A9.34 9.34 0 0 0 5.026 15" />
-                        </svg>
-                    </a>
-                    } -->
+                </div>
+                <div class="row">
+                    <div class="col-12 flex flex-column justify-content-center align-items-center overflow-hidden">
+                        @if (imageSrc) {
+                            <p-image [src]="imageSrc" [preview]="true" height="150" alt="Image" />
+                        }
+                    </div>
                 </div>
 
                 <div class="col-12 flex flex-column justify-content-center">
                     <div class="row d-flex flex-column justify-content-center align-items-center">
-                        <h3 class="col-12">Content</h3>
+                        <h3 class="col-12" i18n>Content</h3>
                     </div>
                     <div class="row">
                         <div class="col-4">
-                            <label class="font-bold" for="username">Title</label>
+                            <label class="font-bold" for="username" i18n>Title</label>
                             <div>
                                 {{ event?.title}}
                             </div>
                         </div>
                         <div class="col-8 ">
-                            <label class="font-bold">Small description</label>
+                            <label class="font-bold" i18n>Small description</label>
                             <div>
                                 {{ event?.smallDescription}}
                             </div>
@@ -48,9 +46,8 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <label class="font-bold" for="username">Summary</label>
-                            <div>
-                                {{ event?.largeDescription}}
+                            <label class="font-bold" for="username" i18n>Summary</label>
+                            <div [innerHTML]="event?.largeDescription">
                             </div>
                         </div>
                     </div>
@@ -58,18 +55,18 @@
 
                 <div class="col-12 flex flex-column justify-content-center">
                     <div class="row d-flex flex-column justify-content-center align-items-center">
-                        <h3 class="col-12">Date</h3>
+                        <h3 class="col-12" i18n>Date</h3>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <label class="font-bold" for="username">Start date</label>
+                            <label class="font-bold" for="username" i18n>Start date</label>
                             <div>
                                 {{ event?.startDate?.toLocaleString()}}
                             </div>
                         </div>
 
                         <div class="col-6">
-                            <label class="font-bold" for="username">Finish date</label>
+                            <label class="font-bold" for="username" i18n>Finish date</label>
                             <div>
                                 {{ event?.finishDate?.toLocaleString()}}
                             </div>
@@ -79,7 +76,7 @@
 
                 <div class="col-12 flex flex-column justify-content-center">
                     <div class="row d-flex flex-column justify-content-center align-items-center">
-                        <h3 class="col-12">Categories</h3>
+                        <h3 class="col-12" i18n> Categories</h3>
                     </div>
                     <div class="row">
                         @for (category of event?.categories; track $index) {
@@ -96,14 +93,14 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <label class="font-bold" for="username">Location name</label>
+                            <label class="font-bold" for="username" i18n>Location name</label>
                             <div>
                                 {{ event.locationName}}
                             </div>
                         </div>
 
                         <div class="col-6">
-                            <label class="font-bold" for="username">Is online</label>
+                            <label class="font-bold" for="username" i18n>Is online</label>
                             <div>
                                 <p-checkbox [binary]="true" inputId="ny" [disabled]="true"></p-checkbox>
                             </div>
@@ -124,7 +121,7 @@
                 @if ( usersAttendance.length > 0) {
                 <div class="col-12 flex flex-column justify-content-center">
                     <div class="row d-flex flex-column justify-content-center align-items-center">
-                        <h3 class="col-12">User attendance</h3>
+                        <h3 class="col-12" i18n>User attendance</h3>
                     </div>
                     <div class="row">
                         <div class=" col-10 col-offset-1  row-gap-3 p-5">
@@ -140,7 +137,7 @@
         @if(!userInfo){
         <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
             <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)"
-                [routerLink]="loginRoute">
+                [routerLink]="loginRoute" i18n>
                 Login to attend to event
             </a>
         </div>
@@ -149,13 +146,13 @@
         @if(!userIsPresent && userInfo){
         <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
             <button type="submit" pButton pRipple (click)="handleAttendProcess()"
-                class="p-button-primary">Attend</button>
+                class="p-button-primary" i18n>Attend</button>
         </div>
         }
         @if(userIsPresent && userInfo){
         <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
             <button type="submit" pButton pRipple (click)="handleDisAttendProcess()"
-                class="p-button-primary">DisAttend</button>
+                class="p-button-primary" i18n>DisAttend</button>
         </div>}
     </div>
     }

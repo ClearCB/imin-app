@@ -1,40 +1,357 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="es" datatype="plaintext" original="ng2.template">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="6575195871133210332" datatype="html">
-        <source>Orders</source>
+      <trans-unit id="352833767718207553" datatype="html">
+        <source>Users not attending</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/shared/infrastructure/view/dashboard/dashboard.component.html</context>
-          <context context-type="linenumber">6,7</context>
+          <context context-type="sourcefile">src/app/event/infrastructure/view/compact-user-list/compact-user-list.component.html</context>
+          <context context-type="linenumber">15,16</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5758979416111114819" datatype="html">
-        <source>24 new </source>
+      <trans-unit id="6866452849464812091" datatype="html">
+        <source> NO CONTENT </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/custom-card-event/custom-card-event.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/custom-list-item-event/custom-list-item-event.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4562102737784700908" datatype="html">
+        <source> Start date </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/custom-card-event/custom-card-event.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/custom-list-item-event/custom-list-item-event.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/search-event/search-event.component.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3970912006969446641" datatype="html">
+        <source> Finish date </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/custom-card-event/custom-card-event.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/custom-list-item-event/custom-list-item-event.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3317524451592221367" datatype="html">
+        <source>EVENT</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6205355627445317276" datatype="html">
+        <source>Content</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">31,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5297596846496605666" datatype="html">
+        <source> Title required </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5146099420253501578" datatype="html">
+        <source> Short description required </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4739818603756173797" datatype="html">
+        <source>Summary</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">51,52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">49,50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3973931101896534797" datatype="html">
+        <source>Date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">58,59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="888341446683346521" datatype="html">
+        <source>Start date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">66,67</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5258586940981034754" datatype="html">
+        <source> Start date required </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2347337847348664218" datatype="html">
+        <source>Finish date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">80,81</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">69,70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2860158497743878054" datatype="html">
+        <source> Finish date required </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3012906865384504293" datatype="html">
+        <source>Image</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">98,99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1674207930440233464" datatype="html">
+        <source>User attendance</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">112,113</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">124,125</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="471816275243265264" datatype="html">
+        <source>Location</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">124,125</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6961397537815994802" datatype="html">
+        <source>Location name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">128,129</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">96,97</context>
+        </context-group>
+      </trans-unit>
+
+
+      <trans-unit id="7652093880896128764" datatype="html">
+        <source> Location name required </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">135</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5773127102332815346" datatype="html">
+        <source>Is online</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">142,143</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">103,104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1806667489382256324" datatype="html">
+        <source>Category</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">150,151</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1295614462098694869" datatype="html">
+        <source>Preview</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">173,174</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="935187492052582731" datatype="html">
+        <source>Submit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-create-form/event-create-form.component.html</context>
+          <context context-type="linenumber">199,200</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7419704019640008953" datatype="html">
+        <source>Share</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5701618810648052610" datatype="html">
+        <source>Title</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">35,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8343598938815193494" datatype="html">
+        <source>Small description</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7103308045032549575" datatype="html">
+        <source> Categories</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">79,80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1422254603373385013" datatype="html">
+        <source> Login to attend to event </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">141</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7190493510974487639" datatype="html">
+        <source>Attend</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">149,150</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6475940033671773040" datatype="html">
+        <source>DisAttend</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/event-detail/event-detail.component.html</context>
+          <context context-type="linenumber">155,156</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="405793284590115612" datatype="html">
+        <source>Distance (KM) : <x id="INTERPOLATION" equiv-text="{{dis.value}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/infrastructure/view/search-event/search-event.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8157590279006240503" datatype="html">
+        <source>MAP</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/infrastructure/view/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5056135397423550244" datatype="html">
+        <source>LIST</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/infrastructure/view/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">14,15</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="4290716975641879598" datatype="html">
-        <source>since last visit</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/shared/infrastructure/view/dashboard/dashboard.component.html</context>
-          <context context-type="linenumber">15,16</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1836325341458112664" datatype="html">
-        <source>Revenue</source>
+      <trans-unit id="1011358126884458822" datatype="html">
+        <source>Events close</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/infrastructure/view/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">22,23</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1063361146465973343" datatype="html">
-        <source>since last week</source>
+      <trans-unit id="143318366100741906" datatype="html">
+        <source>Access Denied</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/shared/infrastructure/view/dashboard/dashboard.component.html</context>
-          <context context-type="linenumber">31,32</context>
+          <context context-type="sourcefile">src/app/shared/infrastructure/view/error/forbidden-error/forbidden-error.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1333582168323301850" datatype="html">
+        <source>You do not have the necessary permisions. Please contact admins.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/infrastructure/view/error/forbidden-error/forbidden-error.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8520842233253013827" datatype="html">
+        <source>Error Occured</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/infrastructure/view/error/general-error/general-error.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3817875597130899340" datatype="html">
+        <source>Requested resource is not available.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/infrastructure/view/error/general-error/general-error.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/infrastructure/view/error/not-found-error/not-found-error.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2649252321173430744" datatype="html">
+        <source>Not Found</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/infrastructure/view/error/not-found-error/not-found-error.component.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4804088193449914434" datatype="html">
+        <source> Welcome, <x id="INTERPOLATION" equiv-text="{{userInfo?.userData?.username}}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/infrastructure/view/top-bar/top-bar.component.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2101902914887471883" datatype="html">
+        <source>Signin</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/infrastructure/view/top-bar/top-bar.component.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8354029220983676574" datatype="html">
+        <source>Signout</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/infrastructure/view/top-bar/top-bar.component.html</context>
+          <context context-type="linenumber">45,46</context>
         </context-group>
       </trans-unit>
     </body>

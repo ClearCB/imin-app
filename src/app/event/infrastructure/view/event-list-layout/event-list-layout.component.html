@@ -1,14 +1,14 @@
 <div class="grid">
-    <div class="col-9">
+    <div class="col-12 xl:col-3 flex flex-column justify-content-center align-items-center">
+        <div class="side-map-container">
+            <app-search-event (searchEventEmiter)="handleEventSearch($event)"></app-search-event>
+        </div>
+    </div>
+    <div class="col-12 xl:col-9">
         @if (isDataLoaded) {
         <div class="side-list-event-container">
             <app-event-list [events]="events"></app-event-list>
         </div>
         }
-    </div>
-    <div class="col-3 flex flex-column justify-content-center align-items-center">
-        <div class="side-map-container">
-            <app-search-event (searchEventEmiter)="handleEventSearch($event)"></app-search-event>
-        </div>
     </div>
 </div>

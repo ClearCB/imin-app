@@ -1,10 +1,7 @@
-version: '3.8'
-
 services:
 
   db:
     image: postgres:latest
-    container_name: my_postgres_dev_db
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -32,17 +29,22 @@ services:
       SPRING_JPA_DATABASE_PLATFORM: ${DB_PLATFORM}
       SPRING_JPA_SHOW_SQL: true
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SECURITY_REQUIRE_SSL: "true"
+      SPRING_SSL_BUNDLE_JKS_MYBUNDLE_KEY_ALIAS: "tomcat"
+      SPRING_SSL_BUNDLE_JKS_MYBUNDLE_KEYSTORE_LOCATION: "classpath:keystore.p12"
+      SPRING_SSL_BUNDLE_JKS_MYBUNDLE_KEYSTORE_PASSWORD: "aslkZM19"
+      SPRING_SSL_BUNDLE_JKS_MYBUNDLE_KEYSTORE_TYPE: "PKCS12"
     volumes:
       - ./src:/app/src
 
-  # angular-app:
-  #   # image: clearcb/imin-app:latest
-  #   build:
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - api-business
-  #   ports:
-  #     - "4200:80"
+  angular-app:
+    # image: clearcb/imin-app:latest
+    build:
+      dockerfile: Dockerfile
+    depends_on:
+      - api-business
+    ports:
+      - "4200:80"
 
 volumes:
   db_data:

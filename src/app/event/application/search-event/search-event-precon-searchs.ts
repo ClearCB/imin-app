@@ -83,6 +83,27 @@ export const searchBetweenDatesEvent = (startDate?: Date, finishDate?: Date,) =>
     }
 }
 
+export const searchStartDateEvent = (startDate?: Date) => {
+
+    if (!startDate) {
+        startDate = new Date();
+    }
+
+    return {
+        pageNumber: 0,
+        pageSize: 10,
+        body: {
+            dataOption: "all",
+            searchCriteriaList: [
+                {
+                    filterKey: "startDate",
+                    operation: SearchOperation.GREATER_THAN,
+                    value: startDate.toISOString().slice(0, -1)
+                }
+            ]
+        }
+    }
+}
 
 export const searchEventFormCriteria = (searchEventFormCriteria: SearchEventFormCriteriaOptions) => {
 
