@@ -19,7 +19,8 @@ export const AUTH_CONSTANTS = {
         ACTIVE_USER_CONFIG: "imin-user-config",
     },
     API: {
-        BASE_URL: "https://iminapp.es/api/v1/auth/authentication",
+        // BASE_URL: "https:/iminapp.acgarcia.es/api/v1/auth/authentication",
+        BASE_URL: "http://localhost:8080/api/v1/auth/authentication",
         ENDPOINTS: {
             LOGIN: "/login",
             REGISTER: "/register",

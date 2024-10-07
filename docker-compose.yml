@@ -2,7 +2,6 @@ services:
 
   db:
     image: postgres:latest
-    container_name: my_postgres_dev_db
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -39,7 +38,7 @@ services:
       - ./src:/app/src
 
   angular-app:
-    image: clearcb/imin-app:latest
+    # image: clearcb/imin-app:latest
     build:
       dockerfile: Dockerfile
     depends_on:
