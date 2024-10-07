@@ -6,13 +6,14 @@ export interface EventDTO {
     title?: string;
     smallDescription?: string;
     largeDescription?: string;
+    userId: string;
     locationName: string;
     latitude: number;
     longitude: number;
     startDate: Date;
     finishDate: Date;
-    categories: number[];
-    tags: number[];
+    categories: {id:number}[];
+    tags: {id:number}[];
     isOnline: boolean;
 
 }

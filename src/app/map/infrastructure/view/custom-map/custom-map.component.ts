@@ -1,11 +1,8 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output } from "@angular/core";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
-import L, { icon, LatLng, marker, Marker, popup } from "leaflet";
+import L, { LatLng, } from "leaflet";
 import { EventModel } from "../../../../event/domain/model/event-model";
-import { Router } from "@angular/router";
-import { FileService } from "../../../../shared/infrastructure/service/file-service.service";
-import { categoryIcon } from "../../../../shared/domain/model/category";
-import { EventService } from "../../../../event/infrastructure/service/event.service";
+import { Category, categoryIcon } from "../../../../shared/domain/model/category";
 
 @Component({
   selector: 'app-custom-map',
@@ -22,18 +19,28 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
   public events: EventModel[] = [];
 
   @Input()
+  isCreateFormEvent?: boolean;
+
+  @Input()
   public style?: { height?: string };
 
-  @Output() searchEventEmiter: EventEmitter<EventModel> = new EventEmitter<EventModel>();
+  @Output() markerClick: EventEmitter<EventModel> = new EventEmitter<EventModel>();
   @Output() markerMouseOn: EventEmitter<EventModel> = new EventEmitter<EventModel>();
   @Output() markerMouseOut: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() mapClickedEmiiter: EventEmitter<{ lat: number, lang: number }> = new EventEmitter<{ lat: number, lang: number }>();
+  @Output() mapClickedEmiter: EventEmitter<{ lat: number, lang: number }> = new EventEmitter<{ lat: number, lang: number }>();
 
   markers: any;
+  circles: any;
+
+  @Input()
+  category: Category | null = null;
 
   markerToCreate: any;
 
-  constructor(private router: Router, private fileService: FileService, private eventService: EventService) { }
+  activeUserLocation: { lat: number, lng: number } | undefined;
+
+  @Input()
+  distance: number | null = null;
 
   ngAfterViewInit(): void {
     this.getMapCenter();
@@ -45,8 +52,19 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
       this.removeMarkers();
       this.prepareEventMarkers();
     }
+  }
 
-   
+  private fitBoundsMarkers() {
+    if (this.markers) {
+
+      if (this.markers && this.markers.getLayers() && this.markers.getLayers().length > 1) {
+        const featureGroup = L.featureGroup(this.markers.getLayers());
+        this.map.fitBounds(featureGroup.getBounds(), { padding: [50, 50], maxZoom: 17 });
+      }
+
+    }
+
+
   }
 
   private removeMarkers() {
@@ -66,16 +84,19 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
     if (navigator.geolocation) {
 
       this.markers = L.layerGroup();
+      this.circles = L.layerGroup();
       this.markerToCreate = L.layerGroup();
 
       navigator.geolocation.getCurrentPosition((position) => {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
 
+        this.activeUserLocation = { lat: latitude, lng: longitude };
+
         this.map = L.map('map', {
           center: new LatLng(latitude, longitude),
           zoom: 5,
-          layers: [this.markers, this.markerToCreate]
+          layers: [this.markers, this.markerToCreate, this.circles]
         });
 
         this.initMap();
@@ -85,7 +106,7 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
         this.map = L.map('map', {
           center: new LatLng(latitude, longitude),
           zoom: 5,
-          layers: [this.markers, this.markerToCreate]
+          layers: [this.markers, this.markerToCreate, this.circles]
         });
 
         this.initMap()
@@ -110,9 +131,35 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
 
   }
 
+  private drawActiveUserDistanceCircle(lat: number, lng: number) {
+
+    if (this.circles) {
+      this.circles.clearLayers();
+    }
+
+    if (this.distance && this.distance != 0) {
+
+      const distance = this.distance * 1000;
+
+      var circle = L.circle([lat, lng], {
+        color: 'white',
+        fillColor: '#fff',
+        fillOpacity: 0.4,
+        radius: distance
+      }).addTo(this.circles);
+
+    }
+
+  }
+
   private prepareEventMarkers() {
 
     this.markers.clearLayers()
+    this.addActiveUserLocation();
+
+    if (this.activeUserLocation) {
+      this.drawActiveUserDistanceCircle(this.activeUserLocation.lat, this.activeUserLocation.lng);
+    }
 
     this.events.forEach((event) => {
 
@@ -124,7 +171,7 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
 
       const markerIcon = L.icon({
         iconUrl: `assets/markers/${iconUrl}`,
-        iconSize: [20, 20],
+        iconSize: [30, 30],
       });
 
       const marker = L.marker([event.latitude, event.longitude], { icon: markerIcon }).addTo(this.markers);
@@ -142,6 +189,8 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
       });
 
     })
+
+    this.fitBoundsMarkers();
 
   }
 
@@ -161,9 +210,40 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
 
   }
 
+  private addActiveUserLocation() {
+    const markerIcon = L.icon({
+      iconUrl: `assets/markers/location-pin.png`,
+      iconSize: [30, 30],
+    });
+
+    if (this.activeUserLocation) {
+      const marker = L.marker([this.activeUserLocation.lat, this.activeUserLocation.lng], { icon: markerIcon, zIndexOffset: 1000 },).addTo(this.markers);
+
+      const popup = L.popup();
+
+      marker.on('mouseover', (e: any) => {
+        popup
+          .setLatLng(e.latlng)
+          .setContent("¡This is your active location!")
+          .openOn(this.map);
+
+        // this.map.panTo(new L.LatLng(40.737, -73.923));
+        // this.map.setView(new L.LatLng(40.737, -73.923), 8);
+
+      });
+
+      marker.on('mouseout', (e: any) => {
+        popup
+          .close();
+      });
+    }
+
+  }
+
+
   async handleClickMarker(event: any) {
-    this.goToEventDetail(event);
-    this.searchEventEmiter.emit(event);
+    // this.map.setView(new L.LatLng(event.latitude, event.longitude), 8, { animation: true });
+    this.markerClick.emit(event);
   }
 
   async handleClickMarkerOut(event: any) {
@@ -175,25 +255,27 @@ export class CustomMapComponent implements AfterViewInit, OnChanges {
   }
 
   async handleClickMapClicked(latLang: any) {
-    if (this.events.length == 0 && latLang && latLang.lat && latLang.lng) {
+    if (this.isCreateFormEvent && latLang && latLang.lat && latLang.lng) {
 
       this.markerToCreate.clearLayers()
+      this.markers.clearLayers()
 
-      const iconUrl = this.getIconUrl("default");
+      this.addActiveUserLocation();
+
+      let iconUrl = this.getIconUrl("default");
+
+      if (this.category?.icon) {
+        iconUrl = this.getIconUrl(this.category.icon);
+      }
 
       const markerIcon = L.icon({
         iconUrl: `assets/markers/${iconUrl}`,
-        iconSize: [20, 20],
+        iconSize: [30, 30],
       });
 
       const marker = L.marker([latLang.lat, latLang.lng], { icon: markerIcon }).addTo(this.markerToCreate);
-      this.mapClickedEmiiter.emit({ lat: latLang.lat, lang: latLang.lng });
+      this.mapClickedEmiter.emit({ lat: latLang.lat, lang: latLang.lng });
     }
   }
 
-  goToEventDetail(event: EventModel) {
-
-    this.eventService.goToEventDetail(event);
-
-  }
 } 

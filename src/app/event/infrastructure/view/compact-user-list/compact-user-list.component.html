@@ -1,45 +1,18 @@
 <div class="grid ">
     <div class="col-12">
 
-        @if(users.length > 0){
-        <p-scroller class="custom-loading" [items]="users" [itemSize]="25 * 7" [showLoader]="true" [delay]="250"
-            styleClass="border-1 surface-border" [style]="{'min-height': '100px'}">
-            <ng-template pTemplate="item" let-user let-options="options">
-                <div class="flex flex-column align-items-strech" [ngClass]="{'surface-ground': options.odd}">
-                    <div class="flex align-items-center px-2" style="height: 25px">
-                        <app-compact-item-user [userData]="user"></app-compact-item-user>
-                    </div>
+        @for (user of users; track $index) {
+        <div class="row">
+            <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                <div class="text-xl-center font-bold user-item-list border-round-xl" (click)="goToUserDetail(user)">
+                    {{user.username}}
                 </div>
-            </ng-template>
-            <ng-template pTemplate="loader" let-options="options">
-                <div class="flex flex-column align-items-strech" [ngClass]="{'surface-ground': options.odd}">
-                    <div class="flex align-items-center px-2" style="height: 25px">
-                        <p-skeleton width="60%" height="1.2rem" />
-                    </div>
-                    <div class="flex align-items-center px-2" style="height: 25px">
-                        <p-skeleton width="50%" height="1.2rem" />
-                    </div>
-                    <div class="flex align-items-center px-2" style="height: 25px">
-                        <p-skeleton width="60%" height="1.2rem" />
-                    </div>
-                    <div class="flex align-items-center px-2" style="height: 25px">
-                        <p-skeleton width="50%" height="1.2rem" />
-                    </div>
-                    <div class="flex align-items-center px-2" style="height: 25px">
-                        <p-skeleton width="60%" height="1.2rem" />
-                    </div>
-                    <div class="flex align-items-center px-2" style="height: 25px">
-                        <p-skeleton width="50%" height="1.2rem" />
-                    </div>
-                    <div class="flex align-items-center px-2" style="height: 25px">
-                        <p-skeleton width="60%" height="1.2rem" />
-                    </div>
-                </div>
-            </ng-template>
-        </p-scroller>
-    }
-    @if (users.length == 0) {
-        <h3>Users not attending</h3>
-    }
+            </div>
+        </div>
+        }
+
+        @if (users.length == 0) {
+        <h3 i18n>Users not attending</h3>
+        }
     </div>
 </div>

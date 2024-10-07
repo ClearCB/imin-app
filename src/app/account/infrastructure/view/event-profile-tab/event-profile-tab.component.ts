@@ -7,11 +7,12 @@ import { AuthService } from '../../../../auth/infrastructure/service/auth.servic
 import { UserData } from '../../../../auth/domain/model/user-token-data';
 import { RouterLink } from '@angular/router';
 import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
+import { SearchEventComponent } from '../../../../event/infrastructure/view/search-event/search-event.component';
 
 @Component({
   selector: 'app-event-profile-tab',
   standalone: true,
-  imports: [TabViewModule, EventListComponent, RouterLink],
+  imports: [TabViewModule, EventListComponent, RouterLink, SearchEventComponent],
   templateUrl: './event-profile-tab.component.html',
   styleUrl: './event-profile-tab.component.scss'
 })
@@ -19,6 +20,7 @@ export class EventProfileTabComponent implements OnInit {
 
   dataLoaded: boolean = false;
   activeEvents: EventModel[] = [];
+  todayEvents: EventModel[] = [];
   pastEvents: EventModel[] = [];
   userEvents: EventModel[] = [];
   userData?: UserData;
@@ -52,13 +54,30 @@ export class EventProfileTabComponent implements OnInit {
       }
 
       if (userAttendance){
-        this.activeEvents = userAttendance.filter(e => e.finishDate <= new Date());
-        this.pastEvents = userAttendance.filter(e => e.finishDate > new Date());
+        this.activeEvents = this.getActiveUserEvents(userAttendance);
+        this.todayEvents = this.getTodayUserEvents();
+        this.pastEvents = this.getPastUserEvents();
       }
     }
 
     this.dataLoaded = true;
   }
+
+  private getActiveUserEvents(userAttendance: EventModel[]){
+    const today = new Date();
+    return userAttendance.filter(e => e.finishDate >= today);
+  }
+
+  private getPastUserEvents(){
+    const today = new Date();
+    return this.userEvents.filter(e => e.finishDate < today);
+  }
+
+  private getTodayUserEvents(){
+    const today = new Date();
+    return this.userEvents.filter(e => e.startDate <= today && e.finishDate >= today && e.startDate.getDate() === today.getDate());
+  }
+
 
 
 

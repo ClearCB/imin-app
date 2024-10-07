@@ -1,0 +1,30 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+            <div class="text-center mb-5">
+                <img src="assets/icon.png" height="100" />
+            </div>
+            <div class="text-center mb-5">
+                <span class="text-600 font-medium">
+                    <h3>
+                        An email has sent to your account!
+                    </h3>
+                    <h5>
+                        Please verify your account to continue!
+                    </h5>
+                    @if(!loading){
+                    <button (click)="resendEmailVerification(userData)">
+                        Resend email verification
+                    </button>
+                    }
+                    @if(loading){
+                    <p-progressSpinner ariaLabel="loading" />
+                    }
+                    <button (click)="navigateToLogin()">
+                        I have already verified! Go to login.
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

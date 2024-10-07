@@ -19,7 +19,7 @@ import { CustomMapComponent } from '../../../../map/infrastructure/view/custom-m
 import { CustomCardEventComponent } from '../custom-card-event/custom-card-event.component';
 import { SearchEventComponent } from '../search-event/search-event.component';
 import { NotificationService } from '../../../../shared/infrastructure/service/notification.service';
-import { searchOnlineEvent } from '../../../application/search-event/search-event-precon-searchs';
+import { searchOnlineEvent, searchStartDateEvent } from '../../../application/search-event/search-event-precon-searchs';
 
 @Component({
   selector: 'app-event-list-layout',
@@ -56,8 +56,9 @@ export class EventListLayoutComponent implements OnInit {
 
     this.dataSearched = true;
     this.events.length = 0;
-
-    const eOptions = searchOnlineEvent(false)
+    
+    const startDate = new Date();
+    const eOptions = searchStartDateEvent(startDate);
     this.eventService.searchEvents(eOptions)
       .then((events) => {
         if (events) {

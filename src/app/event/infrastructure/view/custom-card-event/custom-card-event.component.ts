@@ -7,7 +7,6 @@ import { FileService } from '../../../../shared/infrastructure/service/file-serv
 import { ImageModule } from 'primeng/image';
 import { ChipModule } from 'primeng/chip';
 import { RatingModule } from 'primeng/rating';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EventDetailComponent } from '../event-detail/event-detail.component';
 import { EventService } from '../../service/event.service';
 
@@ -15,7 +14,6 @@ import { EventService } from '../../service/event.service';
   selector: 'app-custom-card-event',
   standalone: true,
   imports: [ButtonModule, CardModule, ImageModule, ChipModule, RatingModule, EventDetailComponent],
-  providers: [DialogService], 
   templateUrl: './custom-card-event.component.html',
   styleUrl: './custom-card-event.component.scss'
 })
@@ -23,28 +21,37 @@ export class CustomCardEventComponent implements OnInit {
 
   imageSrc: string | undefined = "";
 
-  ref?: DynamicDialogRef;
-
   @Input()
   event: EventModel | null = null;
+
+  @Input()
+  isUserEvent: boolean = false;
+
+  @Input()
+  isPreviewEvent: boolean = false;
 
   constructor(private router: Router, private fileService: FileService, private eventService: EventService) { }
   async ngOnInit() {
 
     if (this.event) {
       this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);
-      
-      if(!this.imageSrc){
+
+      if (!this.imageSrc) {
         this.imageSrc = "assets/images/generic.jpg"
       }
-    } 
+    }
   }
 
-  goToEventDetail(eventId: string) {
+  opentEventDetail(eventId: string) {
 
-    if (this.event){
-      this.eventService.goToEventDetail(this.event);
+    if (!this.isPreviewEvent) {
+
+      if (this.event && !this.isUserEvent) {
+        this.eventService.opentEventDetail(this.event);
+      } else if (this.event && this.isUserEvent) {
+        this.eventService.goToEventEditForm(this.event);
+      }
+
     }
-
   }
 }

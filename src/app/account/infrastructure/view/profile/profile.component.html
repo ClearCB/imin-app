@@ -1,53 +1,71 @@
-<div class="card">
-    <p-tabView styleClass="tabview-custom">
-        <p-tabPanel>
-            <ng-template pTemplate="header">
-                <div class="flex align-items-center gap-2">
-                    <span class="font-bold white-space-nowrap m-0">
-                        My account
-                    </span>
-                </div>
-            </ng-template>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit...
-            </p>
-        </p-tabPanel>
-        <p-tabPanel header="Header II">
-            <ng-template pTemplate="header">
-                <div class="flex align-items-center gap-2">
-                    <span class="font-bold white-space-nowrap m-0">
-                        My prefered categories / tags
-                    </span>
-                </div>
-            </ng-template>
-            <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
-            </p>
-        </p-tabPanel>
-        <p-tabPanel header="Header II">
-            <ng-template pTemplate="header">
-                <div class="flex align-items-center gap-2">
-                    <span class="font-bold white-space-nowrap m-0">
-                        Configuration
-                    </span>
-                </div>
-            </ng-template>
-            <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
-            </p>
-        </p-tabPanel>
-        <p-tabPanel header="Header III">
-            <ng-template pTemplate="header">
-                <div class="flex align-items-center gap-2">
-                    <span class="font-bold white-space-nowrap m-0">
-                        Security
-                    </span>
-                </div>
-            </ng-template>
-            <p>
-                At vero eos et accusamus et iusto odio dignissimos...
-            </p>
-        </p-tabPanel>
+<div class="grid">
 
-    </p-tabView>
+    <div class="col-10 col-offset-1 card">
+        <p-tabView styleClass="tabview-custom">
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <div class="flex align-items-center gap-2">
+                        <span class="font-bold white-space-nowrap m-0">
+                            My account
+                        </span>
+                    </div>
+                </ng-template>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="font-bold">Username</label>
+                                <div>
+                                    {{ userInfo?.userData?.username}}
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label class="font-bold">Email</label>
+                                <div>
+                                    {{ userInfo?.userData?.email}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="Header II">
+                <ng-template pTemplate="header">
+                    <div class="flex align-items-center gap-2">
+                        <span class="font-bold white-space-nowrap m-0">
+                            My prefered categories / tags
+                        </span>
+                    </div>
+                </ng-template>
+                <p>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
+                </p>
+            </p-tabPanel>
+            <p-tabPanel header="Header II">
+                <ng-template pTemplate="header">
+                    <div class="flex align-items-center gap-2">
+                        <span class="font-bold white-space-nowrap m-0">
+                            Configuration
+                        </span>
+                    </div>
+                </ng-template>
+                <p>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
+                </p>
+            </p-tabPanel>
+            <p-tabPanel header="Header III">
+                <ng-template pTemplate="header">
+                    <div class="flex align-items-center gap-2">
+                        <span class="font-bold white-space-nowrap m-0">
+                            Security
+                        </span>
+                    </div>
+                </ng-template>
+                <p>
+                    At vero eos et accusamus et iusto odio dignissimos...
+                </p>
+            </p-tabPanel>
+
+        </p-tabView>
+    </div>
 </div>

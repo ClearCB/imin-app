@@ -1,8 +1,12 @@
 .side-map-container {
-    max-height: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .side-list-event-container {
-    max-height: 480px;
+    min-height: 72vh;
+    max-height: 72vh;
     overflow-y: scroll;
 }

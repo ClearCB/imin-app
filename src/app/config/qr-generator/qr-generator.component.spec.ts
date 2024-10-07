@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CompactItemUserComponent } from './compact-item-user.component';
+import { QrGeneratorComponent } from './qr-generator.component';
 
-describe('CompactItemUserComponent', () => {
-  let component: CompactItemUserComponent;
-  let fixture: ComponentFixture<CompactItemUserComponent>;
+describe('QrGeneratorComponent', () => {
+  let component: QrGeneratorComponent;
+  let fixture: ComponentFixture<QrGeneratorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CompactItemUserComponent]
+      imports: [QrGeneratorComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CompactItemUserComponent);
+    fixture = TestBed.createComponent(QrGeneratorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

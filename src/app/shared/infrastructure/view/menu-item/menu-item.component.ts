@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, RouterLink, RouterLinkActive],
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[app-menuitem]',
+  styles:['a { text-decoration: none; }'],
   template: `
   <ng-container>
     @if(root && item.visible !== false){

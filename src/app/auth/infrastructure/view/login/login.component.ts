@@ -10,6 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { PasswordModule } from 'primeng/password';
 import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-login',
@@ -30,8 +31,8 @@ export class LoginComponent {
 
   // Forms
   loginForm = this.formBuilder.group({
-    username: ["admin", [Validators.required]],
-    password: ["password", Validators.required]
+    username: ["", [Validators.required]],
+    password: ["", Validators.required]
   },
     { updateOn: 'blur' })
 
@@ -42,7 +43,12 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private routeService: Router,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private dialogService: DialogService) {
+
+    this.dialogService.dialogComponentRefMap.forEach(dialog => {
+      dialog.destroy();
+    });
   }
 
   async login() {
@@ -53,8 +59,13 @@ export class LoginComponent {
       const loginResponse = await this.authService.login(loginRequest);
 
       if (loginResponse) {
-        this.loginForm.reset();
-        this.routeService.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.HOME}`);
+
+        if (!loginResponse.userData.token && loginResponse.message === "Not enabled user") {
+          this.routeService.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.VERIFICATION}`);
+        } else if (loginResponse.userData && loginResponse.userData) {
+          this.routeService.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.HOME}`);
+        }
+
       }
 
     } else {

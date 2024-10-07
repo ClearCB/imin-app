@@ -1,106 +1,159 @@
-<div class="grid  p-fluid">
+<div class="grid">
 
-    <div class="card col-12">
-        <form [formGroup]="eventForm">
+    @if(!loaded){
+    <p-progressSpinner ariaLabel="loading" />
+    }
 
-            <div class="grid">
+    @if (loaded) {
+    <div class="card col-10 col-offset-1 p-3 my-4">
 
-                <div class="col-12">
+        <div class="grid">
 
-                    <div class="col-12 flex flex-row justify-content-around">
-                        <h3>EVENT</h3>
-                        <!-- <a [routerLink]="eventDetailUrl">Ir a evento</a> -->
+            <div class="col-12">
+
+                <div class="col-12 flex flex-column justify-content-center align-items-center overflow-hidden">
+                    <h3 i18n>EVENT</h3>
+                    @if (event && event.id) {
+                    <button type="submit" pButton pRipple (click)="handleShareButton()"
+                        class="p-button-primary" i18n>Share</button>
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-12 flex flex-column justify-content-center align-items-center overflow-hidden">
+                        @if (imageSrc) {
+                            <p-image [src]="imageSrc" [preview]="true" height="150" alt="Image" />
+                        }
                     </div>
-
-
-                    <div class="col-12">
-                        <div class="grid ">
-                            <div class="col-4">
-                                <label for="username">Title</label>
-                                <input formControlName="title" pInputText type="text" class="form-control"
-                                    aria-describedby="usernameHelp" [disabled]="true">
-                            </div>
-                            <div class="col-8 p-">
-                                <label class="form-label">Small description</label>
-                                <input formControlName="smallDescription" pInputText type="text" class="form-control" [disabled]="true">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <label for="float-input">Summary</label>
-                        <textarea id="float-input" rows="5" cols="30" formControlName="largeDescription" pInputTextarea
-                            [autoResize]="true">
-                        </textarea>
-                    </div>
-
-
-                    <div class="col-12">
-                        <div class="flex flex-row justify-content-around">
-                            <label>Start date</label>
-                            <p-calendar formControlName="startDate" />
-                            <label>Finish date</label>
-                            <p-calendar formControlName="finishDate" />
-                        </div>
-                    </div>
-
-
-                    <div class="col-12">
-
-                        <div class="grid">
-                            @for (category of event?.categories; track $index) {
-                            <p-chip class="col-6" [label]="category.name"></p-chip>
-                            }
-                        </div>
-
-                    </div>
-
-                    <div class="col-12">
-                        <div class="flex flex-column gap-2">
-                            <label class="form-label">Is online</label>
-                            <p-checkbox formControlName="isOnline" [binary]="true" inputId="ny"></p-checkbox>
-                        </div>
-                    </div>
-
                 </div>
 
+                <div class="col-12 flex flex-column justify-content-center">
+                    <div class="row d-flex flex-column justify-content-center align-items-center">
+                        <h3 class="col-12" i18n>Content</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="font-bold" for="username" i18n>Title</label>
+                            <div>
+                                {{ event?.title}}
+                            </div>
+                        </div>
+                        <div class="col-8 ">
+                            <label class="font-bold" i18n>Small description</label>
+                            <div>
+                                {{ event?.smallDescription}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="font-bold" for="username" i18n>Summary</label>
+                            <div [innerHTML]="event?.largeDescription">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 flex flex-column justify-content-center">
+                    <div class="row d-flex flex-column justify-content-center align-items-center">
+                        <h3 class="col-12" i18n>Date</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="font-bold" for="username" i18n>Start date</label>
+                            <div>
+                                {{ event?.startDate?.toLocaleString()}}
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <label class="font-bold" for="username" i18n>Finish date</label>
+                            <div>
+                                {{ event?.finishDate?.toLocaleString()}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 flex flex-column justify-content-center">
+                    <div class="row d-flex flex-column justify-content-center align-items-center">
+                        <h3 class="col-12" i18n> Categories</h3>
+                    </div>
+                    <div class="row">
+                        @for (category of event?.categories; track $index) {
+                        <p-chip class="col-6" [label]="category.name"></p-chip>
+                        }
+                    </div>
+                </div>
 
                 @if(event && events.length == 1){
 
-                <div class="card col-12">
-
-                    <h1>Location</h1>
-                    <label class="form-label">Name</label>
-                    <input pInputText formControlName="locationName" type="text" class="form-control mb-6" />
-
-                    <div class=" side-map-container">
-                        <app-custom-map [events]="events" [style]="{height:'50vh'}"></app-custom-map>
+                <div class="col-12 flex flex-column justify-content-center">
+                    <div class="row d-flex flex-column justify-content-center align-items-center">
+                        <h3 class="col-12">Location</h3>
                     </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="font-bold" for="username" i18n>Location name</label>
+                            <div>
+                                {{ event.locationName}}
+                            </div>
+                        </div>
 
+                        <div class="col-6">
+                            <label class="font-bold" for="username" i18n>Is online</label>
+                            <div>
+                                <p-checkbox [binary]="true" inputId="ny" [disabled]="true"></p-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class=" side-map-container">
+                                <app-custom-map-detail [events]="events"
+                                    [style]="{height:'50vh'}"></app-custom-map-detail>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                }
+
+                @if ( usersAttendance.length > 0) {
+                <div class="col-12 flex flex-column justify-content-center">
+                    <div class="row d-flex flex-column justify-content-center align-items-center">
+                        <h3 class="col-12" i18n>User attendance</h3>
+                    </div>
+                    <div class="row">
+                        <div class=" col-10 col-offset-1  row-gap-3 p-5">
+                            <app-compact-user-list [users]="usersAttendance"></app-compact-user-list>
+                        </div>
+                    </div>
                 </div>
                 }
 
             </div>
-        </form>
+        </div>
 
+        @if(!userInfo){
+        <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
+            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)"
+                [routerLink]="loginRoute" i18n>
+                Login to attend to event
+            </a>
+        </div>
+        }
 
-    </div>
-
-
-    <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
-        <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary">Submit</button>
-    </div>
-
-    @if(usersLoaded){
-    <div class="col-12 row-gap-3 p-5">
-        <app-compact-user-list [users]="usersAttendance"></app-compact-user-list>
+        @if(!userIsPresent && userInfo){
+        <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
+            <button type="submit" pButton pRipple (click)="handleAttendProcess()"
+                class="p-button-primary" i18n>Attend</button>
+        </div>
+        }
+        @if(userIsPresent && userInfo){
+        <div class="col-10 col-offset-1  flex flex-column row-gap-3 justify-content-center align-items-center">
+            <button type="submit" pButton pRipple (click)="handleDisAttendProcess()"
+                class="p-button-primary" i18n>DisAttend</button>
+        </div>}
     </div>
     }
-
-    <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
-        <button type="submit" pButton pRipple (click)="handleAttendProcess()" class="p-button-primary">Attend</button>
-        <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary">Submit</button>
-        <button type="submit" pButton pRipple (click)="deleteEvent()" class="p-button-danger">Delete</button>
-    </div>
-
 </div>

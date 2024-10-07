@@ -23,6 +23,7 @@ export class EventMapLayoutComponent implements OnInit {
   public latLangMarkers: LatLng[] = [];
   public markers: Marker[] = [];
 
+  activeDistance: number | null = null;
 
   eventSelected: EventModel | null = null;
 
@@ -48,12 +49,29 @@ export class EventMapLayoutComponent implements OnInit {
       .then((events) => {
         if (events) {
           this.events = events;
+          
+
+          if (this.events.length == 0){
+            this.notificationService.showInfo("Not events found! Create a new event to be the first!");
+          }
         }
       })
       .catch((e) => {
         this.notificationService.showError(e.error.message);
       })
       .finally(() => this.isDataLoaded = true)
+
+
+
+  }
+
+  handleDistanceEmitter(distance: number | null) {
+
+    if (distance) {
+      this.activeDistance = distance;
+    } else {
+      this.activeDistance = 0;
+    }
 
 
   }
@@ -77,5 +95,9 @@ export class EventMapLayoutComponent implements OnInit {
 
   handleMouseOnMarker(event: any) {
     this.eventSelected = event;
+  }
+
+  handleMarkerClick(event: any) {
+    this.eventService.opentEventDetail(event);
   }
 }

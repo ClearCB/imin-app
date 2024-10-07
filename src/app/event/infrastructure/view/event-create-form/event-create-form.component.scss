@@ -18,3 +18,11 @@
     overflow-x: hidden;
 
 }
+
+
+.card-example {
+    position: fixed;
+    bottom: calc(10% - 2rem);
+    right: calc(10% - 2rem);
+    z-index: 999999;
+}

@@ -1,5 +1,5 @@
 import { CommonModule, NgStyle } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
@@ -61,16 +61,19 @@ import { SearchEventFormCriteriaOptions } from './search-event-criteria-form';
 export class SearchEventComponent implements OnInit {
 
   @Output() searchEventEmiter: EventEmitter<Promise<EventModel[] | undefined>> = new EventEmitter<Promise<EventModel[] | undefined>>();
+  @Output() distanceEventEmiter: EventEmitter<number | null> = new EventEmitter<number| null>();
 
   private userLatLang: { lat: number, lang: number } = { lat: 39, lang: 2.96666 };
 
+  @Input()
+  isHorizontalLayout: boolean = false;
 
   get dis() { return this.searchForm.controls.distance }
  
   searchForm = this.formBuilder.group({
     content: [""],
-    startDate: [new Date()],
-    distance: [25],
+    startDate: [null],
+    distance: [0],
   });
 
   constructor(private eventService: EventService, private formBuilder: FormBuilder, private fileService: FileService) {
@@ -86,8 +89,8 @@ export class SearchEventComponent implements OnInit {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
 
-        // this.userLatLang.lat = position.coords.latitude;
-        // this.userLatLang.lang = position.coords.longitude;
+        this.userLatLang.lat = position.coords.latitude;
+        this.userLatLang.lang = position.coords.longitude;
 
       }, function (error) {
         console.error("Error getting user location:", error);
@@ -125,8 +128,7 @@ export class SearchEventComponent implements OnInit {
 
       const eventSearchFormOptions = this.searchForm.value as SearchEventFormCriteriaOptions;
 
-      let userSelectedDistancesLatLang;
-      if (this.userLatLang){
+      if (this.userLatLang && eventSearchFormOptions.distance !== 0){
         eventSearchFormOptions.distanceBounds = this.calculateBounds(this.userLatLang.lat, this.userLatLang.lang, eventSearchFormOptions.distance); 
       }
 
@@ -136,10 +138,14 @@ export class SearchEventComponent implements OnInit {
 
       if (eventsResponse) {
         this.searchEventEmiter.emit(eventsResponse);
+        this.distanceEventEmiter.emit(this.searchForm.controls.distance.value);
       }
 
     }
 
   }
 
+  removeDate(){
+    this.searchForm.controls.startDate.setValue(null);
+  }
 }

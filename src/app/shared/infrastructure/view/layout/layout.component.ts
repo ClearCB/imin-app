@@ -82,27 +82,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
       next: (userLoggedin) => this.userLoggedIn = userLoggedin
     })
 
-    this.items = [
-      {
-        tooltipOptions: {
-          tooltipLabel: 'Add event'
-        },
-        icon: 'pi pi-map-marker',
-        command: () => {
-          this.eventCreateForm = this.dialogService.open(EventCreateFormComponent, {
-            header: 'Select a Product',
-            width: '85vw',
-            modal: true,
-            breakpoints: {
-              '960px': '75vw',
-              '640px': '90vw'
-            },
-            baseZIndex: 10000,
-            maximizable: true
-          });
-        }
-      }
-    ];
   }
 
   hideMenu() {

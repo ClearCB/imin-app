@@ -1,9 +1,10 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AuthService } from '../../../../auth/infrastructure/service/auth.service';
 import { FileService } from '../../service/file-service.service';
+import { EventModel } from '../../../../event/domain/model/event-model';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -23,6 +24,11 @@ export class CustomFileComponent implements OnInit {
   httpHeaders: HttpHeaders = new HttpHeaders();
   authenticated: boolean | string | undefined = false;
 
+  @Input()
+  eventId: string | null = null;
+
+  @Output() uploadedFile: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   constructor(private messageService: MessageService, private authService: AuthService, private fileService: FileService) {
 
   }
@@ -31,24 +37,28 @@ export class CustomFileComponent implements OnInit {
     this.authenticated = await this.authService.isAuthenticated();
   }
 
-  async onUpload(event: any) {
+  async onUpload(eventUploadClick: any) {
 
-    const eventId = "";
+    if (this.authenticated && this.eventId) {
 
-    if (this.authenticated) {
-
-      for (let file of event.files) {
+      for (let file of eventUploadClick.files) {
         this.uploadedFiles.push(file);
       }
 
-      this.fileService.upload(this.uploadedFiles, eventId)!
+      this.fileService.upload(this.uploadedFiles, this.eventId)
         .subscribe(
           {
-            error: (e: any) => { this.messageService.add({ severity: 'info', summary: 'File Uploaded error', detail: e.message }); },
-            next: () => { this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' }); }
+            error: (e: any) => { 
+              this.messageService.add({ severity: 'info', summary: 'File Uploaded error', detail: e.message }); },
+            next: () => {
+              this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
+              this.uploadedFile.emit(true);
+            }
+
           }
         )
 
+        this.uploadedFiles.length = 0;
     }
 
   }

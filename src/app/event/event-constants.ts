@@ -2,8 +2,16 @@ export const EVENT_CONSTANTS = {
     MESSAGES: {
         EVENT_CANT_BE_NULL: "Event cannot be null",
         EVENT_TITLE_CANT_BE_NULL: "Event title cannot be null",
+        EVENT_LOCATION_CANT_BE_NULL: "Event location cannot be null",
+        EVENT_DATE_INVALID: "Event start date MUST be greater than finish date",
         EVENT_NOT_FOUND: "Event not found",
-        EVENT_CANT_ADD_USER: "User cant join event",
+        EVENT_ATTENDANCE_ERROR: "An error has occurred while retrieving the event attendance",
+        USER_ATTENDANCE_ERROR: "An error has occurred while retrieving users attendance",
+        USERS_EVENT_ERROR: "An error has occurred while retrieving users events",
+        EVENT_CANT_ADD_USER: "An error has occurred while joining the event",
+        EVENT_CANT_REMOVE_USER: "An error has occurred while removing attendance from the event",
+        EVENT_ADDED_USER: "You have just attend to event",
+        EVENT_REMOVED_USER: "You have just removed your attendance from event",
         EVENT_CREATE_OK: "Event created successfully",
         EVENT_CREATE_KO: "An error has occurred during the creation of the event",
         EVENT_UPDATE_OK: "Event updated successfully",
@@ -15,6 +23,7 @@ export const EVENT_CONSTANTS = {
     },
     API: {
         BASE_URL: "http://localhost:8080/api/v1/event/",
+        // BASE_URL: "https:/iminapp.acgarcia.es/api/v1/event/",
         ENDPOINTS: {
             GET_EVENT_BY_ID: "get",
             GET_ALL_EVENTS: "get-all",

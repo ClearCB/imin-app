@@ -15,11 +15,14 @@ import { SHARED_CONSTANTS } from './shared/shared-constants';
 import { EventMapLayoutComponent } from './event/infrastructure/view/event-map-layout/event-map-layout.component';
 import { EventListLayoutComponent } from './event/infrastructure/view/event-list-layout/event-list-layout.component';
 import { EventProfileTabComponent } from './account/infrastructure/view/event-profile-tab/event-profile-tab.component';
+import { isEventAdminGuard } from './event/infrastructure/guard/is-event-admin.guard';
+import { VericationCodeComponent } from './auth/infrastructure/view/verication-code/verication-code.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' }, // Empty route => home
     { path: SHARED_CONSTANTS.ENDPOINTS.LOGIN, component: LoginComponent },
     { path: SHARED_CONSTANTS.ENDPOINTS.REGISTER, component: RegisterComponent },
+    { path: SHARED_CONSTANTS.ENDPOINTS.VERIFICATION, component: VericationCodeComponent },
     { path: SHARED_CONSTANTS.ENDPOINTS.USER.CHILDREN.PROFILE, component: ProfileComponent, canActivate: [authGuard] },
     {
         path: '', component: LayoutComponent,
@@ -31,7 +34,7 @@ export const routes: Routes = [
                     { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.CREATE, component: EventCreateFormComponent, canActivate: [authGuard] },
                     { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.MAP, component: EventMapLayoutComponent, },
                     { path: SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.LIST, component: EventListLayoutComponent },
-                    { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.UPDATE}/:eventId`, component: EventCreateFormComponent },
+                    { path: `${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.UPDATE}/:eventId`, component: EventCreateFormComponent, canActivate: [authGuard, isEventAdminGuard] },
                     { path: `:eventId`, component: EventDetailComponent },
                 ]
             },

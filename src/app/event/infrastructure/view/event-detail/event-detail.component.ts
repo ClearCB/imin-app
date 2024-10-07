@@ -16,12 +16,19 @@ import { AuthService } from '../../../../auth/infrastructure/service/auth.servic
 import { LoginResponse } from '../../../../auth/domain/model/login-response';
 import { User } from '../../../../auth/domain/model/user';
 import { CompactUserListComponent } from '../compact-user-list/compact-user-list.component';
-import { CustomMapComponent } from '../../../../map/infrastructure/view/custom-map/custom-map.component';
 import { Category } from '../../../../shared/domain/model/category';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { SHARED_CONSTANTS } from '../../../../shared/shared-constants';
 import { CalendarModule } from 'primeng/calendar';
+import { CustomMapDetailComponent } from '../../../../map/infrastructure/view/custom-map-detail/custom-map-detail.component';
+import { ImageModule } from 'primeng/image';
+import { EmailService } from '../../../../mail/infrastructure/service/email.service';
+import { attendanceTemplate } from '../../../../mail/infrastructure/templates/attendance';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { NotificationService } from '../../../../shared/infrastructure/service/notification.service';
+import { MAIL_CONSTANTS } from '../../../../mail/mail-constants';
+import { QrGeneratorComponent } from '../../../../config/qr-generator/qr-generator.component';
 
 @Component({
   selector: 'app-event-detail',
@@ -30,9 +37,9 @@ import { CalendarModule } from 'primeng/calendar';
     ReactiveFormsModule, EventDetailComponent,
     ButtonModule, ChipModule, FormsModule, RippleModule,
     NgStyle, MenuModule, InputTextModule, CheckboxModule,
-    CompactUserListComponent, CustomMapComponent, 
+    CompactUserListComponent, CustomMapDetailComponent,
     DropdownModule, InputTextareaModule, CalendarModule, CheckboxModule,
-    ChipModule
+    ChipModule, ImageModule, ProgressSpinnerModule, QrGeneratorComponent
   ],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss'
@@ -49,32 +56,21 @@ export class EventDetailComponent {
 
   events: EventModel[] = [];
 
+  twitterUrl: string | undefined;
+
   userInfo?: LoginResponse | null;
 
   event?: EventModel;
 
-  usersLoaded: boolean = false;
+  eventParamId?: string | null;
+  eventDataId?: string;
+
+  loaded: boolean = false;
+  userIsPresent: boolean = false;
   usersAttendance: User[] = [];
 
+  loginRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`;
   eventDetailUrl: string = `/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.DETAIL}/${this.event?.id}`;
-
-
-  // Forms
-  eventForm = this.formBuilder.group({
-
-    title: ["", [Validators.required]],
-    smallDescription: ["", Validators.required],
-    largeDescription: ["", Validators.required],
-    locationName: ["", [Validators.required]],
-    latitude: [0, [Validators.required]],
-    longitude: [0, [Validators.required]],
-    startDate: new FormControl<Date | null>(null),
-    finishDate:  new FormControl<Date | null>(null),
-    categoryId: [{ id: 0, name: "", icon: "" }, [Validators.required]],
-    // tagsId: [0, [Validators.required]],
-    isOnline: [true, [Validators.required]],
-
-  });
 
   categories: Category[] | undefined = [];
 
@@ -82,27 +78,57 @@ export class EventDetailComponent {
     private formBuilder: FormBuilder,
     private fileService: FileService,
     private eventService: EventService,
+    private dialogConfig: DynamicDialogConfig,
     private authService: AuthService,
+    private emailService: EmailService,
+    private notificationService: NotificationService,
     private route: ActivatedRoute) { }
 
 
   async ngOnInit(): Promise<void> {
+    this.loaded = false;
 
-    const eventParamId = this.route.snapshot.paramMap.get('eventId');
 
-    if (eventParamId) {
-      await this.getEvent(eventParamId);
-    } 
-    // else if (this.dialogConfig.data){
-    //   this.event = this.dialogConfig.data;
-    // }
+    this.eventParamId = this.route.snapshot.paramMap.get('eventId');
+
+    if (this.eventParamId) {
+      this.eventDataId = this.eventParamId;
+      await this.getEvent(this.eventDataId);
+    }
+    else if (this.dialogConfig.data) {
+      this.event = this.dialogConfig.data;
+      this.eventDataId = this.dialogConfig.data.id;
+
+      if (this.eventDataId) {
+        await this.getEvent(this.eventDataId);
+      }
+    }
 
     this.authService.currentUserLogged.subscribe({
       next: (userData) => this.userInfo = userData
     })
 
+    this.userIsPresent = this.usersAttendance.findIndex(u => u.username === this.userInfo?.userData.username) != -1;
+    this.loaded = true
+  }
+
+  private async getEvent(eventId: string) {
+
+
+    this.events.length = 0;
+    this.event = await this.eventService.getEvent(eventId) as EventModel;
+
+    let category: Category | null = null;
+    if (this.event.categories && this.event.categories.length > 0) {
+      category = this.event.categories[0];
+    }
+
     if (this.event?.id) {
       this.imageSrc = await this.fileService.getImagesFromEvent(this.event?.id);
+
+      if (!this.imageSrc) {
+        this.imageSrc = "assets/images/generic.jpg"
+      }
     }
 
     if (this.event) {
@@ -110,98 +136,69 @@ export class EventDetailComponent {
 
       if (usersResponse) {
         this.usersAttendance = usersResponse;
+
+        if (this.userInfo) {
+          this.userIsPresent = usersResponse.findIndex(u => u.username === this.userInfo?.userData.username) != -1;
+        }
       }
 
       this.events.push(this.event);
     }
 
-    this.usersLoaded = true
-  }
-
-  private async getEvent(eventId: string) {
-
-    this.event = await this.eventService.getEvent(eventId) as EventModel;
-
-
-    let category: Category | null = null;
-    if (this.event.categories && this.event.categories.length > 0) {
-      category = this.event.categories[0];
-    }
-
-    const initValue = {
-      // id: this.event.id,
-      title: this.event.title,
-      smallDescription: this.event.smallDescription,
-      largeDescription: this.event.largeDescription,
-      locationName: this.event.locationName,
-      isOnline: this.event.isOnline ? this.event.isOnline : false,
-      latitude: this.event.latitude,
-      longitude: this.event.longitude,
-      startDate: new Date(this.event.startDate),
-      finishDate: new Date(this.event.finishDate),
-      categoryId: category,
-    }
-
-    this.eventForm.setValue(initValue)
-    // this.initFormValues(this.event);
-  }
-  
-  private initFormValues(event: EventModel){
-    
-    if (this.event){
-      this.eventForm.controls.title.setValue(this.event?.title);
-      this.eventForm.controls.smallDescription.setValue(this.event?.smallDescription);
-      this.eventForm.controls.largeDescription.setValue(this.event?.largeDescription);
-      this.eventForm.controls.latitude.setValue(this.event?.latitude);
-      this.eventForm.controls.locationName.setValue(this.event?.locationName);
-      this.eventForm.controls.startDate.setValue(this.event?.startDate);
-      this.eventForm.controls.finishDate.setValue(this.event?.finishDate);
-      this.eventForm.controls.isOnline.setValue(this.event?.isOnline);
-    }
-  }
-  async handleSubmit() {
-
-    if (this.eventForm.valid) {
-
-      const event = this.eventForm.value as EventModel;
-
-      event.categories = this.eventForm.controls.categoryId.value
-        ? [this.eventForm.controls.categoryId.value]
-        : [];
-
-      const eventCreated = await this.eventService.updateEvent(this.eventId, event);
-
-      if (eventCreated) {
-        this.eventForm.reset();
-      }
-
-    } else {
-
-      this.eventForm.markAllAsTouched();
-    }
 
   }
 
   async handleAttendProcess() {
 
-    if (this.event && this.userInfo?.userData) {
-      this.eventService.addUserToEvent(this.event, this.userInfo.userData);
+    this.loaded = false
+
+    if (this.event && this.userInfo?.userData && this.eventDataId) {
+      const userAdded = await this.eventService.addUserToEvent(this.event, this.userInfo.userData);
+
+      if (userAdded) {
+        await this.getEvent(this.eventDataId);
+        this.loaded = true
+        await this.emailService.sendEmail(this.userInfo.userData.email, attendanceTemplate(this.userInfo.userData.email, this.userInfo.userData.username, this.event), "New event attendance", "acasasgarcia@cifpfbmoll.eu");
+        this.notificationService.showSuccess(MAIL_CONSTANTS.MESSAGES.EMAIL_SENT);
+
+
+      }
     }
+
 
   }
 
+  async handleDisAttendProcess() {
+
+    this.loaded = false
+
+    if (this.event && this.userInfo?.userData && this.eventDataId) {
+      await this.eventService.removeUserFromEvent(this.event, this.userInfo.userData);
+      await this.getEvent(this.eventDataId);
+    }
+
+    this.loaded = true
+
+  }
+
+  handleShareButton() {
+
+    if (this.event) {
+      this.eventService.openShareModal(this.event);
+    }
+  }
 
   async deleteEvent() {
 
-    if (this.event?.id) {
-      await this.eventService.deleteEvent(this.event.id);
+    this.loaded = false
+
+    if (this.eventDataId) {
+      await this.eventService.deleteEvent(this.eventDataId);
       this.deleteEventEmiter.emit();
     }
 
+    this.loaded = true
   }
 
-  handleMapClicked(latLang: { lat: number, lang: number }) {
-    this.eventForm.controls.longitude.setValue(latLang.lang);
-    this.eventForm.controls.latitude.setValue(latLang.lat);
-  }
+
 }

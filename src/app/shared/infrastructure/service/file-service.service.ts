@@ -24,7 +24,7 @@ export class FileService implements OnInit {
     const formData: FormData = new FormData();
 
     for (let file of files) {
-      formData.append('files', file);
+      formData.append('mainImage', file);
     }
     formData.append('eventId', eventId);
 
@@ -41,6 +41,8 @@ export class FileService implements OnInit {
     try {
       const petition = await lastValueFrom(this.httpClient.get(url, { responseType: 'arraybuffer' }));
 
+      if (petition && petition.byteLength > 0){
+
       return new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => {
@@ -52,9 +54,14 @@ export class FileService implements OnInit {
         };
         reader.readAsDataURL(new Blob([petition]));
       });
-    } catch (error: any) {
-      console.error('Error fetching image:', error);
+    }
+    else {
       return undefined;
+    }
+
+
+    } catch (error: any) {
+       return undefined;
     }
 
   }

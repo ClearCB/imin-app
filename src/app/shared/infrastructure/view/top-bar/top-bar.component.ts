@@ -26,6 +26,7 @@ export class TopBarComponent implements OnInit {
   homeRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.HOME}`;
   profileRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.USER.CHILDREN.PROFILE}`;
   loginRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.LOGIN}`;
+  userProfileRoute: string = `/${SHARED_CONSTANTS.ENDPOINTS.USER.NAME}/${SHARED_CONSTANTS.ENDPOINTS.USER.CHILDREN.PROFILE}`
 
   formGroup: FormGroup | undefined;
 

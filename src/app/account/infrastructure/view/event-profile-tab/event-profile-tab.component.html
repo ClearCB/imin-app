@@ -1,62 +1,89 @@
-<div class="card">
-    <p-tabView styleClass="tabview-custom">
+<div class="grid">
+    <div class="col-12 card">
+        <p-tabView styleClass="tabview-custom">
+            @if (dataLoaded && todayEvents.length > 0) {
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <div class="flex align-items-center gap-2">
+                        <span class="font-bold white-space-nowrap m-0">
+                            Today events
+                        </span>
+                    </div>
+                </ng-template>
 
-        <p-tabPanel>
-            <ng-template pTemplate="header">
-                <div class="flex align-items-center gap-2">
-                    <span class="font-bold white-space-nowrap m-0">
-                        My events
-                    </span>
+                <app-event-list [isUserEvent]="true" [events]="todayEvents"></app-event-list>
+            </p-tabPanel>
+            }
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <div class="flex align-items-center gap-2">
+                        <span class="font-bold white-space-nowrap m-0">
+                            My events
+                        </span>
+                    </div>
+                </ng-template>
+                @if (dataLoaded && userEvents.length > 0) {
+                <!-- <div class="row">
+                    <app-search-event class="col-12" [isHorizontalLayout]="true"></app-search-event>
+                </div> -->
+                <div class="row">
+                    <app-event-list class="col-12" [isUserEvent]="true" [events]="userEvents"></app-event-list>
                 </div>
-            </ng-template>
-            @if (dataLoaded && userEvents.length > 0) {
-            <app-event-list [events]="userEvents"></app-event-list>
-            }
-            @if(dataLoaded && userEvents.length == 0){
-
-                <h3>You have not created events, create one</h3>
-            <a [routerLink]="creatEventRoute">CREATE A NEW EVENT</a>
-            }
-        </p-tabPanel>
-
-
-        <p-tabPanel>
-            <ng-template pTemplate="header">
-                <div class="flex align-items-center gap-2">
-                    <span class="font-bold white-space-nowrap m-0">
-                        My events to attend
-                    </span>
+                }
+                @if(dataLoaded && userEvents.length == 0){
+                <div class="grid">
+                    <div class="col-12 flex-column justify-content-center align-items-center">
+                        <h3>You have not created events, create one</h3>
+                        <a [routerLink]="creatEventRoute">CREATE A NEW EVENT</a>
+                    </div>
                 </div>
-            </ng-template>
-            @if(dataLoaded && activeEvents.length > 0){
-            <app-event-list [events]="activeEvents"></app-event-list>
-            }
+                }
+            </p-tabPanel>
 
-            @if(dataLoaded && activeEvents.length == 0){
-            <h3>You have no active events, join one</h3>
-            <a [routerLink]="mapEventRoute">DISCOVER EVENTS CLOSER TO YOU</a><br />
-            <a [routerLink]="listEventRoute">OR FIND SOMETHING YOU LIKE THE MOST</a>
-            }
-        </p-tabPanel>
 
-        <p-tabPanel header="Header II">
-            <ng-template pTemplate="header">
-                <div class="flex align-items-center gap-2">
-                    <span class="font-bold white-space-nowrap m-0">
-                        Past events
-                    </span>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <div class="flex align-items-center gap-2">
+                        <span class="font-bold white-space-nowrap m-0">
+                            My events to attend
+                        </span>
+                    </div>
+                </ng-template>
+                @if(dataLoaded && activeEvents.length > 0){
+                <app-event-list [events]="activeEvents"></app-event-list>
+                }
+
+                @if(dataLoaded && activeEvents.length == 0){
+                <div class="grid">
+                    <div class="col-12 flex flex-column justify-content-center align-items-center">
+                        <h3>You have no active events, join one</h3>
+                        <a [routerLink]="mapEventRoute">DISCOVER EVENTS CLOSER TO YOU</a><br />
+                        <a [routerLink]="listEventRoute">OR FIND SOMETHING YOU LIKE THE MOST</a>
+                    </div>
                 </div>
-            </ng-template>
-            @if(dataLoaded && pastEvents.length > 0){
-            <app-event-list [events]="pastEvents"></app-event-list>
-            }
 
-            @if(dataLoaded && pastEvents.length == 0){
-            <h3>You have no past events, join one</h3>
-            <a [routerLink]="mapEventRoute">DISCOVER EVENTS CLOSER TO YOU</a><br />
-            <a [routerLink]="listEventRoute">OR FIND SOMETHING YOU LIKE THE MOST</a>
-            }
-        </p-tabPanel>
+                }
+            </p-tabPanel>
 
-    </p-tabView>
+            <p-tabPanel header="Header II">
+                <ng-template pTemplate="header">
+                    <div class="flex align-items-center gap-2">
+                        <span class="font-bold white-space-nowrap m-0">
+                            Past events
+                        </span>
+                    </div>
+                </ng-template>
+                @if(dataLoaded && pastEvents.length > 0){
+                <app-event-list [events]="pastEvents"></app-event-list>
+                }
+
+                @if(dataLoaded && pastEvents.length == 0){
+                <h3>You have no past events, join one</h3>
+                <a [routerLink]="mapEventRoute">DISCOVER EVENTS CLOSER TO YOU</a><br />
+                <a [routerLink]="listEventRoute">OR FIND SOMETHING YOU LIKE THE MOST</a>
+                }
+            </p-tabPanel>
+
+        </p-tabView>
+    </div>
 </div>

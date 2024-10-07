@@ -1,106 +1,202 @@
-<div class="grid  p-fluid">
-
-    <div class="card col-12">
+<div class="grid">
+    <div class="card col-10 col-offset-1 p-3 my-4">
         <form [formGroup]="eventForm">
-
             <div class="grid">
 
                 <div class="col-12">
 
-                    <div class="col-12 flex flex-row justify-content-around">
-                        <h3>EVENT</h3>
+                    <div class="col-12 flex flex-column justify-content-center align-items-center">
+                        <h3 i18n>EVENT</h3>
                         <!-- <a [routerLink]="eventDetailUrl">Ir a evento</a> -->
+                        @if (imageSrc) {
+                        <p-image [src]="imageSrc" height="150" alt="Image" />
+                        }
+
                     </div>
 
-
-                    <div class="col-12">
-                        <div class="grid ">
+                    <div class="col-12 flex flex-column justify-content-center">
+                        <div class="row d-flex flex-column justify-content-center align-items-center">
+                            <h3 class="col-12" i18n>Content</h3>
+                        </div>
+                        <div class="row">
                             <div class="col-4">
-                                <label for="username">Title</label>
+                                <label class="font-bold" for="username">Title</label>
                                 <input formControlName="title" pInputText type="text" class="form-control"
-                                    aria-describedby="usernameHelp" [disabled]="true">
+                                    aria-describedby="usernameHelp">
+                                @if (eventForm.controls.title.invalid && (eventForm.controls.title.dirty ||
+                                eventForm.controls.title.touched)) {
+                                @if(eventForm.controls.title.errors?.['required']){
+                                <div class="block text-red-500 mt-2 ml-3" i18n>
+                                    Title required
+                                </div>
+                                }
+                                }
                             </div>
-                            <div class="col-8 p-">
-                                <label class="form-label">Small description</label>
-                                <input formControlName="smallDescription" pInputText type="text" class="form-control" [disabled]="true">
+                            <div class="col-8 ">
+                                <label class="font-bold">Short description</label>
+                                <input formControlName="smallDescription" pInputText type="text" class="form-control">
+                                @if (eventForm.controls.smallDescription.invalid &&
+                                (eventForm.controls.smallDescription.dirty ||
+                                eventForm.controls.smallDescription.touched)) {
+                                @if(eventForm.controls.smallDescription.errors?.['required']){
+                                <div class="block text-red-500 mt-2 ml-3" i18n>
+                                    Short description required
+                                </div>
+                                }
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 d-flex flex-column">
+                                <label class="font-bold" for="username" i18n>Summary</label>
+                                <textarea id="float-input" rows="5" cols="30" formControlName="largeDescription"
+                                    pInputTextarea [autoResize]="true">
+                            </textarea>
+                                <!-- <p-editor formControlName="largeDescription" [style]="{ height: '320px' }" /> -->
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12">
-                        <label for="float-input">Summary</label>
-                        <textarea id="float-input" rows="5" cols="30" formControlName="largeDescription" pInputTextarea
-                            [autoResize]="true">
-                        </textarea>
+                    <div class="col-12 flex flex-column justify-content-center">
+                        <div class="row d-flex flex-column justify-content-center align-items-center">
+                            <h3 class="col-12" i18n>Date</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 d-flex flex-column">
+                                <label class="font-bold" for="username" i18n>Start date</label>
+                                <p-calendar formControlName="startDate" [touchUI]="true" [showTime]="true"
+                                    [hourFormat]="'24'" />
+                                @if (eventForm.controls.startDate.invalid && (eventForm.controls.startDate.dirty ||
+                                eventForm.controls.startDate.touched)) {
+                                @if(eventForm.controls.startDate.errors?.['required']){
+                                <div class="block text-red-500 mt-2 ml-3" i18n>
+                                    Start date required
+                                </div>
+                                }
+                                }
+                            </div>
+
+                            <div class="col-6 d-flex flex-column">
+                                <label class="font-bold" for="username" i18n>Finish date</label>
+                                <p-calendar formControlName="finishDate" [touchUI]="true" [showTime]="true"
+                                    [hourFormat]="'24'" />
+                                @if (eventForm.controls.finishDate.invalid && (eventForm.controls.finishDate.dirty ||
+                                eventForm.controls.finishDate.touched)) {
+                                @if(eventForm.controls.finishDate.errors?.['required']){
+                                <div class="block text-red-500 mt-2 ml-3" i18n>
+                                    Finish date required
+                                </div>
+                                }
+                                }
+                            </div>
+                        </div>
                     </div>
 
+                    @if (event && event.id) {
+                    <div class="col-12 flex flex-column justify-content-center">
+                        <div class="row d-flex flex-column justify-content-center align-items-center">
+                            <h3 class="col-12" i18n>Image</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 d-flex flex-column">
+                                <app-custom-file (uploadedFile)="handleUploadedFile()"
+                                    [eventId]="event.id"></app-custom-file>
+                            </div>
+                        </div>
+                    </div>
+                    }
 
-                    <div class="col-12">
-                        <div class="flex flex-row justify-content-around">
-                            <label>Start date</label>
-                            <p-calendar formControlName="startDate" />
-                            <label>Finish date</label>
-                            <p-calendar formControlName="finishDate" />
+                    @if ( usersAttendance.length > 0) {
+                    <div class="col-12 flex flex-column justify-content-center">
+                        <div class="row d-flex flex-column justify-content-center align-items-center">
+                            <h3 class="col-12" i18n>User attendance</h3>
+                        </div>
+                        <div class="row">
+                            <div class=" col-10 col-offset-1  row-gap-3 p-5">
+                                <app-compact-user-list [users]="usersAttendance"></app-compact-user-list>
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                    <div class="col-12 flex flex-column justify-content-center">
+                        <div class="row d-flex flex-column justify-content-center align-items-center">
+                            <h3 class="col-12" i18n>Location</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="font-bold" for="username" i18n>Location name</label>
+                                <input pInputText formControlName="locationName" type="text"
+                                    class="form-control mb-6" />
+                                @if (eventForm.controls.locationName.invalid && (eventForm.controls.locationName.dirty
+                                || eventForm.controls.locationName.touched)) {
+                                @if(eventForm.controls.locationName.errors?.['required']){
+                                <div class="block text-red-500 mt-2 ml-3" i18n>
+                                    Location name required
+                                </div>
+                                }
+                                }
+                            </div>
+
+                            <div class="col-6 d-flex flex-column">
+                                <label class="font-bold" for="username" i18n >Is online</label>
+                                <div>
+                                    <p-checkbox formControlName="isOnline" [binary]="true" inputId="ny"></p-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="category" class="font-bold"i18n>Category</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p-dropdown class="col-6" optionLabel="name" [options]="categories"
+                                formControlName="category" placeholder="Select a City" />
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class=" side-map-container">
+                                    <app-custom-map [category]="category.value" [events]="events"
+                                        [isCreateFormEvent]="isCreateFormEvent"
+                                        (mapClickedEmiter)="handleMapClicked($event)"
+                                        [style]="{height:'50vh'}"></app-custom-map>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
 
-                    <div class="col-12">
-
-                        <div class="grid">
-                            @for (category of event?.categories; track $index) {
-                            <p-chip class="col-6" [label]="category.name"></p-chip>
-                            }
+                    @if (event && event.id) {
+                    <div class="col-12 flex flex-column justify-content-center">
+                        <div class="row d-flex flex-column justify-content-center align-items-center">
+                            <h3 class="col-12" i18n >Preview</h3>
                         </div>
-
-                    </div>
-
-                    <div class="col-12">
-                        <div class="flex flex-column gap-2">
-                            <label class="form-label">Is online</label>
-                            <p-checkbox formControlName="isOnline" [binary]="true" inputId="ny"></p-checkbox>
+                        <div class="row">
+                            <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                <p-selectButton [options]="stateOptions" (onChange)="handleChangeTogglePreview()"
+                                    optionLabel="label" optionValue="value" />
+                            </div>
                         </div>
+                        @if(!showCardPreview){
+                        <div class="row">
+                            <app-custom-list-item-event class="col-12" [event]="event"></app-custom-list-item-event>
+                        </div>
+                        }
+                        @if(showCardPreview){
+                        <div class="row">
+                            <app-custom-card-event class="col-12" [event]="event"></app-custom-card-event>
+                        </div>
+                        }
                     </div>
+                    }
 
                 </div>
-
-
-                @if(event && events.length == 1){
-
-                <div class="card col-12">
-
-                    <h1>Location</h1>
-                    <label class="form-label">Name</label>
-                    <input pInputText formControlName="locationName" type="text" class="form-control mb-6" />
-
-                    <div class=" side-map-container">
-                        <app-custom-map [events]="events" [style]="{height:'50vh'}"></app-custom-map>
-                    </div>
-
-                </div>
-                }
-
             </div>
         </form>
-
-
     </div>
-
-    <div class="card col-12">
-
-        <h1>Location</h1>
-        <label class="form-label">Name</label>
-        <input pInputText formControlName="locationName" type="text" class="form-control mb-6" />
-
-        <div class=" side-map-container">
-            <app-custom-map (mapClickedEmiiter)="handleMapClicked($event)" [style]="{height:'50vh'}"></app-custom-map>
-        </div>
-
-    </div>
-
     <div class="col-12 flex flex-column row-gap-3 justify-content-center align-items-center">
-        <button type="submit" pButton pRipple (click)="handleSubmit()"
-            class="p-button-primary">Submit</button>
+        <button type="submit" pButton pRipple (click)="handleSubmit()" class="p-button-primary" i18n>Submit</button>
     </div>
-    
+
 </div>

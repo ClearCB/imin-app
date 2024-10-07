@@ -13,6 +13,6 @@ export const categoryIcon: Record<string, string> = {
     "food": "food.png",
     "travel": "travel.png",
     "business": "business.png",
-    "library": "library.png",
+    "study": "study.png",
     "default": "unknown.png",
 };

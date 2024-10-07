@@ -21,9 +21,12 @@ import { SHARED_CONSTANTS } from '../../../shared/shared-constants';
 import { Router } from '@angular/router';
 import { getUsersEvents } from '../../application/get-users-events/get-users-events-use-case';
 import { EventMapperService } from '../mapper/event-mapper.service';
+import { AuthService } from '../../../auth/infrastructure/service/auth.service';
+import { removeUserFromEvent } from '../../application/remove-user-to-event/remove-event-use-case';
+import { ShareDetailComponent } from '../view/share-detail/share-detail.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventService {
 
@@ -33,7 +36,7 @@ export class EventService {
     private notificationService: NotificationService,
     private eventGatewayPort: EventGatewayPort,
     private dialogService: DialogService,
-    private router: Router
+    private router: Router,
   ) { }
 
 
@@ -76,7 +79,7 @@ export class EventService {
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_UPDATE_KO);
+      this.notificationService.showError(`${EVENT_CONSTANTS.MESSAGES.EVENT_UPDATE_KO}: ${e.message}`);
       return;
     }
 
@@ -171,12 +174,13 @@ export class EventService {
         return;
       }
 
+      this.notificationService.showSuccess(EVENT_CONSTANTS.MESSAGES.EVENT_ADDED_USER);
       return userAddedToEvent;
 
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
       return;
     }
   }
@@ -185,35 +189,35 @@ export class EventService {
 
     try {
 
-      const userRemovedFromEvent = await addUserToEvent(this.eventGatewayPort, event, userData);
+      const userRemovedFromEvent = await removeUserFromEvent(this.eventGatewayPort, event, userData);
+      this.notificationService.showSuccess(EVENT_CONSTANTS.MESSAGES.EVENT_REMOVED_USER);
       return userRemovedFromEvent;
 
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_REMOVE_USER);
       return;
     }
   }
-
 
   async getEventAttendance(event: EventModel): Promise<User[] | undefined> {
 
     try {
 
-      const userAddedToEvent = await getEventAttendance(this.eventGatewayPort, event.id);
+      const eventAttendance = await getEventAttendance(this.eventGatewayPort, event.id);
 
-      if (!userAddedToEvent) {
-        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
+      if (!eventAttendance) {
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_ATTENDANCE_ERROR);
         return;
       }
 
-      return userAddedToEvent;
+      return eventAttendance;
 
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_ATTENDANCE_ERROR);
       return;
     }
   }
@@ -225,7 +229,7 @@ export class EventService {
       const userAddedToEvent = await getUserAttendance(this.eventGatewayPort, userData.id);
 
       if (!userAddedToEvent) {
-        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.USER_ATTENDANCE_ERROR);
         return;
       }
 
@@ -234,7 +238,7 @@ export class EventService {
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.USER_ATTENDANCE_ERROR);
       return;
     }
   }
@@ -245,7 +249,7 @@ export class EventService {
       const userAddedToEvent = await getUsersEvents(this.eventGatewayPort, userData.id);
 
       if (!userAddedToEvent) {
-        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_CANT_ADD_USER);
+        this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.USERS_EVENT_ERROR);
         return;
       }
 
@@ -254,26 +258,55 @@ export class EventService {
     } catch (e: any) {
 
       console.error(e.message);
-      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.EVENT_NOT_FOUND);
+      this.notificationService.showError(EVENT_CONSTANTS.MESSAGES.USERS_EVENT_ERROR);
       return;
     }
   }
 
-  public goToEventDetail(event:EventModel){
-    // this.ref = this.dialogService.open(EventDetailComponent, {
-    //   // data: event,
-    //   header: 'Select a Product',
-    //   width: '85vw',
-    //   modal: true,
-    //   breakpoints: {
-    //     '960px': '75vw',
-    //     '640px': '90vw'
-    //   },
-    //   baseZIndex: 10000,
-    //   maximizable: true
-    // });
+  public opentEventDetail(event: EventModel) {
+
+    this.ref = this.dialogService.open(EventDetailComponent, {
+      data: event,
+      header: 'Event detail',
+      width: '85vw',
+      modal: true,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      },
+      baseZIndex: 10000,
+      draggable: true,
+    });
+
+  }
+
+  public openShareModal(event: EventModel) {
+
+    this.ref = this.dialogService.open(ShareDetailComponent, {
+      data: event,
+      header: 'Share event!',
+      width: '40vw',
+      modal: true,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      },
+      baseZIndex: 10000,
+      draggable: true,
+    });
+
+  }
+
+
+  public goToEventDetail(event: EventModel) {
 
     this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${event.id}`);
+
+  }
+
+  public goToEventEditForm(event: EventModel) {
+
+    this.router.navigateByUrl(`/${SHARED_CONSTANTS.ENDPOINTS.EVENT.NAME}/${SHARED_CONSTANTS.ENDPOINTS.EVENT.CHILDREN.UPDATE}/${event.id}`);
 
   }
 
